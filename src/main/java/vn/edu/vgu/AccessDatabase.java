@@ -36,4 +36,63 @@ public class AccessDatabase {
         ResultSet rs = statement.executeQuery();
         return convertAll(rs);
     }
+
+    //ACCOUNT
+    void addNewStudent(String username, String password, String lname, String fname, String code)throws SQLException, ClassNotFoundException{
+        PreparedStatement statement = getPreparedStatement("CALL ADD_NEW_STUDENT(?, ?, ?, ?, ?)");
+        statement.setString(1, username);
+        statement.setString(2, password);
+        statement.setString(3, lname);
+        statement.setString(4, fname);
+        statement.setString(5, code);
+        statement.executeQuery();
+    }
+
+    void addNewLecturer(String username, String password, String lname, String fname) throws SQLException, ClassNotFoundException{
+        PreparedStatement statement = getPreparedStatement("CALL ADD_NEW_LECTURER(?, ?, ?, ?)");
+        statement.setString(1, username);
+        statement.setString(2, password);
+        statement.setString(3, lname);
+        statement.setString(4, fname);
+        statement.executeQuery();
+    }
+
+    void addNewAssistant(String username, String password, String lname, String fname) throws SQLException, ClassNotFoundException{
+        PreparedStatement statement = getPreparedStatement("CALL ADD_NEW_ASSISTANT(?, ?, ?, ?)");
+        statement.setString(1, username);
+        statement.setString(2, password);
+        statement.setString(3, lname);
+        statement.setString(4, fname);
+        statement.executeQuery();
+    }
+
+    void updateLastNameFirstName(int id, String lname, String fname ) throws SQLException, ClassNotFoundException{
+        PreparedStatement statement = getPreparedStatement("CALL UPDATE_LNAME_FNAME(?, ?, ?)");
+        statement.setInt(1, id);
+        statement.setString(2, lname);
+        statement.setString(3, fname);
+        statement.executeQuery();
+    }
+
+    void changePassword(int id, String password)throws SQLException, ClassNotFoundException{
+        PreparedStatement statement = getPreparedStatement("CALL CHANGE_PASSWORD(?, ?)");
+        statement.setInt(1,id);
+        statement.setString(2, password);
+        statement.executeQuery();
+    }
+
+    //ENROLL
+    void enrollModule(int studentId, int moduleId) throws SQLException, ClassNotFoundException{
+        PreparedStatement statement = getPreparedStatement("CALL ENROLL_MODULE(?, ?)");
+        statement.setInt(1, studentId);
+        statement.setInt(2, moduleId);
+    }
+    JSONArray viewStudentsOfModule(int moduleId)throws SQLException, ClassNotFoundException{
+        PreparedStatement statement = getPreparedStatement("CALL VIEW_STUDENTS_OF_MODULE(?)");
+        statement.setInt(1, moduleId);
+        ResultSet rs = statement.executeQuery();
+        return convertAll(rs);
+    }
+
+    
 }
