@@ -84,7 +84,7 @@ class AccessDatabase {
         return convertAll(rs);
     }
 
-    //List all the modules that a given student has enrolled in
+    //List all the modules that a given student has enrolled in TADA
     static JSONArray listModuleStudentEnroll(int studentID) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL LIST_MODULE_STU_ENROLL(?)");
         statement.setInt(1, studentID);
@@ -117,7 +117,7 @@ class AccessDatabase {
         return convertAll(rs);
     }
 
-    //A student view his/her registered exam(s) in a given semester
+    //A student view his/her registered exam(s) in a given semester TADA
     static JSONArray viewRegisteredExam(int studentID) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL STUDENT_VIEW_EXAM(?)");
         statement.setInt(1, studentID);
@@ -176,7 +176,7 @@ class AccessDatabase {
         statement.executeQuery();
     }
 
-    //show session of a given date
+    //show session of a given date 
     static JSONArray showSessionOn(Date date) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL SHOW_SESSION_ON(?)");
         statement.setDate(1, date);
@@ -200,14 +200,14 @@ class AccessDatabase {
         return convertAll(rs);
     }
 
-    //List account by a given username
+    //List account by a given username 
     static JSONArray listAccountUsername(String accountUsername) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL LIST_ACCOUNT_USERNAME(?)");
         statement.setString(1, accountUsername);
         ResultSet rs = statement.executeQuery();
         return convertAll(rs);
     }
-
+    //TADA
     static void addNewStudent(String username, String password, String lname, String fname, String code) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL ADD_NEW_STUDENT(?, ?, ?, ?, ?)");
         statement.setString(1, username);

@@ -22,7 +22,7 @@ public class AccessDatabaseTest extends TestWithDatabase {
 
     @Before
     public void before() {
-        loadFixtures(new String[]{"semester.sql", "module.sql"});
+        loadFixtures(new String[]{"semester.sql", "module.sql","enroll.sql","student.sql","exam_reg"});
     }
 
     @Test
@@ -66,4 +66,51 @@ public class AccessDatabaseTest extends TestWithDatabase {
             JSONAssert.assertEquals(expectedResults[i], convertOne(rs).toString(), JSONCompareMode.LENIENT);
         }
     }
+  
+    //
+    @Test
+    public void testListEnrolledModule() throws SQLException {
+        int[] studentIDs = new int[]{3, 4, 5, 6, 7, 10};
+        Integer[][] expectedModuleIds = new Integer[][]{
+            new Integer[]{4,1},
+            new Integer[]{1, 5, 6, 12},
+            new Integer[]{1, 2, 3, 4, 5, 6, 7, 8},
+            new Integer[]{9, 10, 11, 12},
+            new Integer[]{1, 2},
+            new Integer[]{}
+        };
+        for (int i = 0; i < studentIDs.length; i++) {
+            JSONArray modules = AccessDatabase.listModuleStudentEnroll(studentIDs[i]);
+            assertEquals(expectedModuleIds[i].length, modules.length());
+            HashSet<Integer> expectedIdSet = new HashSet<>(Arrays.asList(expectedModuleIds[i]));
+            for (int j = 0; j < modules.length(); j++) {
+                int actualId = ((JSONObject) modules.get(i)).getInt("id");
+                assertTrue(expectedIdSet.contains(actualId));
+            }
+        }
+    }
+
+    @Test
+
+    public void testViewRegisterdExam() throws SQLException {
+        int[] studentIDs = new int[]{1, 2, 3, 4, 5, 7};
+        Integer[][] expectedExamIds = new Integer[][]{
+            new Integer[]{1, 2, 3},
+            new Integer[]{2, 3, 4},
+            new Integer[]{1, 4},
+            new Integer[]{4, 5, 6, 12},
+            new Integer[]{}
+        };
+
+        for (int i = 0; i < studentIDs.length; i++) {
+            JSONArray modules = AccessDatabase.listModuleStudentEnroll(studentIDs[i]);
+            assertEquals(expectedExamIds[i].length, modules.length());
+            HashSet<Integer> expectedIdSet = new HashSet<>(Arrays.asList(expectedExamIds[i]));
+            for (int j = 0; j < modules.length(); j++) {
+                int actualId = ((JSONObject) modules.get(i)).getInt("id");
+                assertTrue(expectedIdSet.contains(actualId));
+            }
+        }
+    }
+
 }
