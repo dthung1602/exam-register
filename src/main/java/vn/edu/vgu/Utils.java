@@ -62,8 +62,10 @@ class Utils {
             } else if (columnType == java.sql.Types.SMALLINT) {
                 obj.put(fieldName, rs.getInt(i));
             } else if (columnType == java.sql.Types.DATE) {
-                obj.put(fieldName, rs.getDate(i));
-            } else if (columnType == java.sql.Types.TIMESTAMP) {
+                obj.put(fieldName, rs.getString(i));
+            } else if (columnType == java.sql.Types.TIME) {
+                obj.put(fieldName, rs.getString(i));
+            }else if (columnType == java.sql.Types.TIMESTAMP) {
                 obj.put(fieldName, rs.getTimestamp(i));
             } else {
                 obj.put(fieldName, rs.getObject(i));

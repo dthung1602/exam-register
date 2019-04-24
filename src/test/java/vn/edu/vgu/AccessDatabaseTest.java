@@ -1,5 +1,6 @@
 package vn.edu.vgu;
 
+import com.mysql.cj.xdevapi.JsonArray;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.Before;
@@ -7,10 +8,9 @@ import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 
-import java.sql.Date;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.HashSet;
 
@@ -22,7 +22,7 @@ public class AccessDatabaseTest extends TestWithDatabase {
 
     @Before
     public void before() {
-        loadFixtures(new String[]{"semester.sql", "module.sql"});
+        loadFixtures(new String[]{"account.sql", "assistant.sql", "lecturer.sql", "student.sql", "semester.sql", "module.sql",  "session.sql", "enroll.sql", "sign.sql", "exam.sql", "teach.sql"});
     }
 
     @Test
@@ -66,4 +66,102 @@ public class AccessDatabaseTest extends TestWithDatabase {
             JSONAssert.assertEquals(expectedResults[i], convertOne(rs).toString(), JSONCompareMode.LENIENT);
         }
     }
+
+    @Test
+    public void testModuleOverlapSessions() throws SQLException, ParseException {
+        String[] sessionDates = new String[]{
+                ("2018-04-01"),
+                ("2018-04-01"),
+        };
+
+        String[] module1Code = new String[]{
+                "RS",
+                "RS",
+        };
+
+        String[] module2Code = new String[]{
+                "SWEA",
+                "SWEA",
+        };
+
+        JSONArray a = AccessDatabase.listModuleOverlapSessions();
+        for (int i = 0; i < module1Code.length; i++) {
+            String actualDate = ((JSONObject) a.get(i)).getString("date");
+            assertEquals(sessionDates[i], actualDate);
+
+            String actualModule1Code = ((JSONObject) a.get(i)).getString("code1");
+            assertEquals(module1Code[i], actualModule1Code);
+
+            String actualModule2Code = ((JSONObject) a.get(i)).getString("code2");
+            assertEquals(module2Code[i], actualModule2Code);
+        }
+    }
+
+    @Test
+    public void testViewParticipants() throws SQLException {
+        int[] studentCode = new int[]{11111, 33333, 55555};
+
+        String[] fname = new String[]{
+                "tuan hung",
+                "ho tat dat",
+                "chi minh"
+        };
+
+        String[] lname = new String[]{
+                "vu",
+                "nguyen",
+                "truong"
+        };
+        JSONArray a = AccessDatabase.listParticipants(1);
+        //assertEquals(studentCode.length, a.length());
+        for (int i = 0; i< studentCode.length; i++){
+            int actualStudentCode = ((JSONObject) a.get(i)).getInt("code");
+            assertEquals(studentCode[i], actualStudentCode);
+            String actualFname = ((JSONObject) a.get(i)).getString("fname");
+            assertEquals(fname[i], actualFname);
+            String actualLname = ((JSONObject) a.get(i)).getString("lname");
+            assertEquals(lname[i], actualLname);
+        }
+    }
+
+    @Test
+    public void testShowSessionOn() throws SQLException {
+        String[] startTime = new String[]{
+                ("08:45:00"),
+                ("13:00:00")
+        };
+
+        String[] endTime = new String[]{
+                ("12:00:00"),
+                ("16:00:00")
+        };
+
+        String[] moduleName = new String[]{
+                ("Programming"),
+                ("Programming"),
+        };
+
+        String[] lname = new String[]{
+                ("clavel"),
+                ("clavel"),
+        };
+        JSONArray a = AccessDatabase.showSessionOn(Date.valueOf("2018-09-05"));
+        for (int i = 0; i < startTime.length; i++) {
+            String actualStartTime = ((JSONObject) a.get(i)).getString("start");
+            assertEquals(startTime[i], actualStartTime);
+
+            String actualEndTime = ((JSONObject) a.get(i)).getString("end");
+            assertEquals(endTime[i], actualEndTime);
+
+            String actualModuleName = ((JSONObject) a.get(i)).getString("name");
+            assertEquals(moduleName[i], actualModuleName);
+
+            String actualLname = ((JSONObject) a.get(i)).getString("lname");
+            assertEquals(lname[i], actualLname);
+
+        }
+
+    }
+
+
 }

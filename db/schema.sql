@@ -58,11 +58,11 @@ CREATE TABLE MODULE
 (
     id       INT AUTO_INCREMENT,
     name     VARCHAR(50) NOT NULL, #TODO move to another table?
-    code     VARCHAR(8)  NOT NULL UNIQUE,
+    code     VARCHAR(8)  NOT NULL,
     semester INT         NOT NULL,
     FOREIGN KEY (semester) REFERENCES SEMESTER (id) ON DELETE RESTRICT,
     PRIMARY KEY (id),
-    UNIQUE (code, semester)
+    UNIQUE (semester)
 );
 
 CREATE TABLE SESSION

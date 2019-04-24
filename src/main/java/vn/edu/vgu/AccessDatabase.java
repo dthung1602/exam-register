@@ -9,8 +9,8 @@ import static vn.edu.vgu.Utils.convertAll;
 class AccessDatabase {
     private static PreparedStatement getPreparedStatement(String statement) throws SQLException {
         String host = "jdbc:mysql://localhost:3306/examreg";
-        String username = "examreguser";
-        String password = "whatever123";
+        String username = "root";
+        String password = "Hikari@123";
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -81,7 +81,7 @@ class AccessDatabase {
     static JSONArray listModuleOverlapSessions() throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL LIST_OVERLAP_SESSION()");
         ResultSet rs = statement.executeQuery();
-        return convertAll(rs);
+        return convertAll(rs, new String[] {"date", "code1", "name1", "start1", "end1", "code2", "name2", "start2", "end2"});
     }
 
     //List all the modules that a given student has enrolled in
@@ -114,7 +114,7 @@ class AccessDatabase {
         PreparedStatement statement = getPreparedStatement("CALL LIST_PARTICIPANTS(?)");
         statement.setInt(1, examID);
         ResultSet rs = statement.executeQuery();
-        return convertAll(rs);
+        return convertAll(rs, new String [] {"code", "fname", "lname"});
     }
 
     //A student view his/her registered exam(s) in a given semester
@@ -181,7 +181,7 @@ class AccessDatabase {
         PreparedStatement statement = getPreparedStatement("CALL SHOW_SESSION_ON(?)");
         statement.setDate(1, date);
         ResultSet rs = statement.executeQuery();
-        return convertAll(rs);
+        return convertAll(rs, new String[] {"start", "end", "name", "lname"});
     }
 
     // ----------------------- ACCOUNT -----------------------
