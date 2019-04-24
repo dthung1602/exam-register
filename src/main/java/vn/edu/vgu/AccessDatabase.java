@@ -77,24 +77,15 @@ class AccessDatabase {
         return convertAll(rs);
     }
 
-    //List module with given code is taught in given semester
-    static JSONArray listModuleInSemester(String moduleCode, int semesterId) throws SQLException {
-        PreparedStatement statement = getPreparedStatement("CALL LIST_MODULE_IN_SEMESTER(?, ?)");
-        statement.setString(1, moduleCode);
-        statement.setInt(2, semesterId);
-        ResultSet rs = statement.executeQuery();
-        return convertAll(rs);
-    }
-
     //List all modules that has overlap sessions
     static JSONArray listModuleOverlapSessions() throws SQLException {
-        PreparedStatement statement = getPreparedStatement("CALL LIST_MODULE_OVERLAP_SESSIONS");
+        PreparedStatement statement = getPreparedStatement("CALL LIST_OVERLAP_SESSION()");
         ResultSet rs = statement.executeQuery();
         return convertAll(rs);
     }
 
     //List all the modules that a given student has enrolled in
-    static JSONArray listModuleStuEnroll(int studentID) throws SQLException {
+    static JSONArray listModuleStudentEnroll(int studentID) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL LIST_MODULE_STU_ENROLL(?)");
         statement.setInt(1, studentID);
         ResultSet rs = statement.executeQuery();
@@ -103,7 +94,7 @@ class AccessDatabase {
 
     //----------------------- EXAM REGISTER -----------------------
     //A student registers for an exam
-    static void RegisterExam(int studentID, int examID) throws SQLException {
+    static void registerExam(int studentID, int examID) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL REGISTER_EXAM(?,?)");
         statement.setInt(1, studentID);
         statement.setInt(2, examID);
@@ -111,7 +102,7 @@ class AccessDatabase {
     }
 
     //Unregister a student for an exam
-    static void UnregisterExam(int studentID, int examID) throws SQLException {
+    static void unregisterExam(int studentID, int examID) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL UNREGISTERED_EXAM(?,?)");
         statement.setInt(1, studentID);
         statement.setInt(2, examID);
@@ -119,7 +110,7 @@ class AccessDatabase {
     }
 
     //View exam participant list
-    static JSONArray ListParticipants(int examID) throws SQLException {
+    static JSONArray listParticipants(int examID) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL LIST_PARTICIPANTS(?)");
         statement.setInt(1, examID);
         ResultSet rs = statement.executeQuery();
@@ -127,33 +118,9 @@ class AccessDatabase {
     }
 
     //A student view his/her registered exam(s) in a given semester
-    static JSONArray ViewRegisteredExam(int studentID) throws SQLException {
-        PreparedStatement statement = getPreparedStatement("CALL STUDENT_VIEW_REGISTERED_EXAM(?)");
+    static JSONArray viewRegisteredExam(int studentID) throws SQLException {
+        PreparedStatement statement = getPreparedStatement("CALL STUDENT_VIEW_EXAM(?)");
         statement.setInt(1, studentID);
-        ResultSet rs = statement.executeQuery();
-        return convertAll(rs);
-    }
-
-    // ----------------------- ACCOUNT -----------------------
-    //List all the accounts (username + password)
-    static JSONArray listAccount() throws SQLException {
-        PreparedStatement statement = getPreparedStatement("CALL LIST_ACCOUNT()");
-        ResultSet rs = statement.executeQuery();
-        return convertAll(rs);
-    }
-
-    //List account by a given ID
-    static JSONArray listAccountId(int accountID) throws SQLException {
-        PreparedStatement statement = getPreparedStatement("CALL LIST_ACCOUNT_ID(?)");
-        statement.setInt(1, accountID);
-        ResultSet rs = statement.executeQuery();
-        return convertAll(rs);
-    }
-
-    //List account by a given username
-    static JSONArray listAccountUsername(String accountUsername) throws SQLException {
-        PreparedStatement statement = getPreparedStatement("CALL LIST_ACCOUNT_USERNAME(?)");
-        statement.setString(1, accountUsername);
         ResultSet rs = statement.executeQuery();
         return convertAll(rs);
     }
@@ -217,7 +184,30 @@ class AccessDatabase {
         return convertAll(rs);
     }
 
-    //----------------------- ACCOUNT -----------------------
+    // ----------------------- ACCOUNT -----------------------
+    //List all the accounts (username + password)
+    static JSONArray listAccount() throws SQLException {
+        PreparedStatement statement = getPreparedStatement("CALL LIST_ACCOUNT()");
+        ResultSet rs = statement.executeQuery();
+        return convertAll(rs);
+    }
+
+    //List account by a given ID
+    static JSONArray listAccountId(int accountID) throws SQLException {
+        PreparedStatement statement = getPreparedStatement("CALL LIST_ACCOUNT_ID(?)");
+        statement.setInt(1, accountID);
+        ResultSet rs = statement.executeQuery();
+        return convertAll(rs);
+    }
+
+    //List account by a given username
+    static JSONArray listAccountUsername(String accountUsername) throws SQLException {
+        PreparedStatement statement = getPreparedStatement("CALL LIST_ACCOUNT_USERNAME(?)");
+        statement.setString(1, accountUsername);
+        ResultSet rs = statement.executeQuery();
+        return convertAll(rs);
+    }
+
     static void addNewStudent(String username, String password, String lname, String fname, String code) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL ADD_NEW_STUDENT(?, ?, ?, ?, ?)");
         statement.setString(1, username);

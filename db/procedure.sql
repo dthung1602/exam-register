@@ -1,6 +1,8 @@
 USE examreg;
 
-DELETE FROM mysql.proc WHERE db LIKE 'examreg';
+DELETE
+FROM mysql.proc
+WHERE db LIKE 'examreg';
 
 DELIMITER //
 
@@ -34,7 +36,6 @@ BEGIN
     VALUES (my_name, my_code, my_semester);
 END //
 
-
 # assign lecturer to a module
 CREATE PROCEDURE ASSIGN_LECTURER(IN my_module INT,
                                  IN my_lecturer INT)
@@ -62,16 +63,6 @@ BEGIN
     SELECT id, name, code
     FROM MODULE
     WHERE semester = my_semester;
-END //
-
-# Check if a module with given code is taught in given semester
-CREATE PROCEDURE MODULE_IN_SEMESTER(IN my_code VARCHAR(8),
-                                    IN my_semester INT)
-BEGIN
-    SELECT name, code
-    FROM MODULE
-    WHERE semester = my_semester
-      AND code = my_code;
 END //
 
 # List all modules that has overlap sessions
@@ -147,7 +138,6 @@ BEGIN
     WHERE ER.student = my_student;
 END //
 
-
 -- ----------------- SESSION -----------------------------
 
 # create sessions for given module
@@ -159,7 +149,6 @@ BEGIN
     INSERT INTO SESSION(module, date, start, end) VALUE
         (my_module, my_date, my_start, my_end);
 END //
-
 
 # change session time
 CREATE PROCEDURE CHANGE_SESSION_TIME(IN my_start TIME,
@@ -182,7 +171,7 @@ END //
 
 # Check for the number of sessions the student "vth" attends in the given module
 CREATE PROCEDURE LIST_SESSION_STUDENT(IN my_lname VARCHAR(50),
-                                       IN my_module INT)
+                                      IN my_module INT)
 BEGIN
     SELECT COUNT(SI.session) AS 'attendance_count'
     FROM SIGN SI
@@ -226,6 +215,8 @@ BEGIN
     WHERE S.date = my_date;
 END //
 
+-- ------------------------ACCOUNT-----------------------------1
+
 -- ---------------    LOGIN    --------------------2
 # List all the accounts (username + password)
 CREATE PROCEDURE LIST_ACCOUNT()
@@ -249,8 +240,6 @@ BEGIN
     FROM ACCOUNT A
     WHERE A.username = my_username;
 END //
-
--- ------------------------ACCOUNT-----------------------------1
 
 #add a new student
 CREATE PROCEDURE ADD_NEW_STUDENT(IN my_username VARCHAR(25),
@@ -325,6 +314,9 @@ BEGIN
     WHERE M.id = module_id;
 END //
 
+-- ------------------------UTILS-----------------------------1
+
+# truncate all tables in database
 CREATE PROCEDURE TRUNCATE_ALL()
 BEGIN
     SET FOREIGN_KEY_CHECKS = 0;

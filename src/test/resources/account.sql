@@ -1,0 +1,17 @@
+INSERT INTO ACCOUNT(id, username, password, fname, lname)
+VALUES (1, 'vth', 'htv', 'tuan hung', 'vu'),
+       (2, 'dth', 'htd', 'duong thanh', 'hung'),
+       (3, 'nhtd', 'datbede', 'ho tat dat', 'nguyen'),
+       (4, 'ntth', 'weeb', 'truong thanh hung', 'nguyen'),
+       (5, 'tcm', 'mtc', 'chi minh', 'truong'),
+       (6, 'hamie', 'mieha', 'hamie', 'tram'),
+       (7, 'huvi', 'vihu', 'vinh long', 'huynh'),
+       (8, 'huvilo', 'vihu', 'vinh long', 'huynh'),
+       (9, 'huvilolo', 'vihu', 'vinh long', 'huynh'),
+       (10, 'lohuvilo', 'vihu', 'vinh long', 'huynh'),
+       (11, 'milo', 'mickey', 'michel', 'toulouse'),
+       (12, 'macla', 'password', 'manuel', 'clavel'),
+       (13, 'qtt', 'imgei', 'tri thong', 'quach'),
+       (14, 'jath', 'sth', 'james', 'arthur'),
+       (15, 'teacher', 'iam', 'duoc', 'nguyen'),
+       (16, 'assistant', 'trang', 'thi thuy trang', 'nguyen');

@@ -1,0 +1,2 @@
+INSERT INTO ASSISTANT(account)
+VALUES (16);
