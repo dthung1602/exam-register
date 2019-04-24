@@ -9,8 +9,8 @@ import static vn.edu.vgu.Utils.convertAll;
 class AccessDatabase {
     private static PreparedStatement getPreparedStatement(String statement) throws SQLException {
         String host = "jdbc:mysql://localhost:3306/examreg";
-        String username = "root";
-        String password = "Hikari@123";
+        String username = "examreguser";
+        String password = "whatever123";
 
         try {
             Class.forName("com.mysql.jdbc.Driver");

@@ -11,9 +11,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public abstract class TestWithDatabase {
-    private static final String HOST = "jdbc:mysql://localhost:3306/examreg?allowMultiQueries=true";
-    private static final String USERNAME = "root";
-    private static final String PASSWORD = "Hikari@123";
+    private static final String HOST = "jdbc:mysql://localhost:3306/examreg";
+    private static final String USERNAME = "examreguser";
+    private static final String PASSWORD = "whatever123";
 
     static Connection connection;
 
@@ -21,13 +21,8 @@ public abstract class TestWithDatabase {
     public static void beforeClass() {
         // setup db connection
         try {
-            //Class.forName("com.mysql.jdbc.Driver");
             connection = DriverManager.getConnection(HOST, USERNAME, PASSWORD);
-        } /*catch (ClassNotFoundException e) {
-            System.err.println("Cannot find driver class");
-            e.printStackTrace();
-            System.exit(1);
-        }*/ catch (SQLException e) {
+        } catch (SQLException e) {
             System.err.println("Cannot connect to MySQL");
             e.printStackTrace();
             System.exit(1);
@@ -53,6 +48,7 @@ public abstract class TestWithDatabase {
             // load data from fixture files to tables
             for (; i < fixtures.length; i++)
                 executeSQLFile(fixtures[i]);
+
         } catch (SQLException e) {
             System.err.println("Corrupted fixture file " + fixtures[i]);
             e.printStackTrace();
@@ -89,5 +85,4 @@ public abstract class TestWithDatabase {
             System.exit(1);
         }
     }
-
 }

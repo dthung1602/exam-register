@@ -7,26 +7,6 @@ import org.json.JSONObject;
 import java.sql.*;
 
 class Utils {
-    public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        String host = "jdbc:mysql://localhost:3306/examreg";
-        String username = "root";
-        String password = "Hikari@123";
-
-        Class.forName("com.mysql.jdbc.Driver");
-        Connection connection = DriverManager.getConnection(host, username, password);
-        Statement statement = connection.createStatement();
-
-        String query = "SELECT id, username, password, fname, lname FROM ACCOUNT";
-        ResultSet rs = statement.executeQuery(query);
-
-        JSONArray jsonArray = convertAll(rs);
-        System.out.println(jsonArray.toString());
-
-        rs.beforeFirst();
-        jsonArray = convertAll(rs, new String[]{"new_id", "new_user", "new_pass", "new_fname", "new_lname"});
-        System.out.println(jsonArray.toString());
-    }
-
     static JSONObject convertOne(ResultSet rs, String[] fieldNames) throws SQLException, JSONException {
         if (!rs.next())
             return null;
