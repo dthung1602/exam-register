@@ -6,26 +6,27 @@ import java.sql.*;
 
 import static vn.edu.vgu.Utils.convertAll;
 
-public class AccessDatabase {
-    public static void main(String[] args) throws Exception {
-        AccessDatabase ad = new AccessDatabase();
-        ad.createSemester(new Date(1589), new Date(234234));
-        System.out.println(ad.listModules(1));
-    }
-
-    private static PreparedStatement getPreparedStatement(String statement) throws ClassNotFoundException, SQLException {
+class AccessDatabase {
+    private static PreparedStatement getPreparedStatement(String statement) throws SQLException {
         String host = "jdbc:mysql://localhost:3306/examreg";
         String username = "examreguser";
         String password = "whatever123";
 
-        //Class.forName("com.mysql.jdbc.Driver");
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+        } catch (ClassNotFoundException e) {
+            System.err.println("Cannot find MysSQL driver class");
+            e.printStackTrace();
+            System.exit(1);
+        }
+
         Connection connection = DriverManager.getConnection(host, username, password);
         return connection.prepareStatement(statement);
     }
 
-    //SEMESTER/MODULE
+    // -----------------------  SEMESTER/MODULE -----------------------------------
     //Create Semester
-    void createSemester(Date startDate, Date endDate) throws SQLException, ClassNotFoundException {
+    static void createSemester(Date startDate, Date endDate) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL CREATE_SEMESTER(?, ?)");
         statement.setDate(1, startDate);
         statement.setDate(2, endDate);
@@ -33,7 +34,7 @@ public class AccessDatabase {
     }
 
     //Update Semester
-    void updateSemester(int semesterId, Date startDate, Date endDate) throws SQLException, ClassNotFoundException {
+    static void updateSemester(int semesterId, Date startDate, Date endDate) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL UPDATE_SEMESTER(?, ?, ?)");
         statement.setInt(1, semesterId);
         statement.setDate(2, startDate);
@@ -42,7 +43,7 @@ public class AccessDatabase {
     }
 
     //Create Module
-    void createModule(String moduleName, String moduleCode, int semesterId) throws SQLException, ClassNotFoundException {
+    static void createModule(String moduleName, String moduleCode, int semesterId) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL CREATE_MODULE(?, ?, ?)");
         statement.setString(1, moduleName);
         statement.setString(2, moduleCode);
@@ -51,7 +52,7 @@ public class AccessDatabase {
     }
 
     //Assign Lecturer
-    void assignLecturer(int moduleId, int lecturerID) throws SQLException, ClassNotFoundException {
+    static void assignLecturer(int moduleId, int lecturerID) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL ASSIGN_LECTURER(?,?)");
         statement.setInt(1, moduleId);
         statement.setInt(2, lecturerID);
@@ -59,7 +60,7 @@ public class AccessDatabase {
     }
 
     //Update Module
-    void updateModule(String moduleName, String moduleCode, int semesterID, int moduleID) throws SQLException, ClassNotFoundException {
+    static void updateModule(String moduleName, String moduleCode, int semesterID, int moduleID) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL UPDATE_MODULE(?, ?, ?, ?)");
         statement.setString(1, moduleName);
         statement.setString(2, moduleCode);
@@ -69,16 +70,15 @@ public class AccessDatabase {
     }
 
     //List Module
-    JSONArray listModules(int moduleId) throws SQLException, ClassNotFoundException {
+    static JSONArray listModules(int moduleId) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL LIST_MODULE(?)");
         statement.setInt(1, moduleId);
         ResultSet rs = statement.executeQuery();
         return convertAll(rs);
     }
 
-
     //List module with given code is taught in given semester
-    JSONArray listModuleInSemester(String moduleCode, int semesterId) throws SQLException, ClassNotFoundException {
+    static JSONArray listModuleInSemester(String moduleCode, int semesterId) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL LIST_MODULE_IN_SEMESTER(?, ?)");
         statement.setString(1, moduleCode);
         statement.setInt(2, semesterId);
@@ -87,23 +87,23 @@ public class AccessDatabase {
     }
 
     //List all modules that has overlap sessions
-    JSONArray listModuleOverlapSessions() throws SQLException, ClassNotFoundException {
+    static JSONArray listModuleOverlapSessions() throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL LIST_MODULE_OVERLAP_SESSIONS");
         ResultSet rs = statement.executeQuery();
         return convertAll(rs);
     }
 
     //List all the modules that a given student has enrolled in
-    JSONArray listModuleStuEnroll(int studentID) throws SQLException, ClassNotFoundException {
+    static JSONArray listModuleStuEnroll(int studentID) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL LIST_MODULE_STU_ENROLL(?)");
         statement.setInt(1, studentID);
         ResultSet rs = statement.executeQuery();
         return convertAll(rs);
     }
 
-    //EXAM REGISTER
+    //----------------------- EXAM REGISTER -----------------------
     //A student registers for an exam
-    void RegisterExam(int studentID, int examID) throws SQLException, ClassNotFoundException {
+    static void RegisterExam(int studentID, int examID) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL REGISTER_EXAM(?,?)");
         statement.setInt(1, studentID);
         statement.setInt(2, examID);
@@ -111,7 +111,7 @@ public class AccessDatabase {
     }
 
     //Unregister a student for an exam
-    void UnregisterExam(int studentID, int examID) throws SQLException, ClassNotFoundException {
+    static void UnregisterExam(int studentID, int examID) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL UNREGISTERED_EXAM(?,?)");
         statement.setInt(1, studentID);
         statement.setInt(2, examID);
@@ -119,7 +119,7 @@ public class AccessDatabase {
     }
 
     //View exam participant list
-    JSONArray ListParticipants(int examID) throws SQLException, ClassNotFoundException {
+    static JSONArray ListParticipants(int examID) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL LIST_PARTICIPANTS(?)");
         statement.setInt(1, examID);
         ResultSet rs = statement.executeQuery();
@@ -127,23 +127,23 @@ public class AccessDatabase {
     }
 
     //A student view his/her registered exam(s) in a given semester
-    JSONArray ViewRegisteredExam(int studentID) throws SQLException, ClassNotFoundException {
+    static JSONArray ViewRegisteredExam(int studentID) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL STUDENT_VIEW_REGISTERED_EXAM(?)");
         statement.setInt(1, studentID);
         ResultSet rs = statement.executeQuery();
         return convertAll(rs);
     }
 
-    //ACCOUNT
+    // ----------------------- ACCOUNT -----------------------
     //List all the accounts (username + password)
-    JSONArray listAccount() throws SQLException, ClassNotFoundException {
+    static JSONArray listAccount() throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL LIST_ACCOUNT()");
         ResultSet rs = statement.executeQuery();
         return convertAll(rs);
     }
 
     //List account by a given ID
-    JSONArray listAccountId(int accountID) throws SQLException, ClassNotFoundException {
+    static JSONArray listAccountId(int accountID) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL LIST_ACCOUNT_ID(?)");
         statement.setInt(1, accountID);
         ResultSet rs = statement.executeQuery();
@@ -151,16 +151,16 @@ public class AccessDatabase {
     }
 
     //List account by a given username
-    JSONArray listAccountUsername(String accountUsername) throws SQLException, ClassNotFoundException {
+    static JSONArray listAccountUsername(String accountUsername) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL LIST_ACCOUNT_USERNAME(?)");
         statement.setString(1, accountUsername);
         ResultSet rs = statement.executeQuery();
         return convertAll(rs);
     }
 
-    //SESSION
+    // ----------------------- SESSION -----------------------
     //create sessions for given module
-    void createSession(int moduleID, Date sessionDate, Time sessionStart, Time sessionEnd) throws SQLException, ClassNotFoundException {
+    static void createSession(int moduleID, Date sessionDate, Time sessionStart, Time sessionEnd) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL CREATE_SESSION(?,?,?,?)");
         statement.setInt(1, moduleID);
         statement.setDate(2, sessionDate);
@@ -170,7 +170,7 @@ public class AccessDatabase {
     }
 
     // change session time
-    void changeSessionTime(Time sessionStart, Time sessionEnd, int sessionId) throws SQLException, ClassNotFoundException {
+    static void changeSessionTime(Time sessionStart, Time sessionEnd, int sessionId) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL CHANGE_SESSION_TIME(?,?,?)");
         statement.setTime(1, sessionStart);
         statement.setTime(2, sessionEnd);
@@ -179,29 +179,30 @@ public class AccessDatabase {
     }
 
     //cancel a session
-    void cancelSession(int sessionId) throws SQLException, ClassNotFoundException {
+    static void cancelSession(int sessionId) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL CANCEL_SESSION(?)");
         statement.setInt(1, sessionId);
         statement.executeQuery();
     }
 
     //Check for the number of sessions the student "vth" attends in the given module
-    void checkSessionStudent(String studentLname, int moduleID) throws SQLException, ClassNotFoundException {
-        PreparedStatement statement = getPreparedStatement("CALL CHECK_SESSION_STUDENT(?,?)");
+    static JSONArray listSessionStudent(String studentLname, int moduleID) throws SQLException {
+        PreparedStatement statement = getPreparedStatement("CALL LIST_SESSION_STUDENT(?,?)");
         statement.setString(1, studentLname);
         statement.setInt(2, moduleID);
-        statement.executeQuery();
+        return convertAll(statement.executeQuery());
     }
 
     //Check for the number of sessions the given student attends in all modules
-    void checkSessionInModules(int studentID) throws SQLException, ClassNotFoundException {
-        PreparedStatement statement = getPreparedStatement("CALL CHECK_SESSION_IN_MODULES(?)");
+    static JSONArray listSessionInModules(int studentID) throws SQLException {
+        PreparedStatement statement = getPreparedStatement("CALL LIST_SESSION_IN_MODULES(?)");
         statement.setInt(1, studentID);
-        statement.executeQuery();
+        ResultSet rs = statement.executeQuery();
+        return convertAll(rs);
     }
 
-    //a student sign a session
-    void signSession(int studentID, int sessionID) throws SQLException, ClassNotFoundException {
+    // a student sign a session
+    static void signSession(int studentID, int sessionID) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL SIGN_SESSION(?,?)");
         statement.setInt(1, studentID);
         statement.setInt(2, sessionID);
@@ -209,15 +210,15 @@ public class AccessDatabase {
     }
 
     //show session of a given date
-    JSONArray showSessionOn(Date date) throws SQLException, ClassNotFoundException {
+    static JSONArray showSessionOn(Date date) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL SHOW_SESSION_ON(?)");
         statement.setDate(1, date);
         ResultSet rs = statement.executeQuery();
         return convertAll(rs);
     }
 
-    //ACCOUNT
-    void addNewStudent(String username, String password, String lname, String fname, String code)throws SQLException, ClassNotFoundException{
+    //----------------------- ACCOUNT -----------------------
+    static void addNewStudent(String username, String password, String lname, String fname, String code) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL ADD_NEW_STUDENT(?, ?, ?, ?, ?)");
         statement.setString(1, username);
         statement.setString(2, password);
@@ -227,7 +228,7 @@ public class AccessDatabase {
         statement.executeQuery();
     }
 
-    void addNewLecturer(String username, String password, String lname, String fname) throws SQLException, ClassNotFoundException{
+    static void addNewLecturer(String username, String password, String lname, String fname) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL ADD_NEW_LECTURER(?, ?, ?, ?)");
         statement.setString(1, username);
         statement.setString(2, password);
@@ -236,7 +237,7 @@ public class AccessDatabase {
         statement.executeQuery();
     }
 
-    void addNewAssistant(String username, String password, String lname, String fname) throws SQLException, ClassNotFoundException{
+    static void addNewAssistant(String username, String password, String lname, String fname) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL ADD_NEW_ASSISTANT(?, ?, ?, ?)");
         statement.setString(1, username);
         statement.setString(2, password);
@@ -245,7 +246,7 @@ public class AccessDatabase {
         statement.executeQuery();
     }
 
-    void updateLastNameFirstName(int id, String lname, String fname ) throws SQLException, ClassNotFoundException{
+    static void updateLastNameFirstName(int id, String lname, String fname) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL UPDATE_LNAME_FNAME(?, ?, ?)");
         statement.setInt(1, id);
         statement.setString(2, lname);
@@ -253,20 +254,21 @@ public class AccessDatabase {
         statement.executeQuery();
     }
 
-    void changePassword(int id, String password)throws SQLException, ClassNotFoundException{
+    static void changePassword(int id, String password) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL CHANGE_PASSWORD(?, ?)");
-        statement.setInt(1,id);
+        statement.setInt(1, id);
         statement.setString(2, password);
         statement.executeQuery();
     }
 
-    //ENROLL
-    void enrollModule(int studentId, int moduleId) throws SQLException, ClassNotFoundException{
+    // ---------------------- ENROLL --------------------------
+    static void enrollModule(int studentId, int moduleId) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL ENROLL_MODULE(?, ?)");
         statement.setInt(1, studentId);
         statement.setInt(2, moduleId);
     }
-    JSONArray viewStudentsOfModule(int moduleId)throws SQLException, ClassNotFoundException{
+
+    static JSONArray viewStudentsOfModule(int moduleId) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL VIEW_STUDENTS_OF_MODULE(?)");
         statement.setInt(1, moduleId);
         ResultSet rs = statement.executeQuery();

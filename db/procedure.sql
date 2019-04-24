@@ -1,3 +1,7 @@
+USE examreg;
+
+DELETE FROM mysql.proc WHERE db LIKE 'examreg';
+
 DELIMITER //
 
 -- ----------------   SEMESTER/MODULE -------------------
@@ -30,6 +34,7 @@ BEGIN
     VALUES (my_name, my_code, my_semester);
 END //
 
+
 # assign lecturer to a module
 CREATE PROCEDURE ASSIGN_LECTURER(IN my_module INT,
                                  IN my_lecturer INT)
@@ -54,7 +59,7 @@ END //
 # List all the module of a given semester
 CREATE PROCEDURE LIST_MODULE(IN my_semester INT)
 BEGIN
-    SELECT name, code
+    SELECT id, name, code
     FROM MODULE
     WHERE semester = my_semester;
 END //
@@ -142,6 +147,7 @@ BEGIN
     WHERE ER.student = my_student;
 END //
 
+
 -- ----------------- SESSION -----------------------------
 
 # create sessions for given module
@@ -153,6 +159,7 @@ BEGIN
     INSERT INTO SESSION(module, date, start, end) VALUE
         (my_module, my_date, my_start, my_end);
 END //
+
 
 # change session time
 CREATE PROCEDURE CHANGE_SESSION_TIME(IN my_start TIME,
@@ -174,7 +181,7 @@ BEGIN
 END //
 
 # Check for the number of sessions the student "vth" attends in the given module
-CREATE PROCEDURE CHECK_SESSION_STUDENT(IN my_lname VARCHAR(50),
+CREATE PROCEDURE LIST_SESSION_STUDENT(IN my_lname VARCHAR(50),
                                        IN my_module INT)
 BEGIN
     SELECT COUNT(SI.session) AS 'attendance_count'
@@ -187,7 +194,7 @@ BEGIN
 END //
 
 # Check for the number of sessions the given student attends in all modules
-CREATE PROCEDURE CHECK_SESSION_IN_MODULES(IN my_student INT)
+CREATE PROCEDURE LIST_SESSION_IN_MODULES(IN my_student INT)
 BEGIN
     SELECT STU.account, M.code, M.name, COUNT(SI.session) AS 'attendance_count'
     FROM SIGN SI
@@ -219,8 +226,7 @@ BEGIN
     WHERE S.date = my_date;
 END //
 
--- ---------------    LOGIN    --------------------
-
+-- ---------------    LOGIN    --------------------2
 # List all the accounts (username + password)
 CREATE PROCEDURE LIST_ACCOUNT()
 BEGIN
@@ -244,7 +250,7 @@ BEGIN
     WHERE A.username = my_username;
 END //
 
--- ------------------------ACCOUNT-----------------------------
+-- ------------------------ACCOUNT-----------------------------1
 
 #add a new student
 CREATE PROCEDURE ADD_NEW_STUDENT(IN my_username VARCHAR(25),
@@ -301,7 +307,6 @@ BEGIN
 END //
 
 -- ----------------ENROLL-------------------
-
 # the assistant enrolls students to a module
 CREATE PROCEDURE ENROLL_MODULE(IN student_id INT,
                                IN module_id INT)
@@ -318,6 +323,24 @@ BEGIN
              JOIN ACCOUNT A on S.account = A.id
              JOIN MODULE M on E.module = M.id
     WHERE M.id = module_id;
+END //
+
+CREATE PROCEDURE TRUNCATE_ALL()
+BEGIN
+    SET FOREIGN_KEY_CHECKS = 0;
+    TRUNCATE TABLE ENROLL;
+    TRUNCATE TABLE TEACH;
+    TRUNCATE TABLE SIGN;
+    TRUNCATE TABLE EXAM_REG;
+    TRUNCATE TABLE EXAM;
+    TRUNCATE TABLE SESSION;
+    TRUNCATE TABLE MODULE;
+    TRUNCATE TABLE SEMESTER;
+    TRUNCATE TABLE STUDENT;
+    TRUNCATE TABLE LECTURER;
+    TRUNCATE TABLE ASSISTANT;
+    TRUNCATE TABLE ACCOUNT;
+    SET FOREIGN_KEY_CHECKS = 1;
 END //
 
 DELIMITER ;
