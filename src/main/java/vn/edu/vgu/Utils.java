@@ -9,8 +9,8 @@ import java.sql.*;
 class Utils {
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         String host = "jdbc:mysql://localhost:3306/examreg";
-        String username = "examreguser";
-        String password = "whatever123";
+        String username = "root";
+        String password = "Hikari@123";
 
         Class.forName("com.mysql.jdbc.Driver");
         Connection connection = DriverManager.getConnection(host, username, password);

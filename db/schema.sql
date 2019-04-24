@@ -37,7 +37,6 @@ CREATE TABLE LECTURER
     PRIMARY KEY (account)
 );
 
-
 CREATE TABLE STUDENT
 (
     code    CHAR(8) UNIQUE,
@@ -61,8 +60,7 @@ CREATE TABLE MODULE
     code     VARCHAR(8)  NOT NULL,
     semester INT         NOT NULL,
     FOREIGN KEY (semester) REFERENCES SEMESTER (id) ON DELETE RESTRICT,
-    PRIMARY KEY (id),
-    UNIQUE (semester)
+    PRIMARY KEY (id)
 );
 
 CREATE TABLE SESSION
