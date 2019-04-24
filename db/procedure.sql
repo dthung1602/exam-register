@@ -131,7 +131,7 @@ END //
 # a student view his/her registered exam(s) in a given semester
 CREATE PROCEDURE STUDENT_VIEW_EXAM(IN my_student INT)
 BEGIN
-    SELECT M.name, E.date, E.start, E.end
+    SELECT E.id, M.name, E.date, E.start, E.end
     FROM EXAM_REG ER
              JOIN EXAM E on ER.exam = E.id
              JOIN MODULE M on E.module = M.id
