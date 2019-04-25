@@ -1,12 +1,11 @@
-package vn.edu.vgu;
+package vgu.group1.examregister.database;
 
 import org.json.JSONArray;
+import vgu.group1.examregister.Utils;
 
 import java.sql.*;
 
-import static vn.edu.vgu.Utils.convertAll;
-
-class AccessDatabase {
+public class AccessDatabase {
     private static PreparedStatement getPreparedStatement(String statement) throws SQLException {
         String host = "jdbc:mysql://localhost:3306/examreg";
         String username = "examreguser";
@@ -26,7 +25,7 @@ class AccessDatabase {
 
     // -----------------------  SEMESTER/MODULE -----------------------------------
     //Create Semester
-    static void createSemester(Date startDate, Date endDate) throws SQLException {
+    public static void createSemester(Date startDate, Date endDate) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL CREATE_SEMESTER(?, ?)");
         statement.setDate(1, startDate);
         statement.setDate(2, endDate);
@@ -34,7 +33,7 @@ class AccessDatabase {
     }
 
     //Update Semester
-    static void updateSemester(int semesterId, Date startDate, Date endDate) throws SQLException {
+    public static void updateSemester(int semesterId, Date startDate, Date endDate) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL UPDATE_SEMESTER(?, ?, ?)");
         statement.setInt(1, semesterId);
         statement.setDate(2, startDate);
@@ -43,7 +42,7 @@ class AccessDatabase {
     }
 
     //Create Module
-    static void createModule(String moduleName, String moduleCode, int semesterId) throws SQLException {
+    public static void createModule(String moduleName, String moduleCode, int semesterId) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL CREATE_MODULE(?, ?, ?)");
         statement.setString(1, moduleName);
         statement.setString(2, moduleCode);
@@ -52,7 +51,7 @@ class AccessDatabase {
     }
 
     //Assign Lecturer
-    static void assignLecturer(int moduleId, int lecturerID) throws SQLException {
+    public static void assignLecturer(int moduleId, int lecturerID) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL ASSIGN_LECTURER(?,?)");
         statement.setInt(1, moduleId);
         statement.setInt(2, lecturerID);
@@ -60,7 +59,7 @@ class AccessDatabase {
     }
 
     //Update Module
-    static void updateModule(String moduleName, String moduleCode, int semesterID, int moduleID) throws SQLException {
+    public static void updateModule(String moduleName, String moduleCode, int semesterID, int moduleID) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL UPDATE_MODULE(?, ?, ?, ?)");
         statement.setString(1, moduleName);
         statement.setString(2, moduleCode);
@@ -70,31 +69,31 @@ class AccessDatabase {
     }
 
     //List Module
-    static JSONArray listModules(int moduleId) throws SQLException {
+    public static JSONArray listModules(int moduleId) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL LIST_MODULE(?)");
         statement.setInt(1, moduleId);
         ResultSet rs = statement.executeQuery();
-        return convertAll(rs);
+        return Utils.convertAll(rs);
     }
 
     //List all modules that has overlap sessions
-    static JSONArray listModuleOverlapSessions() throws SQLException {
+    public static JSONArray listModuleOverlapSessions() throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL LIST_OVERLAP_SESSION()");
         ResultSet rs = statement.executeQuery();
-        return convertAll(rs, new String[] {"date", "code1", "name1", "start1", "end1", "code2", "name2", "start2", "end2"});
+        return Utils.convertAll(rs, new String[]{"date", "code1", "name1", "start1", "end1", "code2", "name2", "start2", "end2"});
     }
 
-    //List all the modules that a given student has enrolled in TADA
-    static JSONArray listModuleStudentEnroll(int studentID) throws SQLException {
+    //List all the modules that a given student has enrolled in
+    public static JSONArray listModuleStudentEnroll(int studentID) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL LIST_MODULE_STU_ENROLL(?)");
         statement.setInt(1, studentID);
         ResultSet rs = statement.executeQuery();
-        return convertAll(rs);
+        return Utils.convertAll(rs);
     }
 
     //----------------------- EXAM REGISTER -----------------------
     //A student registers for an exam
-    static void registerExam(int studentID, int examID) throws SQLException {
+    public static void registerExam(int studentID, int examID) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL REGISTER_EXAM(?,?)");
         statement.setInt(1, studentID);
         statement.setInt(2, examID);
@@ -102,7 +101,7 @@ class AccessDatabase {
     }
 
     //Unregister a student for an exam
-    static void unregisterExam(int studentID, int examID) throws SQLException {
+    public static void unregisterExam(int studentID, int examID) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL UNREGISTERED_EXAM(?,?)");
         statement.setInt(1, studentID);
         statement.setInt(2, examID);
@@ -110,24 +109,24 @@ class AccessDatabase {
     }
 
     //View exam participant list
-    static JSONArray listParticipants(int examID) throws SQLException {
+    public static JSONArray listParticipants(int examID) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL VIEW_PARTICIPANTS(?)");
         statement.setInt(1, examID);
         ResultSet rs = statement.executeQuery();
-        return convertAll(rs, new String [] {"code", "fname", "lname"});
+        return Utils.convertAll(rs, new String[]{"code", "fname", "lname"});
     }
 
-    //A student view his/her registered exam(s) in a given semester TADA
-    static JSONArray viewRegisteredExam(int studentID) throws SQLException {
+    //A student view his/her registered exam(s) in a given semester
+    public static JSONArray viewRegisteredExam(int studentID) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL STUDENT_VIEW_EXAM(?)");
         statement.setInt(1, studentID);
         ResultSet rs = statement.executeQuery();
-        return convertAll(rs);
+        return Utils.convertAll(rs);
     }
 
     // ----------------------- SESSION -----------------------
     //create sessions for given module
-    static void createSession(int moduleID, Date sessionDate, Time sessionStart, Time sessionEnd) throws SQLException {
+    public static void createSession(int moduleID, Date sessionDate, Time sessionStart, Time sessionEnd) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL CREATE_SESSION(?,?,?,?)");
         statement.setInt(1, moduleID);
         statement.setDate(2, sessionDate);
@@ -137,7 +136,7 @@ class AccessDatabase {
     }
 
     // change session time
-    static void changeSessionTime(Time sessionStart, Time sessionEnd, int sessionId) throws SQLException {
+    public static void changeSessionTime(Time sessionStart, Time sessionEnd, int sessionId) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL CHANGE_SESSION_TIME(?,?,?)");
         statement.setTime(1, sessionStart);
         statement.setTime(2, sessionEnd);
@@ -146,30 +145,30 @@ class AccessDatabase {
     }
 
     //cancel a session
-    static void cancelSession(int sessionId) throws SQLException {
+    public static void cancelSession(int sessionId) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL CANCEL_SESSION(?)");
         statement.setInt(1, sessionId);
         statement.executeQuery();
     }
 
     //Check for the number of sessions the student "vth" attends in the given module
-    static JSONArray listSessionStudent(String studentLname, int moduleID) throws SQLException {
+    public static JSONArray listSessionStudent(String studentLname, int moduleID) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL LIST_SESSION_STUDENT(?,?)");
         statement.setString(1, studentLname);
         statement.setInt(2, moduleID);
-        return convertAll(statement.executeQuery());
+        return Utils.convertAll(statement.executeQuery());
     }
 
     //Check for the number of sessions the given student attends in all modules
-    static JSONArray listSessionInModules(int studentID) throws SQLException {
+    public static JSONArray listSessionInModules(int studentID) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL LIST_SESSION_IN_MODULES(?)");
         statement.setInt(1, studentID);
         ResultSet rs = statement.executeQuery();
-        return convertAll(rs);
+        return Utils.convertAll(rs);
     }
 
     // a student sign a session
-    static void signSession(int studentID, int sessionID) throws SQLException {
+    public static void signSession(int studentID, int sessionID) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL SIGN_SESSION(?,?)");
         statement.setInt(1, studentID);
         statement.setInt(2, sessionID);
@@ -177,38 +176,38 @@ class AccessDatabase {
     }
 
     //show session of a given date 
-    static JSONArray showSessionOn(Date date) throws SQLException {
+    public static JSONArray showSessionOn(Date date) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL SHOW_SESSION_ON(?)");
         statement.setDate(1, date);
         ResultSet rs = statement.executeQuery();
-        return convertAll(rs, new String[] {"start", "end", "name", "lname"});
+        return Utils.convertAll(rs, new String[]{"start", "end", "name", "lname"});
     }
 
     // ----------------------- ACCOUNT -----------------------
     //List all the accounts (username + password)
-    static JSONArray listAccount() throws SQLException {
+    public static JSONArray listAccount() throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL LIST_ACCOUNT()");
         ResultSet rs = statement.executeQuery();
-        return convertAll(rs);
+        return Utils.convertAll(rs);
     }
 
     //List account by a given ID
-    static JSONArray listAccountId(int accountID) throws SQLException {
+    public static JSONArray listAccountId(int accountID) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL LIST_ACCOUNT_ID(?)");
         statement.setInt(1, accountID);
         ResultSet rs = statement.executeQuery();
-        return convertAll(rs);
+        return Utils.convertAll(rs);
     }
 
     //List account by a given username 
-    static JSONArray listAccountUsername(String accountUsername) throws SQLException {
+    public static JSONArray listAccountUsername(String accountUsername) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL LIST_ACCOUNT_USERNAME(?)");
         statement.setString(1, accountUsername);
         ResultSet rs = statement.executeQuery();
-        return convertAll(rs);
+        return Utils.convertAll(rs);
     }
-    //TADA
-    static void addNewStudent(String username, String password, String lname, String fname, String code) throws SQLException {
+
+    public static void addNewStudent(String username, String password, String lname, String fname, String code) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL ADD_NEW_STUDENT(?, ?, ?, ?, ?)");
         statement.setString(1, username);
         statement.setString(2, password);
@@ -218,7 +217,7 @@ class AccessDatabase {
         statement.executeQuery();
     }
 
-    static void addNewLecturer(String username, String password, String lname, String fname) throws SQLException {
+    public static void addNewLecturer(String username, String password, String lname, String fname) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL ADD_NEW_LECTURER(?, ?, ?, ?)");
         statement.setString(1, username);
         statement.setString(2, password);
@@ -227,7 +226,7 @@ class AccessDatabase {
         statement.executeQuery();
     }
 
-    static void addNewAssistant(String username, String password, String lname, String fname) throws SQLException {
+    public static void addNewAssistant(String username, String password, String lname, String fname) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL ADD_NEW_ASSISTANT(?, ?, ?, ?)");
         statement.setString(1, username);
         statement.setString(2, password);
@@ -236,7 +235,7 @@ class AccessDatabase {
         statement.executeQuery();
     }
 
-    static void updateLastNameFirstName(int id, String lname, String fname) throws SQLException {
+    public static void updateLastNameFirstName(int id, String lname, String fname) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL UPDATE_LNAME_FNAME(?, ?, ?)");
         statement.setInt(1, id);
         statement.setString(2, lname);
@@ -244,7 +243,7 @@ class AccessDatabase {
         statement.executeQuery();
     }
 
-    static void changePassword(int id, String password) throws SQLException {
+    public static void changePassword(int id, String password) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL CHANGE_PASSWORD(?, ?)");
         statement.setInt(1, id);
         statement.setString(2, password);
@@ -252,17 +251,17 @@ class AccessDatabase {
     }
 
     // ---------------------- ENROLL --------------------------
-    static void enrollModule(int studentId, int moduleId) throws SQLException {
+    public static void enrollModule(int studentId, int moduleId) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL ENROLL_MODULE(?, ?)");
         statement.setInt(1, studentId);
         statement.setInt(2, moduleId);
     }
 
-    static JSONArray viewStudentsOfModule(int moduleId) throws SQLException {
+    public static JSONArray viewStudentsOfModule(int moduleId) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL VIEW_STUDENTS_OF_MODULE(?)");
         statement.setInt(1, moduleId);
         ResultSet rs = statement.executeQuery();
-        return convertAll(rs);
+        return Utils.convertAll(rs);
     }
 }
 

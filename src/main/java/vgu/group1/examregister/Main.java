@@ -1,4 +1,4 @@
-package vn.edu.vgu.heroku;
+package vgu.group1.examregister;
 
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.WebAppContext;

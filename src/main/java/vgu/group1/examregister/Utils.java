@@ -1,13 +1,15 @@
-package vn.edu.vgu;
+package vgu.group1.examregister;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.sql.*;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 
-class Utils {
-    static JSONObject convertOne(ResultSet rs, String[] fieldNames) throws SQLException, JSONException {
+public class Utils {
+    public static JSONObject convertOne(ResultSet rs, String[] fieldNames) throws SQLException, JSONException {
         if (!rs.next())
             return null;
 
@@ -45,7 +47,7 @@ class Utils {
                 obj.put(fieldName, rs.getString(i));
             } else if (columnType == java.sql.Types.TIME) {
                 obj.put(fieldName, rs.getString(i));
-            }else if (columnType == java.sql.Types.TIMESTAMP) {
+            } else if (columnType == java.sql.Types.TIMESTAMP) {
                 obj.put(fieldName, rs.getTimestamp(i));
             } else {
                 obj.put(fieldName, rs.getObject(i));
@@ -54,11 +56,11 @@ class Utils {
         return obj;
     }
 
-    static JSONObject convertOne(ResultSet rs) throws SQLException, JSONException {
+    public static JSONObject convertOne(ResultSet rs) throws SQLException, JSONException {
         return convertOne(rs, getFieldNames(rs));
     }
 
-    static JSONArray convertAll(ResultSet rs, String[] fieldNames) throws SQLException, JSONException {
+    public static JSONArray convertAll(ResultSet rs, String[] fieldNames) throws SQLException, JSONException {
         JSONArray jsonArray = new JSONArray();
         if (rs.next()) {
             rs.previous();
@@ -68,7 +70,7 @@ class Utils {
         return jsonArray;
     }
 
-    static JSONArray convertAll(ResultSet rs) throws SQLException, JSONException {
+    public static JSONArray convertAll(ResultSet rs) throws SQLException, JSONException {
         return convertAll(rs, getFieldNames(rs));
     }
 

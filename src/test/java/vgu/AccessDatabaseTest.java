@@ -1,4 +1,4 @@
-package vn.edu.vgu;
+package vgu;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
+import vgu.group1.examregister.database.AccessDatabase;
 
 import java.sql.Date;
 import java.sql.ResultSet;
@@ -17,7 +18,7 @@ import java.util.HashSet;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static vn.edu.vgu.Utils.convertOne;
+import static vgu.group1.examregister.Utils.convertOne;
 
 public class AccessDatabaseTest extends TestWithDatabase {
 

@@ -1,1 +1,1 @@
-web: java -cp target/classes:target/dependency/* vn.edu.vgu.heroku.Main
+web: java -cp target/classes:target/dependency/* vgu.group1.examregister.Main

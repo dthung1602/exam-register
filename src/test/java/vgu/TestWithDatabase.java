@@ -1,14 +1,11 @@
-package vn.edu.vgu;
+package vgu;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 
 import java.io.*;
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 public abstract class TestWithDatabase {
     private static final String HOST = "jdbc:mysql://localhost:3306/examreg";

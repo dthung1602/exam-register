@@ -1,0 +1,25 @@
+package vgu.group1.examregister.database;
+
+import org.json.JSONArray;
+import vgu.group1.examregister.Utils;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import static vgu.group1.examregister.database.Utils.getPreparedStatement;
+
+public class Enroll {
+    public static void enrollModule(int studentId, int moduleId) throws SQLException {
+        PreparedStatement statement = getPreparedStatement("CALL ENROLL_MODULE(?, ?)");
+        statement.setInt(1, studentId);
+        statement.setInt(2, moduleId);
+    }
+
+    public static JSONArray viewStudentsOfModule(int moduleId) throws SQLException {
+        PreparedStatement statement = getPreparedStatement("CALL VIEW_STUDENTS_OF_MODULE(?)");
+        statement.setInt(1, moduleId);
+        ResultSet rs = statement.executeQuery();
+        return Utils.convertAll(rs);
+    }
+}
