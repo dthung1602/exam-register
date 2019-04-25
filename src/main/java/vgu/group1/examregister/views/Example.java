@@ -1,4 +1,4 @@
-package vgu.group1.examregister;
+package vgu.group1.examregister.views;
 
 
 import vgu.group1.examregister.database.AccessDatabase;
@@ -11,10 +11,10 @@ import javax.ws.rs.core.Response;
 import java.sql.SQLException;
 
 /**
- * Root resource (exposed at "/" path)
+ * Root resource (exposed at "/example" path)
  */
-@Path("/")
-public class Index {
+@Path("/example")
+public class Example {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)

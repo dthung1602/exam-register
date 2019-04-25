@@ -116,7 +116,7 @@ public class AccessDatabase {
         return Utils.convertAll(rs, new String[]{"code", "fname", "lname"});
     }
 
-    //A student view his/her registered exam(s) in a given semester
+    //A student views his/her registered exam(s) in a given semester
     public static JSONArray viewRegisteredExam(int studentID) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL STUDENT_VIEW_EXAM(?)");
         statement.setInt(1, studentID);

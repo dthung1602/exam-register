@@ -117,7 +117,7 @@ BEGIN
       AND exam = my_exam;
 END //
 
-# view exam participant list
+# views exam participant list
 CREATE PROCEDURE VIEW_PARTICIPANTS(IN exam_id INT)
 BEGIN
     SELECT S.code, A.fname, A.lname
@@ -128,7 +128,7 @@ BEGIN
     WHERE E.id = exam_id;
 END //
 
-# a student view his/her registered exam(s) in a given semester
+# a student views his/her registered exam(s) in a given semester
 CREATE PROCEDURE STUDENT_VIEW_EXAM(IN my_student INT)
 BEGIN
     SELECT E.id, M.name, E.date, E.start, E.end
@@ -303,7 +303,7 @@ BEGIN
     INSERT INTO ENROLL(student, module) VALUE (student_id, module_id);
 END //
 
-# the assistant view all the student in a given module
+# the assistant views all the student in a given module
 CREATE PROCEDURE VIEW_STUDENTS_OF_MODULE(IN module_id INT)
 BEGIN
     SELECT S.code, A.fname, A.lname
