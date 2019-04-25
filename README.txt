@@ -1,3 +1,25 @@
+hung ng:
+    assistant
+        semester
+        module
+        exam
+tada:
+    assistant
+        session
+        user
+        participant
+
+vth:
+    lecturer
+    student
+    view
+        exam
+
+hung duong
+    the rest
+
+---------------------------
+
 auth
     login
     logout
