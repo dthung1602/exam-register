@@ -1,12 +1,12 @@
 package vgu.group1.examregister.database;
 
 import org.json.JSONArray;
-import vgu.group1.examregister.Utils;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import static vgu.group1.examregister.database.Utils.convertAll;
 import static vgu.group1.examregister.database.Utils.getPreparedStatement;
 
 public class Exam {
@@ -31,7 +31,7 @@ public class Exam {
         PreparedStatement statement = getPreparedStatement("CALL VIEW_PARTICIPANTS(?)");
         statement.setInt(1, examID);
         ResultSet rs = statement.executeQuery();
-        return vgu.group1.examregister.Utils.convertAll(rs, new String[]{"code", "fname", "lname"});
+        return convertAll(rs, new String[]{"code", "fname", "lname"});
     }
 
     //A student views his/her registered exam(s) in a given semester
@@ -39,7 +39,7 @@ public class Exam {
         PreparedStatement statement = getPreparedStatement("CALL STUDENT_VIEW_EXAM(?)");
         statement.setInt(1, studentID);
         ResultSet rs = statement.executeQuery();
-        return Utils.convertAll(rs);
+        return convertAll(rs);
     }
 
 }

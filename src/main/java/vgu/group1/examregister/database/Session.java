@@ -1,10 +1,10 @@
 package vgu.group1.examregister.database;
 
 import org.json.JSONArray;
-import vgu.group1.examregister.Utils;
 
 import java.sql.*;
 
+import static vgu.group1.examregister.database.Utils.convertAll;
 import static vgu.group1.examregister.database.Utils.getPreparedStatement;
 
 public class Session {
@@ -39,7 +39,7 @@ public class Session {
         PreparedStatement statement = getPreparedStatement("CALL LIST_SESSION_STUDENT(?,?)");
         statement.setString(1, studentLname);
         statement.setInt(2, moduleID);
-        return vgu.group1.examregister.Utils.convertAll(statement.executeQuery());
+        return convertAll(statement.executeQuery());
     }
 
     //Check for the number of sessions the given student attends in all modules
@@ -47,7 +47,7 @@ public class Session {
         PreparedStatement statement = getPreparedStatement("CALL LIST_SESSION_IN_MODULES(?)");
         statement.setInt(1, studentID);
         ResultSet rs = statement.executeQuery();
-        return vgu.group1.examregister.Utils.convertAll(rs);
+        return convertAll(rs);
     }
 
     // a student sign a session
@@ -58,11 +58,11 @@ public class Session {
         statement.executeQuery();
     }
 
-    //show session of a given date
+    // show session of a given date
     public static JSONArray showSessionOn(Date date) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL SHOW_SESSION_ON(?)");
         statement.setDate(1, date);
         ResultSet rs = statement.executeQuery();
-        return Utils.convertAll(rs, new String[]{"start", "end", "name", "lname"});
+        return convertAll(rs, new String[]{"start", "end", "name", "lname"});
     }
 }

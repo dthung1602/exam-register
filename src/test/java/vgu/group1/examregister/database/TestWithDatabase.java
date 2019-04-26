@@ -1,26 +1,30 @@
-package vgu;
+package vgu.group1.examregister.database;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import vgu.group1.examregister.Config;
 
 import java.io.*;
 import java.net.URL;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public abstract class TestWithDatabase {
-    private static final String HOST = "jdbc:mysql://localhost:3306/examreg";
-    private static final String USERNAME = "examreguser";
-    private static final String PASSWORD = "whatever123";
-
     static Connection connection;
 
     @BeforeClass
     public static void beforeClass() {
         // setup db connection
         try {
-            connection = DriverManager.getConnection(HOST, USERNAME, PASSWORD);
+            connection = DriverManager.getConnection(
+                    Config.TEST_DB_HOST,
+                    Config.TEST_DB_USERNAME,
+                    Config.TEST_DB_PASSWORD
+            );
         } catch (SQLException e) {
-            System.err.println("Cannot connect to MySQL");
+            System.err.println("Cannot connect to test MySQL database");
             e.printStackTrace();
             System.exit(1);
         }

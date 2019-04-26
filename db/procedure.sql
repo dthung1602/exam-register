@@ -16,6 +16,12 @@ BEGIN
     VALUES (my_start, my_end);
 END //
 
+# read semester
+CREATE PROCEDURE READ_SEMESTER(IN my_id INT)
+BEGIN
+    SELECT * FROM SEMESTER WHERE id = my_id;
+END //
+
 # update semester
 CREATE PROCEDURE UPDATE_SEMESTER(IN semester_id INT,
                                  IN my_start DATE,

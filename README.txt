@@ -1,13 +1,12 @@
 hung ng:
     assistant
-        semester
         module
-        exam
+        user
 tada:
     assistant
+        semester
+        exam
         session
-        user
-        participant
 
 vth:
     lecturer
@@ -20,70 +19,66 @@ hung duong
 
 ---------------------------
 
+/ {g}
+
 auth
-    login
-    logout
+    login {gp}
+    logout {g}
     // change-password
 
 view
     semester
-        /
-        [id]
+        / {gp}
+        [id] {gp}
     modules
-        /
-        [id]
+        / {gp}
+        [id] {gp}
     session
-        /
-        [module id]
+        / {gp}
+        [module id] {gp}
     exam
-        /
-        [id]
+        / {gp}
+        [id] {gp}
 
 assistant
     semester
-        addle
-        [id]/edit
-        delete
+        add {gp}
+        edit/[id] {gpp}
+        delete/[id] {p}
     modules
-        add
-        [id]/edit
-        delete
-        [id]/participants
-            /
-            add
-            delete
-    session
-        add
-        [id]/edit
-        delete
-        [id]/view-attendance
+        add {gp}
+        edit/[id] {gpp}
+        delete/[id] {p}
+        participants/[id]
+            / {gp}
+            add {p}
+            delete {p}
     exam
-        add
-        [id]/edit
-        delete
-        [id]/view-participants
+        add {gp}
+        edit/[id] {gpp}
+        delete/[id] {p}
+        view-participants/[id] {gp}
+    session
+        add {gp}
+        edit/[id] {gpp}
+        delete/[id] {p}
+        view-attendance/[id] {gp}
     user
-        /
-        [id]
-        add
-        [id]/edit
-        delete
+        / {gp}
+        [id] {gp}
+        add {gp}
+        edit {gpp}
+        delete {p}
 
 lecturer
-    modules
-        [id]/view-participants
-    session
-        [id]/view-attendance
-    exam
-        [id]/view-participants
+    module-participants/[id] {gp}
+    session-attendance/[id] {gp}
+    exam-participants/[id] {gp}
 
 student
-    sign
-        /
-    register-exam
-        /
-    deregister-exam
-        /
+    sign {gp}
+    register-exam {gpp}
+    deregister-exam {gpp}
 
 
 
