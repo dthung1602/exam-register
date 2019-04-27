@@ -3,6 +3,7 @@ package vgu.group1.examregister.views.view;
 
 import org.json.JSONObject;
 import vgu.group1.examregister.database.Semester;
+import vgu.group1.examregister.views.BaseView;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -10,10 +11,9 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import static vgu.group1.examregister.views.Utils.getHTMLFile;
 
 @Path("/view/semester/{id}")
-public class Semesters {
+public class Semesters extends BaseView {
 
     @GET
     @Produces(MediaType.TEXT_HTML)
