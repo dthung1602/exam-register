@@ -40,6 +40,7 @@ CREATE PROCEDURE CREATE_SEMESTER(IN my_start DATE,
 BEGIN
     INSERT INTO SEMESTER (start, end)
     VALUES (my_start, my_end);
+    SELECT id, start, end FROM SEMESTER WHERE id = LAST_INSERT_ID();
 END //
 
 # read semester

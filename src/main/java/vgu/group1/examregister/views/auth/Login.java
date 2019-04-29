@@ -57,8 +57,9 @@ public class Login extends BaseView {
 
     private String createJWT(int id, String username, String role) {
         return Jwts.builder()
+                .setAudience("")
                 .claim("username", username)
-                .claim("id", id)
+                .claim("accountId", id)
                 .claim("role", role)
                 .signWith(Config.AUTH_SIGN_ALGO, Config.SECRET_KEY)
                 .compact();

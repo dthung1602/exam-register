@@ -9,6 +9,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URLEncoder;
 
 public class RequireLogin implements Filter {
     @Override
@@ -22,7 +23,7 @@ public class RequireLogin implements Filter {
         final HttpServletResponse response = (HttpServletResponse) res;
 
         Cookie authCookie = null;
-        for (Cookie cookie :request.getCookies())
+        for (Cookie cookie : request.getCookies())
             if (cookie.getName().equals(Config.AUTH_COOKIE_NAME)) {
                 authCookie = cookie;
                 break;
@@ -40,7 +41,7 @@ public class RequireLogin implements Filter {
 
             request.setAttribute("role", claims.get("role", String.class));
             request.setAttribute("accountId", claims.get("accountId", Integer.class));
-            request.setAttribute("username", claims.get("username", Integer.class));
+            request.setAttribute("username", claims.get("username", String.class));
 
         } catch (final Exception e) {
             ((HttpServletResponse) res).sendError(403, "Invalid token");
