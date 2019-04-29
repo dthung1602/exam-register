@@ -4,7 +4,22 @@
          version="3.0">
 
     <display-name>VGU Exam Registration</display-name>
-
+    
+    <servlet>
+        <servlet-name>StaticFileServlet</servlet-name>
+        <servlet-class>org.eclipse.jetty.servlet.DefaultServlet</servlet-class>
+        <init-param>
+            <param-name>resourceBase</param-name>
+            <param-value>src/main/resources</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>StaticFileServlet</servlet-name>
+        <url-pattern>/js/*</url-pattern>
+        <url-pattern>/css/*</url-pattern>
+        <url-pattern>/img/*</url-pattern>
+    </servlet-mapping>
+    
     <servlet>
         <servlet-name>VGUExamRegistration</servlet-name>
         <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
