@@ -1,12 +1,12 @@
 package vgu.group1.examregister.database;
 
 import org.json.JSONArray;
-import vgu.group1.examregister.Utils;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import static vgu.group1.examregister.database.Utils.convertAll;
 import static vgu.group1.examregister.database.Utils.getPreparedStatement;
 
 public class Module {
@@ -42,14 +42,14 @@ public class Module {
         PreparedStatement statement = getPreparedStatement("CALL LIST_MODULE(?)");
         statement.setInt(1, moduleId);
         ResultSet rs = statement.executeQuery();
-        return vgu.group1.examregister.Utils.convertAll(rs);
+        return convertAll(rs);
     }
 
     //List all modules that has overlap sessions
     public static JSONArray listModuleOverlapSessions() throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL LIST_OVERLAP_SESSION()");
         ResultSet rs = statement.executeQuery();
-        return vgu.group1.examregister.Utils.convertAll(rs, new String[]{"date", "code1", "name1", "start1", "end1", "code2", "name2", "start2", "end2"});
+        return convertAll(rs, new String[]{"date", "code1", "name1", "start1", "end1", "code2", "name2", "start2", "end2"});
     }
 
     //List all the modules that a given student has enrolled in
@@ -57,7 +57,6 @@ public class Module {
         PreparedStatement statement = getPreparedStatement("CALL LIST_MODULE_STU_ENROLL(?)");
         statement.setInt(1, studentID);
         ResultSet rs = statement.executeQuery();
-        return Utils.convertAll(rs);
+        return convertAll(rs);
     }
-
 }
