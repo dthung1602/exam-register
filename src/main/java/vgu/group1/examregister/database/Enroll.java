@@ -1,12 +1,12 @@
 package vgu.group1.examregister.database;
 
 import org.json.JSONArray;
-import vgu.group1.examregister.Utils;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import static vgu.group1.examregister.database.Utils.convertAll;
 import static vgu.group1.examregister.database.Utils.getPreparedStatement;
 
 public class Enroll {
@@ -20,6 +20,6 @@ public class Enroll {
         PreparedStatement statement = getPreparedStatement("CALL VIEW_STUDENTS_OF_MODULE(?)");
         statement.setInt(1, moduleId);
         ResultSet rs = statement.executeQuery();
-        return Utils.convertAll(rs);
+        return convertAll(rs);
     }
 }

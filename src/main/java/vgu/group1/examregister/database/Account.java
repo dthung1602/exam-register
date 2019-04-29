@@ -1,12 +1,12 @@
 package vgu.group1.examregister.database;
 
 import org.json.JSONArray;
-import vgu.group1.examregister.Utils;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import static vgu.group1.examregister.database.Utils.convertAll;
 import static vgu.group1.examregister.database.Utils.getPreparedStatement;
 
 public class Account {
@@ -14,7 +14,7 @@ public class Account {
     public static JSONArray listAccount() throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL LIST_ACCOUNT()");
         ResultSet rs = statement.executeQuery();
-        return vgu.group1.examregister.Utils.convertAll(rs);
+        return convertAll(rs);
     }
 
     //List account by a given ID
@@ -22,7 +22,7 @@ public class Account {
         PreparedStatement statement = getPreparedStatement("CALL LIST_ACCOUNT_ID(?)");
         statement.setInt(1, accountID);
         ResultSet rs = statement.executeQuery();
-        return vgu.group1.examregister.Utils.convertAll(rs);
+        return convertAll(rs);
     }
 
     //List account by a given username
@@ -30,7 +30,7 @@ public class Account {
         PreparedStatement statement = getPreparedStatement("CALL LIST_ACCOUNT_USERNAME(?)");
         statement.setString(1, accountUsername);
         ResultSet rs = statement.executeQuery();
-        return Utils.convertAll(rs);
+        return convertAll(rs);
     }
 
     public static void addNewStudent(String username, String password, String lname, String fname, String code) throws SQLException {
