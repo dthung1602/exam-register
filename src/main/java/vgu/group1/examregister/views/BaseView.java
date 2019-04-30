@@ -1,5 +1,7 @@
 package vgu.group1.examregister.views;
 
+import vgu.group1.examregister.Config;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.Context;
 import java.io.File;
@@ -28,6 +30,12 @@ abstract public class BaseView {
     }
 
     protected static String getHTMLFile(String fileName) throws IOException {
+        String template = readHTMLFileContent(Config.HTML_BASE_FILE);
+        String content = readHTMLFileContent(fileName);
+        return template.replace(Config.HTML_CONTENT_MARKER, content);
+    }
+
+    private static String readHTMLFileContent(String fileName) throws IOException {
         // open file
         URL url = classLoader.getResource("html/" + fileName);
         if (url == null)
