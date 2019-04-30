@@ -1,24 +1,20 @@
-package vgu.group1.examregister.database;
+package vgu.group1.examregister;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import vgu.group1.examregister.Config;
 
-import java.sql.*;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Time;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class Utils {
-    private static Connection connection;
-
-    static PreparedStatement getPreparedStatement(String statement) throws SQLException {
-        // first time call this function, init the connection
-        if (connection == null) {
-            connection = DriverManager.getConnection(Config.DB_HOST, Config.DB_USERNAME, Config.DB_PASSWORD);
-        }
-        return connection.prepareStatement(statement);
-    }
-
-    static JSONObject convertOne(ResultSet rs, String[] fieldNames) throws SQLException, JSONException {
+    public static JSONObject convertOne(ResultSet rs, String[] fieldNames) throws SQLException, JSONException {
         if (!rs.next())
             return null;
 
@@ -65,11 +61,11 @@ public class Utils {
         return obj;
     }
 
-    static JSONObject convertOne(ResultSet rs) throws SQLException, JSONException {
+    public static JSONObject convertOne(ResultSet rs) throws SQLException, JSONException {
         return convertOne(rs, getFieldNames(rs));
     }
 
-    static JSONArray convertAll(ResultSet rs, String[] fieldNames) throws SQLException, JSONException {
+    public static JSONArray convertAll(ResultSet rs, String[] fieldNames) throws SQLException, JSONException {
         JSONArray jsonArray = new JSONArray();
         if (rs.next()) {
             rs.previous();
@@ -79,7 +75,7 @@ public class Utils {
         return jsonArray;
     }
 
-    static JSONArray convertAll(ResultSet rs) throws SQLException, JSONException {
+    public static JSONArray convertAll(ResultSet rs) throws SQLException, JSONException {
         return convertAll(rs, getFieldNames(rs));
     }
 
@@ -92,4 +88,19 @@ public class Utils {
         }
         return fieldNames;
     }
+
+//    public static java.sql.Date convertStringtoDate(String dateIn) throws ParseException {
+//        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+//        java.util.Date d = formatter.parse(dateIn);
+//        java.sql.Date dateOut = new java.sql.Date(d.getTime());
+//        return dateOut;
+//    }
+//
+//    public static Time convertStringtoTime(String timeIn) throws ParseException {
+//        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+//        long t = formatter.parse(timeIn).getTime();
+//        Time timeOut = new Time(t);
+//        return timeOut;
+//    }
 }
+

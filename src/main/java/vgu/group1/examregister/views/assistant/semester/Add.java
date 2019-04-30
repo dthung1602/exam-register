@@ -1,6 +1,5 @@
 package vgu.group1.examregister.views.assistant.semester;
 
-
 import vgu.group1.examregister.database.Semester;
 
 import javax.ws.rs.*;
@@ -24,12 +23,11 @@ public class Add {
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response doPost(@FormParam("start-date") String startDate,
-                           @FormParam("end-date") String endDate) throws SQLException {
+    public Response doPost(@FormParam("start-date") Date startDate,
+                           @FormParam("end-date") Date endDate) throws SQLException {
         Semester.createSemester(
-                Date.valueOf(startDate),
-                Date.valueOf(endDate)
+                startDate, endDate
         );
-        return Response.ok("").build();
+        return Response.ok(Semester.viewLastSemester().toString(), MediaType.APPLICATION_JSON).build();
     }
 }

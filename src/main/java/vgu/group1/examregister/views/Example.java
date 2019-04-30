@@ -1,4 +1,4 @@
-package vgu.group1.examregister.views.assistant.exam;
+package vgu.group1.examregister.views;
 
 
 import vgu.group1.examregister.database.AccessDatabase;
@@ -13,9 +13,14 @@ import java.sql.SQLException;
 /**
  * Root resource (exposed at "/example" path)
  */
-@Path("/assistant/exam/viewparticipants")
-public class ViewParticipants {
+@Path("/example")
+public class Example {
 
+//    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+//    public String gotIt() throws SQLException {
+//        return "{}";// AccessDatabase.listModuleOverlapSessions().toString();
+//    }
 
     /**
      * Method handling HTTP GET requests. The returned object will be sent
@@ -23,10 +28,8 @@ public class ViewParticipants {
      *
      * @return String that will be returned as a text/plain response.
      */
-    @Produces(MediaType.APPLICATION_JSON)
     @GET
-    public Response viewParticipants() throws SQLException {
-        int examID = 1;
-        return Response.ok(AccessDatabase.listParticipants(examID).toString(), MediaType.APPLICATION_JSON).build();
+    public Response getIt() throws SQLException {
+        return Response.ok(AccessDatabase.listModuleOverlapSessions().toString(), MediaType.APPLICATION_JSON).build();
     }
 }
