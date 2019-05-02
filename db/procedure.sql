@@ -1,12 +1,52 @@
 USE examreg;
 
-DELETE
-FROM mysql.proc
-WHERE db LIKE 'examreg';
+DROP PROCEDURE IF EXISTS CREATE_SEMESTER;
+DROP PROCEDURE IF EXISTS READ_SEMESTER;
+DROP PROCEDURE IF EXISTS UPDATE_SEMESTER;
+DROP PROCEDURE IF EXISTS LIST_SEMESTER;
+DROP PROCEDURE IF EXISTS VIEW_LAST_SEMESTER;
+DROP PROCEDURE IF EXISTS DELETE_SEMESTER;
+DROP PROCEDURE IF EXISTS CREATE_MODULE;
+DROP PROCEDURE IF EXISTS ASSIGN_LECTURER;
+DROP PROCEDURE IF EXISTS UPDATE_MODULE;
+DROP PROCEDURE IF EXISTS CANCEL_MODULE;
+DROP PROCEDURE IF EXISTS VIEW_A_MODULE;
+DROP PROCEDURE IF EXISTS LIST_ALL_MODULES;
+DROP PROCEDURE IF EXISTS LIST_MODULE_IN_SEMESTER;
+DROP PROCEDURE IF EXISTS LIST_OVERLAP_SESSION;
+DROP PROCEDURE IF EXISTS LIST_MODULE_STU_ENROLL;
+DROP PROCEDURE IF EXISTS VIEW_LAST_MODULE;
+DROP PROCEDURE IF EXISTS REGISTER_EXAM;
+DROP PROCEDURE IF EXISTS UNREGISTER_EXAM;
+DROP PROCEDURE IF EXISTS VIEW_PARTICIPANTS;
+DROP PROCEDURE IF EXISTS STUDENT_VIEW_EXAM;
+DROP PROCEDURE IF EXISTS CREATE_SESSION;
+DROP PROCEDURE IF EXISTS CHANGE_SESSION_TIME;
+DROP PROCEDURE IF EXISTS CANCEL_SESSION;
+DROP PROCEDURE IF EXISTS LIST_SESSION_STUDENT;
+DROP PROCEDURE IF EXISTS LIST_SESSION_IN_MODULES;
+DROP PROCEDURE IF EXISTS SIGN_SESSION;
+DROP PROCEDURE IF EXISTS SHOW_SESSION_ON;
+DROP PROCEDURE IF EXISTS LIST_ACCOUNT;
+DROP PROCEDURE IF EXISTS LIST_ACCOUNT_ID;
+DROP PROCEDURE IF EXISTS LIST_ACCOUNT_USERNAME;
+DROP PROCEDURE IF EXISTS ADD_NEW_STUDENT;
+DROP PROCEDURE IF EXISTS ADD_NEW_LECTURER;
+DROP PROCEDURE IF EXISTS ADD_NEW_ASSISTANT;
+DROP PROCEDURE IF EXISTS UPDATE_LNAME_FNAME;
+DROP PROCEDURE IF EXISTS CHANGE_PASSWORD;
+DROP PROCEDURE IF EXISTS ENROLL_MODULE;
+DROP PROCEDURE IF EXISTS VIEW_STUDENTS_OF_MODULE;
+DROP PROCEDURE IF EXISTS CREATE_EXAM;
+DROP PROCEDURE IF EXISTS CANCEL_EXAM;
+DROP PROCEDURE IF EXISTS EDIT_EXAM;
+DROP PROCEDURE IF EXISTS VIEW_ALL_EXAM;
+DROP PROCEDURE IF EXISTS VIEW_EXAM_WITH_ID;
+DROP PROCEDURE IF EXISTS TRUNCATE_ALL;
 
 DELIMITER //
 
--- ----------------   SEMESTER/MODULE -------------------
+-- ---------------- SEMESTER -------------------
 
 # create new semester
 CREATE PROCEDURE CREATE_SEMESTER(IN my_start DATE,
@@ -14,6 +54,7 @@ CREATE PROCEDURE CREATE_SEMESTER(IN my_start DATE,
 BEGIN
     INSERT INTO SEMESTER (start, end)
     VALUES (my_start, my_end);
+    SELECT id, start, end FROM SEMESTER WHERE id = LAST_INSERT_ID();
 END //
 
 # read semester
@@ -33,13 +74,39 @@ BEGIN
     WHERE id = semester_id;
 END //
 
+<<<<<<< HEAD
 # delete semester
 CREATE PROCEDURE DELETE_SEMESTER(IN semester_id INT)
 
+=======
+# List all semesters
+CREATE PROCEDURE LIST_SEMESTER()
+BEGIN
+    SELECT * FROM SEMESTER;
+END //
+
+# View last semester info
+CREATE PROCEDURE VIEW_LAST_SEMESTER()
+BEGIN
+    SELECT *
+    FROM SEMESTER
+    ORDER BY id DESC
+    LIMIT 1;
+END //
+
+# Delete a Semester
+CREATE PROCEDURE DELETE_SEMESTER(IN semester_id INT)
+>>>>>>> 4f7da09173bbe855406a6363f3a09e5a7ce6901c
 BEGIN
     DELETE FROM SEMESTER WHERE id = semester_id;
 END //
 
+<<<<<<< HEAD
+=======
+-- ---------------- MODULE -------------------
+
+-- ------------------------ MODULE --------------------------
+>>>>>>> 4f7da09173bbe855406a6363f3a09e5a7ce6901c
 # create module
 CREATE PROCEDURE CREATE_MODULE(IN my_name VARCHAR(50),
                                IN my_code VARCHAR(8),
@@ -70,9 +137,30 @@ BEGIN
     WHERE id = my_id;
 END //
 
+<<<<<<< HEAD
+=======
+CREATE PROCEDURE CANCEL_MODULE(IN module_id INT)
+BEGIN
+    DELETE
+    FROM MODULE
+    WHERE id = module_id;
+END //
+
+# View a module's info
+CREATE PROCEDURE VIEW_A_MODULE(IN module_id INT)
+BEGIN
+    SELECT * FROM MODULE WHERE id = module_id;
+END //
+
+# list all of modules
+CREATE PROCEDURE LIST_ALL_MODULES()
+BEGIN
+    SELECT * FROM MODULE;
+END //
+>>>>>>> 4f7da09173bbe855406a6363f3a09e5a7ce6901c
 
 # List all the module of a given semester
-CREATE PROCEDURE LIST_MODULE(IN my_semester INT)
+CREATE PROCEDURE LIST_MODULE_IN_SEMESTER(IN my_semester INT)
 BEGIN
     SELECT id, name, code
     FROM MODULE
@@ -109,6 +197,15 @@ BEGIN
     FROM MODULE M
              JOIN ENROLL E on E.module = M.id
     WHERE E.student = my_student;
+END //
+
+# View last semester info
+CREATE PROCEDURE VIEW_LAST_MODULE()
+BEGIN
+    SELECT *
+    FROM MODULE
+    ORDER BY id DESC
+    LIMIT 1;
 END //
 
 -- -------------------- EXAM REGISTER -----------------------7
@@ -185,6 +282,13 @@ BEGIN
              JOIN EXAM E on ER.exam = E.id
              JOIN MODULE M on E.module = M.id
     WHERE ER.student = my_student;
+END //
+
+CREATE PROCEDURE VIEW_EXAM()
+BEGIN
+    SELECT id, module, date, deadline, start, end
+    FROM EXAM
+    GROUP BY module;
 END //
 
 -- ----------------- SESSION -----------------------------
@@ -270,7 +374,7 @@ END //
 
 -- ------------------------ACCOUNT-----------------------------1
 
--- ---------------    LOGIN    --------------------2
+-- ---------------    LOGIN    --------------------
 # List all the accounts (username + password)
 CREATE PROCEDURE LIST_ACCOUNT()
 BEGIN
@@ -289,9 +393,29 @@ END //
 # List account by a given username
 CREATE PROCEDURE LIST_ACCOUNT_USERNAME(IN my_username VARCHAR(25))
 BEGIN
-    SELECT A.username, A.password
-    FROM ACCOUNT A
-    WHERE A.username = my_username;
+    SET @id := 0;
+
+    SELECT ACC.username,
+           ACC.password,
+           ACC.id
+           INTO @username, @password, @id
+    FROM ACCOUNT ACC
+    WHERE ACC.username = my_username;
+
+    IF @id = 0 THEN
+        SELECT 'id', 'username', 'password', 'role'
+        FROM dual
+        WHERE false;
+    ELSE
+        SET @role = 'student';
+        IF EXISTS(SELECT * FROM ASSISTANT WHERE account = @id) THEN
+            SET @role = 'assistant';
+        ELSEIF EXISTS(SELECT * FROM LECTURER WHERE account = @id) THEN
+            SET @role = 'lecturer';
+        END IF;
+
+        SELECT @id AS 'id', @username AS 'username', @password AS 'password', @role AS 'role';
+    END IF;
 END //
 
 #add a new student
@@ -328,7 +452,7 @@ BEGIN
     INSERT INTO ASSISTANT VALUE (LAST_INSERT_ID());
 END //
 
-# a user  updates his/her account first name, last name base on his/her id
+# a user  updates his/her acecount first name, last name base on his/her id
 CREATE PROCEDURE UPDATE_LNAME_FNAME(IN my_id INT,
                                     IN my_fname VARCHAR(50),
                                     IN my_lname VARCHAR(50))
@@ -365,6 +489,69 @@ BEGIN
              JOIN ACCOUNT A on S.account = A.id
              JOIN MODULE M on E.module = M.id
     WHERE M.id = module_id;
+END //
+
+CREATE PROCEDURE DELETE_STUDENT_IN_MODULE(IN student_id INT,
+                                          IN module_id INT)
+BEGIN
+    DELETE FROM ENROLL
+    WHERE student=student_id AND module = module_id;
+END //
+-- ----------------------ASSISTANT/EXAM--------------
+#The assistant create an exam
+
+CREATE PROCEDURE CREATE_EXAM(IN module_id INT,
+                             IN exam_date DATE,
+                             IN exam_deadline DATE,
+                             IN exam_start TIME,
+                             IN exam_end TIME)
+BEGIN
+    INSERT INTO EXAM(module, date, deadline, start, end)
+    VALUES (module_id, exam_date, exam_deadline, exam_start, exam_end);
+END //
+
+#The assistant cancel an exam
+
+CREATE PROCEDURE CANCEL_EXAM(IN exam_id INT)
+BEGIN
+    DELETE
+    FROM EXAM
+    WHERE id = exam_id;
+END //
+
+#The assistant edit an exam
+DELIMITER //
+CREATE PROCEDURE EDIT_EXAM(IN exam_id INT,
+                           IN module_id INT,
+                           IN exam_date DATE,
+                           IN exam_deadline DATE,
+                           IN exam_start TIME,
+                           IN exam_end TIME)
+
+BEGIN
+    UPDATE EXAM
+    SET module   = module_id,
+        date     = exam_date,
+        deadline = exam_deadline,
+        start    = exam_start,
+        end      = exam_end
+    WHERE id = exam_id;
+END //
+
+-- ------------------------EXAM-------------------
+
+#View all exams list
+CREATE PROCEDURE VIEW_ALL_EXAM()
+BEGIN
+    SELECT * FROM EXAM;
+END //
+
+#View an exam info with module ID
+CREATE PROCEDURE VIEW_EXAM_WITH_ID(IN module_id INT)
+BEGIN
+    SELECT *
+    FROM EXAM
+    WHERE module = module_id;
 END //
 
 -- ------------------------UTILS-----------------------------1

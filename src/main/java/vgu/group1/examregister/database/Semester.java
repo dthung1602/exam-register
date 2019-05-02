@@ -1,9 +1,11 @@
 package vgu.group1.examregister.database;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import static vgu.group1.examregister.database.Utils.convertOne;
@@ -11,11 +13,11 @@ import static vgu.group1.examregister.database.Utils.getPreparedStatement;
 
 public class Semester {
 
-    public static void createSemester(Date startDate, Date endDate) throws SQLException {
+    public static JSONObject createSemester(Date startDate, Date endDate) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL CREATE_SEMESTER(?, ?)");
         statement.setDate(1, startDate);
         statement.setDate(2, endDate);
-        statement.executeQuery();
+        return convertOne(statement.executeQuery());
     }
 
     public static JSONObject readSemester(int semesterId) throws SQLException {
@@ -32,9 +34,24 @@ public class Semester {
         statement.executeQuery();
     }
 
-    public static void deleteSemester(int semesterId) throws SQLException{
+
+    public static JSONArray viewLastSemester() throws SQLException {
+        PreparedStatement statement = getPreparedStatement("CALL VIEW_LAST_SEMESTER()");
+        ResultSet rs = statement.executeQuery();
+        return Utils.convertAll(rs);
+    }
+
+    //List all semesters
+    public static JSONArray listAllSemester() throws SQLException {
+        PreparedStatement statement = getPreparedStatement("CALL LIST_SEMESTER()");
+        ResultSet rs = statement.executeQuery();
+        return Utils.convertAll(rs);
+    }
+
+    // Delete a Semester
+    public static void deleteSemester(int semester_id) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL DELETE_SEMESTER(?)");
-        statement.setInt(1, semesterId);
+        statement.setInt(1, semester_id);
         statement.executeQuery();
     }
 }

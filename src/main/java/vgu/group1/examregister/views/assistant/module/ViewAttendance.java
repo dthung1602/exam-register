@@ -3,6 +3,7 @@ package vgu.group1.examregister.views.assistant.module;
 
 import org.json.JSONArray;
 import vgu.group1.examregister.database.Module;
+import vgu.group1.examregister.views.BaseView;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -10,10 +11,9 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import static vgu.group1.examregister.views.Utils.getHTMLFile;
 
 @Path("/assistant/session/view/{id}")
-public class ViewAttendance{
+public class ViewAttendance extends BaseView {
 
     @GET
     @Produces(MediaType.TEXT_HTML)

@@ -2,20 +2,21 @@ package vgu.group1.examregister.views.assistant.exam;
 
 
 import vgu.group1.examregister.database.Exam;
+import vgu.group1.examregister.views.BaseView;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+
+import java.net.URI;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Time;
 
-import static vgu.group1.examregister.views.Utils.getHTMLFile;
 
 @Path("/assistant/exam/add")
-public class Add {
-
+public class Add extends BaseView {
     @GET
     @Produces(MediaType.TEXT_HTML)
     public Response doGet() throws IOException {
@@ -24,20 +25,13 @@ public class Add {
 
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response doPost(@FormParam("examDate") String examDate,
-                           @FormParam("deadline") String deadline,
-                           @FormParam("moduleId") String id,
-                           @FormParam("start") String start,
-                           @FormParam("end") String end) throws SQLException {
-
-        Exam.addExam(
-                Integer.parseInt(id),
-                Date.valueOf(examDate),
-                Date.valueOf(deadline),
-                Time.valueOf(start),
-                Time.valueOf(end)
-        );
-        return Response.ok("").build();
+    public Response doPost(@FormParam("module-id") int moduleID,
+                           @FormParam("exam-date") Date examDate,
+                           @FormParam("exam-deadline") Date examDeadline,
+                           @FormParam("exam-start") Time examStart,
+                           @FormParam("exam-end") Time examEnd)
+            throws SQLException {
+        Exam.createExam(moduleID, examDate, examDeadline, examStart, examEnd);
+        return Response.seeOther(URI.create("/view/exam")).build();
     }
 }

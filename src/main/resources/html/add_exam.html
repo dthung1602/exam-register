@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+<<<<<<< HEAD
     <title>Add exam</title>
 </head>
 <body>
@@ -55,5 +56,27 @@
         </td>
     </tr>
 </table>
+=======
+    <script src="/js/jquery-3.4.0.min.js"></script>
+    <link href="/css/style.css" rel="stylesheet">
+    <script src="/js/add_exam.js"></script>
+    <title>Add an exam</title>
+</head>
+<body>
+<h2>Add an exam</h2>
+<form method="POST">
+    <label>Module ID:</label> <br/>
+    <input type="number" name="module-id" placeholder="1, 2, 3..."/><br/>
+    <label>Exam date: </label> <br/>
+    <input type="date" name="exam-date" value="2017-01-01"/><br/>
+    <label> Exam deadline: </label><br/>
+    <input type="date" name="exam-deadline" value="2016-12-31"/><br/>
+    <label> Exam start time: </label><br/>
+    <input type="time" name="exam-start" value="08:00:00"/><br/>
+    <label> Exam end time: </label> <br/>
+    <input type="time" name="exam-end" value="10:30:00"/><br/>
+    <input type="submit" onclick="myFunction()" type="button" value="Submit"/>
+</form>
+>>>>>>> 4f7da09173bbe855406a6363f3a09e5a7ce6901c
 </body>
 </html>

@@ -7,15 +7,14 @@ import vgu.group1.examregister.Config;
 
 import java.sql.*;
 
-class Utils {
+public class Utils {
     private static Connection connection;
 
     static PreparedStatement getPreparedStatement(String statement) throws SQLException {
         // first time call this function, init the connection
         if (connection == null) {
-            connection = DriverManager.getConnection(Config.DB_HOST, Config.DB_USERNAME, Config.DB_PASSWORD);
+            connection = DriverManager.getConnection(Config.DB_HOST, Config.DB_USER, Config.DB_PASSWORD);
         }
-
         return connection.prepareStatement(statement);
     }
 

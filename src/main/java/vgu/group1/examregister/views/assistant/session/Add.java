@@ -2,6 +2,7 @@ package vgu.group1.examregister.views.assistant.session;
 
 
 import vgu.group1.examregister.database.Session;
+import vgu.group1.examregister.views.BaseView;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -11,10 +12,9 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Time;
 
-import static vgu.group1.examregister.views.Utils.getHTMLFile;
 
 @Path("/assistant/session/add")
-public class Add {
+public class Add extends BaseView {
 
     @GET
     @Produces(MediaType.TEXT_HTML)
