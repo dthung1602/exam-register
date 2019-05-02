@@ -7,6 +7,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.net.URI;
 import java.sql.SQLException;
 
 @Path("/assistant/module/add")
@@ -26,8 +27,10 @@ public class Add extends BaseView {
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response doPost(@FormParam("module-name") String moduleName, @FormParam("module-code") String moduleCode, @FormParam("semester-id") int semesterID) throws SQLException {
+    public Response doPost(@FormParam("module-name") String moduleName,
+                           @FormParam("module-code") String moduleCode,
+                           @FormParam("semester-id") int semesterID) throws SQLException {
         Module.createModule(moduleName, moduleCode, semesterID);
-        return Response.ok(Module.viewLastModule().toString(), MediaType.APPLICATION_JSON).build();
+        return Response.seeOther(URI.create("/view/module/")).build();
     }
 }

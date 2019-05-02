@@ -7,9 +7,10 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.net.URI;
 import java.sql.SQLException;
 
-@Path("/assistant/module/edit")
+@Path("/assistant/module/edit/{id}")
 public class Edit extends BaseView {
     /**
      * Method handling HTTP GET requests. The returned object will be sent
@@ -25,13 +26,12 @@ public class Edit extends BaseView {
 
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response doPost(@FormParam("module-id") int moduleID,
+    public Response doPost(@PathParam("id") int moduleID,
                            @FormParam("module-name") String moduleName,
                            @FormParam("module-code") String moduleCode,
                            @FormParam("semester-id") int semesterID)
             throws SQLException {
         Module.updateModule(moduleName, moduleCode, semesterID, moduleID);
-        return Response.ok(Module.viewAModule(moduleID).toString(), MediaType.APPLICATION_JSON).build();
+        return Response.seeOther(URI.create("/view/module/")).build();
     }
 }

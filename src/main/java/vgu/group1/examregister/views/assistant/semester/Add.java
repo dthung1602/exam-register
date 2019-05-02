@@ -7,6 +7,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.net.URI;
 import java.sql.Date;
 import java.sql.SQLException;
 
@@ -21,12 +22,9 @@ public class Add extends BaseView {
 
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @Produces(MediaType.APPLICATION_JSON)
     public Response doPost(@FormParam("start-date") Date startDate,
                            @FormParam("end-date") Date endDate) throws SQLException {
-        Semester.createSemester(
-                startDate, endDate
-        );
-        return Response.ok(Semester.viewLastSemester().toString(), MediaType.APPLICATION_JSON).build();
+        Semester.createSemester(startDate, endDate);
+        return Response.seeOther(URI.create("/view/semester")).build();
     }
 }

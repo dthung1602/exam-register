@@ -32,7 +32,7 @@ public class Login extends BaseView {
         JSONObject account = listAccountUsername(username);
         PasswordAuth passwordAuth = new PasswordAuth();
         if (account != null &&
-                passwordAuth.authenticate(password, account.getString("password"))) { // TODO hash password
+                passwordAuth.authenticate(password, account.getString("password"))) {
             String jwt = createJWT(
                     account.getInt("id"),
                     username,

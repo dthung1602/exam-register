@@ -7,10 +7,11 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.net.URI;
 import java.sql.Date;
 import java.sql.SQLException;
 
-@Path("/assistant/semester/edit")
+@Path("/assistant/semester/edit/{id}")
 public class Edit extends BaseView {
 
     @GET
@@ -22,12 +23,10 @@ public class Edit extends BaseView {
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response doPost(@FormParam("semester-id") int semesterID,
+    public Response doPost(@PathParam("id") int semesterID,
                            @FormParam("start-date") Date startDate,
                            @FormParam("end-date") Date endDate) throws SQLException {
-        Semester.updateSemester(
-                semesterID, startDate, endDate
-        );
-        return Response.ok(Semester.viewASemester(semesterID).toString(), MediaType.APPLICATION_JSON).build();
+        Semester.updateSemester(semesterID, startDate, endDate);
+        return Response.seeOther(URI.create("/view/semester/" + semesterID)).build();
     }
 }

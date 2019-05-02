@@ -3,20 +3,28 @@ USE examreg;
 DROP PROCEDURE IF EXISTS CREATE_SEMESTER;
 DROP PROCEDURE IF EXISTS READ_SEMESTER;
 DROP PROCEDURE IF EXISTS UPDATE_SEMESTER;
+DROP PROCEDURE IF EXISTS LIST_SEMESTER;
+DROP PROCEDURE IF EXISTS VIEW_LAST_SEMESTER;
+DROP PROCEDURE IF EXISTS DELETE_SEMESTER;
 DROP PROCEDURE IF EXISTS CREATE_MODULE;
 DROP PROCEDURE IF EXISTS ASSIGN_LECTURER;
 DROP PROCEDURE IF EXISTS UPDATE_MODULE;
-DROP PROCEDURE IF EXISTS LIST_MODULE;
+DROP PROCEDURE IF EXISTS CANCEL_MODULE;
+DROP PROCEDURE IF EXISTS VIEW_A_MODULE;
+DROP PROCEDURE IF EXISTS LIST_ALL_MODULES;
+DROP PROCEDURE IF EXISTS LIST_MODULE_IN_SEMESTER;
 DROP PROCEDURE IF EXISTS LIST_OVERLAP_SESSION;
 DROP PROCEDURE IF EXISTS LIST_MODULE_STU_ENROLL;
+DROP PROCEDURE IF EXISTS VIEW_LAST_MODULE;
 DROP PROCEDURE IF EXISTS REGISTER_EXAM;
 DROP PROCEDURE IF EXISTS UNREGISTER_EXAM;
 DROP PROCEDURE IF EXISTS VIEW_PARTICIPANTS;
 DROP PROCEDURE IF EXISTS STUDENT_VIEW_EXAM;
-DROP PROCEDURE IF EXISTS CANCEL_SESSION;
+DROP PROCEDURE IF EXISTS CREATE_SESSION;
 DROP PROCEDURE IF EXISTS CHANGE_SESSION_TIME;
 DROP PROCEDURE IF EXISTS CANCEL_SESSION;
 DROP PROCEDURE IF EXISTS LIST_SESSION_STUDENT;
+DROP PROCEDURE IF EXISTS LIST_SESSION_IN_MODULES;
 DROP PROCEDURE IF EXISTS SIGN_SESSION;
 DROP PROCEDURE IF EXISTS SHOW_SESSION_ON;
 DROP PROCEDURE IF EXISTS LIST_ACCOUNT;
@@ -29,10 +37,16 @@ DROP PROCEDURE IF EXISTS UPDATE_LNAME_FNAME;
 DROP PROCEDURE IF EXISTS CHANGE_PASSWORD;
 DROP PROCEDURE IF EXISTS ENROLL_MODULE;
 DROP PROCEDURE IF EXISTS VIEW_STUDENTS_OF_MODULE;
+DROP PROCEDURE IF EXISTS CREATE_EXAM;
+DROP PROCEDURE IF EXISTS CANCEL_EXAM;
+DROP PROCEDURE IF EXISTS EDIT_EXAM;
+DROP PROCEDURE IF EXISTS VIEW_ALL_EXAM;
+DROP PROCEDURE IF EXISTS VIEW_EXAM_WITH_ID;
+DROP PROCEDURE IF EXISTS TRUNCATE_ALL;
 
 DELIMITER //
 
--- ----------------   SEMESTER -------------------
+-- ---------------- SEMESTER -------------------
 
 # create new semester
 CREATE PROCEDURE CREATE_SEMESTER(IN my_start DATE,
@@ -61,20 +75,12 @@ BEGIN
 END //
 
 # List all semesters
-
 CREATE PROCEDURE LIST_SEMESTER()
 BEGIN
     SELECT * FROM SEMESTER;
 END //
 
-# View a semester info
-CREATE PROCEDURE VIEW_A_SEMESTER(IN semester_id INT)
-BEGIN
-    SELECT * FROM SEMESTER WHERE id = semester_id;
-END //
-
 # View last semester info
-DELIMITER //
 CREATE PROCEDURE VIEW_LAST_SEMESTER()
 BEGIN
     SELECT *
@@ -84,11 +90,12 @@ BEGIN
 END //
 
 # Delete a Semester
-
 CREATE PROCEDURE DELETE_SEMESTER(IN semester_id INT)
 BEGIN
     DELETE FROM SEMESTER WHERE id = semester_id;
 END //
+
+-- ---------------- MODULE -------------------
 
 -- ------------------------ MODULE --------------------------
 # create module
@@ -128,7 +135,6 @@ BEGIN
     WHERE id = module_id;
 END //
 
-
 # View a module's info
 CREATE PROCEDURE VIEW_A_MODULE(IN module_id INT)
 BEGIN
@@ -140,6 +146,7 @@ CREATE PROCEDURE LIST_ALL_MODULES()
 BEGIN
     SELECT * FROM MODULE;
 END //
+
 # List all the module of a given semester
 CREATE PROCEDURE LIST_MODULE_IN_SEMESTER(IN my_semester INT)
 BEGIN
@@ -181,7 +188,6 @@ BEGIN
 END //
 
 # View last semester info
-DELIMITER //
 CREATE PROCEDURE VIEW_LAST_MODULE()
 BEGIN
     SELECT *
@@ -310,18 +316,18 @@ END //
 
 -- ------------------------ACCOUNT-----------------------------1
 
--- ---------------    LOGIN    --------------------2
-# List all the accounts (username + passwordAuth)
+-- ---------------    LOGIN    --------------------
+# List all the accounts (username + password)
 CREATE PROCEDURE LIST_ACCOUNT()
 BEGIN
-    SELECT username, passwordAuth
+    SELECT username, password
     FROM ACCOUNT;
 END //
 
 # List account by a given ID
 CREATE PROCEDURE LIST_ACCOUNT_ID(IN my_id INT)
 BEGIN
-    SELECT username, passwordAuth
+    SELECT username, password
     FROM ACCOUNT
     WHERE id = my_id;
 END //
@@ -332,14 +338,14 @@ BEGIN
     SET @id := 0;
 
     SELECT ACC.username,
-           ACC.passwordAuth,
+           ACC.password,
            ACC.id
-           INTO @username, @passwordAuth, @id
+           INTO @username, @password, @id
     FROM ACCOUNT ACC
     WHERE ACC.username = my_username;
 
     IF @id = 0 THEN
-        SELECT 'id', 'username', 'passwordAuth', 'role'
+        SELECT 'id', 'username', 'password', 'role'
         FROM dual
         WHERE false;
     ELSE
@@ -350,7 +356,7 @@ BEGIN
             SET @role = 'lecturer';
         END IF;
 
-        SELECT @id AS 'id', @username AS 'username', @passwordAuth AS 'passwordAuth', @role AS 'role';
+        SELECT @id AS 'id', @username AS 'username', @password AS 'password', @role AS 'role';
     END IF;
 END //
 
@@ -361,7 +367,7 @@ CREATE PROCEDURE ADD_NEW_STUDENT(IN my_username VARCHAR(25),
                                  IN my_lname VARCHAR(50),
                                  IN my_code CHAR(8))
 BEGIN
-    INSERT INTO ACCOUNT(username, passwordAuth, fname, lname) VALUE
+    INSERT INTO ACCOUNT(username, password, fname, lname) VALUE
         (my_username, my_password, my_fname, my_lname);
     INSERT INTO STUDENT VALUE (LAST_INSERT_ID(), my_code);
 END //
@@ -372,7 +378,7 @@ CREATE PROCEDURE ADD_NEW_LECTURER(IN my_username VARCHAR(25),
                                   IN my_fname VARCHAR(50),
                                   IN my_lname VARCHAR(50))
 BEGIN
-    INSERT INTO ACCOUNT(username, passwordAuth, fname, lname) VALUE
+    INSERT INTO ACCOUNT(username, password, fname, lname) VALUE
         (my_username, my_password, my_fname, my_lname);
     INSERT INTO LECTURER VALUE (LAST_INSERT_ID());
 END //
@@ -383,7 +389,7 @@ CREATE PROCEDURE ADD_NEW_ASSISTANT(IN my_username VARCHAR(25),
                                    IN my_fname VARCHAR(50),
                                    IN my_lname VARCHAR(50))
 BEGIN
-    INSERT INTO ACCOUNT(username, passwordAuth, fname, lname) VALUE
+    INSERT INTO ACCOUNT(username, password, fname, lname) VALUE
         (my_username, my_password, my_fname, my_lname);
     INSERT INTO ASSISTANT VALUE (LAST_INSERT_ID());
 END //
@@ -399,12 +405,12 @@ BEGIN
     WHERE A.id = my_id;
 END //
 
-# change passwordAuth of a user
+# change password of a user
 CREATE PROCEDURE CHANGE_PASSWORD(IN my_id INT,
                                  IN my_password VARCHAR(128))
 BEGIN
     UPDATE ACCOUNT A
-    SET A.passwordAuth = my_password
+    SET A.password = my_password
     WHERE A.id = my_id;
 END //
 

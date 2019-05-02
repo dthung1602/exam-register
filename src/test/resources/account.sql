@@ -1,4 +1,4 @@
-INSERT INTO ACCOUNT(id, username, passwordAuth, fname, lname)
+INSERT INTO ACCOUNT(id, username, password, fname, lname)
 VALUES (1, 'vth', 'htv', 'tuan hung', 'vu'),
        (2, 'dth', 'htd', 'duong thanh', 'hung'),
        (3, 'nhtd', 'datbede', 'ho tat dat', 'nguyen'),

@@ -19,9 +19,6 @@ public class Semesters extends BaseView {
     @GET
     @Produces(MediaType.TEXT_HTML)
     public Response doGet(@PathParam("id") int id) throws IOException {
-        PasswordAuth passwordAuth = new PasswordAuth();
-        String s = passwordAuth.hash("hello");
-        boolean x = passwordAuth.authenticate("hello", s);
         return Response.ok(getHTMLFile("view_one_semester.html")).build();
     }
 

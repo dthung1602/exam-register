@@ -25,11 +25,11 @@ public class ViewParticipants extends BaseView {
     }
 
     @POST
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response doPost(@FormParam("exam-id") int examID)
             throws SQLException {
         JSONArray participants = Exam.listParticipants(examID);
-        return Response.ok(participants.toString(), MediaType.APPLICATION_JSON).build();
+        return Response.ok(participants.toString()).build();
     }
 }

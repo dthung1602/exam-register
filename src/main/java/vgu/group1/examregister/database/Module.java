@@ -28,7 +28,7 @@ public class Module {
     }
 
     //Cancel/Delete a Module
-    public static void cancelModule(int moduleID) throws SQLException{
+    public static void cancelModule(int moduleID) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL CANCEL_MODULE(?)");
         statement.setInt(1, moduleID);
         statement.executeQuery();
@@ -53,18 +53,19 @@ public class Module {
         return convertAll(rs);
     }
 
-    public static JSONArray viewLastModule() throws  SQLException{
+    public static JSONArray viewLastModule() throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL VIEW_LAST_MODULE()");
         ResultSet rs = statement.executeQuery();
         return Utils.convertAll(rs);
     }
 
     //List all of Modules
-    public static JSONArray listAllModules() throws SQLException{
+    public static JSONArray listAllModules() throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL LIST_ALL_MODULES()");
         ResultSet rs = statement.executeQuery();
         return Utils.convertAll(rs);
     }
+
     //List all modules that has overlap sessions
     public static JSONArray listModuleOverlapSessions() throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL LIST_OVERLAP_SESSION()");
@@ -88,4 +89,11 @@ public class Module {
         return Utils.convertAll(rs);
     }
 
+    public static void addParticipant(int moduleID, int studentID) {
+        // TODO
+    }
+
+    public static void deleteParticipant(int moduleID, int studentID) {
+        // TODO
+    }
 }
