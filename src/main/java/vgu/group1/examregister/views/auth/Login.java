@@ -1,16 +1,22 @@
 package vgu.group1.examregister.views.auth;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import io.jsonwebtoken.Jwts;
+import org.json.JSONObject;
+import vgu.group1.examregister.Config;
+import vgu.group1.examregister.views.BaseView;
+
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.net.URI;
+import java.sql.SQLException;
 
-import static vgu.group1.examregister.views.Utils.getHTMLFile;
+import static vgu.group1.examregister.database.Account.listAccountUsername;
 
 @Path("/auth/login")
-public class Login {
+public class Login extends BaseView {
 
     @GET
     @Produces(MediaType.TEXT_HTML)
@@ -18,7 +24,7 @@ public class Login {
         return Response.ok(getHTMLFile("login.html")).build();
     }
 
-    /*@POST
+    @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.TEXT_HTML)
     public Response doPost(@FormParam("username") String username,
@@ -57,5 +63,5 @@ public class Login {
                 .claim("role", role)
                 .signWith(Config.AUTH_SIGN_ALGO, Config.SECRET_KEY)
                 .compact();
-    }*/
+    }
 }

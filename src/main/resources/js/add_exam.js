@@ -1,9 +1,9 @@
 function addAnExam(){
-    var module_id = document.getElementById("module-id").value;
-    var exam_date = document.getElementById("exam-date").value;
-    var exam_deadline = document.getElementById("exam-deadline").value;
-    var exam_start = document.getElementById("exam-start").value;
-    var exam_end = document.getElementById("exam-end").value;
+    var module_id = $("#module-id").val();
+    var exam_date = $("#exam-date").val();
+    var exam_deadline = $("#exam-deadline").val();
+    var exam_start = $("#exam-start").val();
+    var exam_end = $("#exam-end").val();
 
     // Returns successful data submission message when the entered information is stored in database.
     var dataString = 'module-id=' + module_id + '&exam-date=' + exam_date + '&exam-deadline=' + exam_deadline + '&exam-start=' + exam_start + '&exam-end=' + exam_end;

@@ -2,6 +2,7 @@ package vgu.group1.examregister.views.assistant.exam;
 
 import org.json.JSONArray;
 import vgu.group1.examregister.database.Exam;
+import vgu.group1.examregister.views.BaseView;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -9,10 +10,8 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import static vgu.group1.examregister.views.Utils.getHTMLFile;
-
 @Path("/assistant/exam/view-participants")
-public class ViewParticipants {
+public class ViewParticipants extends BaseView {
     /**
      * Method handling HTTP GET requests. The returned object will be sent
      * to the client as "text/plain" media type.

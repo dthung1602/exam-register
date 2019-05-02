@@ -13,11 +13,11 @@ import static vgu.group1.examregister.database.Utils.getPreparedStatement;
 
 public class Semester {
 
-    public static void createSemester(Date startDate, Date endDate) throws SQLException {
+    public static JSONObject createSemester(Date startDate, Date endDate) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL CREATE_SEMESTER(?, ?)");
         statement.setDate(1, startDate);
         statement.setDate(2, endDate);
-        statement.executeQuery();
+        return convertOne(statement.executeQuery());
     }
 
     public static JSONObject readSemester(int semesterId) throws SQLException {

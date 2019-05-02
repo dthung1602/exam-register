@@ -1,6 +1,7 @@
 package vgu.group1.examregister.views.assistant.semester;
 
 import vgu.group1.examregister.database.Semester;
+import vgu.group1.examregister.views.BaseView;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -9,10 +10,8 @@ import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
 
-import static vgu.group1.examregister.views.Utils.getHTMLFile;
-
 @Path("/assistant/semester/edit")
-public class Edit {
+public class Edit extends BaseView {
 
     @GET
     @Produces(MediaType.TEXT_HTML)

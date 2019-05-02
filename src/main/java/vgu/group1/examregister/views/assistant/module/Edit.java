@@ -1,6 +1,7 @@
 package vgu.group1.examregister.views.assistant.module;
 
 import vgu.group1.examregister.database.Module;
+import vgu.group1.examregister.views.BaseView;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -8,10 +9,8 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import static vgu.group1.examregister.views.Utils.getHTMLFile;
-
 @Path("/assistant/module/edit")
-public class Edit {
+public class Edit extends BaseView {
     /**
      * Method handling HTTP GET requests. The returned object will be sent
      * to the client as "text/plain" media type.
