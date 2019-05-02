@@ -31,4 +31,10 @@ public class Semester {
         statement.setDate(3, endDate);
         statement.executeQuery();
     }
+
+    public static void deleteSemester(int semesterId) throws SQLException{
+        PreparedStatement statement = getPreparedStatement("CALL DELETE_SEMESTER(?)");
+        statement.setInt(1, semesterId);
+        statement.executeQuery();
+    }
 }

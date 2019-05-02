@@ -19,11 +19,12 @@ public class Session {
     }
 
     // change session time
-    public static void changeSessionTime(Time sessionStart, Time sessionEnd, int sessionId) throws SQLException {
-        PreparedStatement statement = getPreparedStatement("CALL CHANGE_SESSION_TIME(?,?,?)");
+    public static void changeSessionTime(Time sessionStart, Time sessionEnd,Date sessionDate, int sessionId) throws SQLException {
+        PreparedStatement statement = getPreparedStatement("CALL CHANGE_SESSION_TIME(?,?,?,?)");
         statement.setTime(1, sessionStart);
         statement.setTime(2, sessionEnd);
-        statement.setInt(3, sessionId);
+        statement.setDate(3, sessionDate);
+        statement.setInt(4, sessionId);
         statement.executeQuery();
     }
 
@@ -65,4 +66,6 @@ public class Session {
         ResultSet rs = statement.executeQuery();
         return convertAll(rs, new String[]{"start", "end", "name", "lname"});
     }
+
+
 }

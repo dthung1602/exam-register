@@ -59,4 +59,11 @@ public class Module {
         ResultSet rs = statement.executeQuery();
         return convertAll(rs);
     }
+
+    public  static JSONArray listSessionAttended(int moduleId) throws SQLException{
+        PreparedStatement statement =getPreparedStatement("CALL LIST_SESSION_ATTENDED(?)");
+        statement.setInt(1, moduleId);
+        ResultSet rs= statement.executeQuery();
+        return  convertAll(rs);
+    }
 }
