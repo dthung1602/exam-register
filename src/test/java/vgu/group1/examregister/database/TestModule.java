@@ -74,7 +74,7 @@ public class TestModule extends TestWithDatabase {
                 new Integer[]{},
         };
         for (int i = 0; i < semesterIds.length; i++) {
-            JSONArray modules = Module.listModules(semesterIds[i]);
+            JSONArray modules = Module.viewAModule(semesterIds[i]);
             assertEquals(expectedModuleIds[i].length, modules.length());
 
             HashSet<Integer> expectedIdSet = new HashSet<>(Arrays.asList(expectedModuleIds[i]));

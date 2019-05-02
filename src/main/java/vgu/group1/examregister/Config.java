@@ -10,7 +10,7 @@ public class Config {
     static final String CONTEXT_PATH = "/";
 
     public final static String DB_HOST = getenvOrDefault("DB_HOST", "jdbc:mysql://localhost:3306/examreg");
-    public final static String DB_USERNAME = getenvOrDefault("DB_USER", "examreguser");
+    public final static String DB_USER = getenvOrDefault("DB_USER", "examreguser");
     public final static String DB_PASSWORD = getenvOrDefault("DB_PASSWORD", "whatever123");
 
     public final static String TEST_DB_HOST = getenvOrDefault("TEST_DB_HOST", "jdbc:mysql://localhost:3306/examreg");

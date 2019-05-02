@@ -32,7 +32,7 @@ DROP PROCEDURE IF EXISTS VIEW_STUDENTS_OF_MODULE;
 
 DELIMITER //
 
--- ----------------   SEMESTER/MODULE -------------------
+-- ----------------   SEMESTER -------------------
 
 # create new semester
 CREATE PROCEDURE CREATE_SEMESTER(IN my_start DATE,
@@ -60,6 +60,37 @@ BEGIN
     WHERE id = semester_id;
 END //
 
+# List all semesters
+
+CREATE PROCEDURE LIST_SEMESTER()
+BEGIN
+    SELECT * FROM SEMESTER;
+END //
+
+# View a semester info
+CREATE PROCEDURE VIEW_A_SEMESTER(IN semester_id INT)
+BEGIN
+    SELECT * FROM SEMESTER WHERE id = semester_id;
+END //
+
+# View last semester info
+DELIMITER //
+CREATE PROCEDURE VIEW_LAST_SEMESTER()
+BEGIN
+    SELECT *
+    FROM SEMESTER
+    ORDER BY id DESC
+    LIMIT 1;
+END //
+
+# Delete a Semester
+
+CREATE PROCEDURE DELETE_SEMESTER(IN semester_id INT)
+BEGIN
+    DELETE FROM SEMESTER WHERE id = semester_id;
+END //
+
+-- ------------------------ MODULE --------------------------
 # create module
 CREATE PROCEDURE CREATE_MODULE(IN my_name VARCHAR(50),
                                IN my_code VARCHAR(8),
@@ -90,8 +121,27 @@ BEGIN
     WHERE id = my_id;
 END //
 
+CREATE PROCEDURE CANCEL_MODULE(IN module_id INT)
+BEGIN
+    DELETE
+    FROM MODULE
+    WHERE id = module_id;
+END //
+
+
+# View a module's info
+CREATE PROCEDURE VIEW_A_MODULE(IN module_id INT)
+BEGIN
+    SELECT * FROM MODULE WHERE id = module_id;
+END //
+
+# list all of modules
+CREATE PROCEDURE LIST_ALL_MODULES()
+BEGIN
+    SELECT * FROM MODULE;
+END //
 # List all the module of a given semester
-CREATE PROCEDURE LIST_MODULE(IN my_semester INT)
+CREATE PROCEDURE LIST_MODULE_IN_SEMESTER(IN my_semester INT)
 BEGIN
     SELECT id, name, code
     FROM MODULE
@@ -128,6 +178,16 @@ BEGIN
     FROM MODULE M
              JOIN ENROLL E on E.module = M.id
     WHERE E.student = my_student;
+END //
+
+# View last semester info
+DELIMITER //
+CREATE PROCEDURE VIEW_LAST_MODULE()
+BEGIN
+    SELECT *
+    FROM MODULE
+    ORDER BY id DESC
+    LIMIT 1;
 END //
 
 -- -------------------- EXAM REGISTER -----------------------7
@@ -365,6 +425,62 @@ BEGIN
              JOIN ACCOUNT A on S.account = A.id
              JOIN MODULE M on E.module = M.id
     WHERE M.id = module_id;
+END //
+-- ----------------------ASSISTANT/EXAM--------------
+#The assistant create an exam
+
+CREATE PROCEDURE CREATE_EXAM(IN module_id INT,
+                             IN exam_date DATE,
+                             IN exam_deadline DATE,
+                             IN exam_start TIME,
+                             IN exam_end TIME)
+BEGIN
+    INSERT INTO EXAM(module, date, deadline, start, end)
+    VALUES (module_id, exam_date, exam_deadline, exam_start, exam_end);
+END //
+
+#The assistant cancel an exam
+
+CREATE PROCEDURE CANCEL_EXAM(IN exam_id INT)
+BEGIN
+    DELETE
+    FROM EXAM
+    WHERE id = exam_id;
+END //
+
+#The assistant edit an exam
+DELIMITER //
+CREATE PROCEDURE EDIT_EXAM(IN exam_id INT,
+                           IN module_id INT,
+                           IN exam_date DATE,
+                           IN exam_deadline DATE,
+                           IN exam_start TIME,
+                           IN exam_end TIME)
+
+BEGIN
+    UPDATE EXAM
+    SET module   = module_id,
+        date     = exam_date,
+        deadline = exam_deadline,
+        start    = exam_start,
+        end      = exam_end
+    WHERE id = exam_id;
+END //
+
+-- ------------------------EXAM-------------------
+
+#View all exams list
+CREATE PROCEDURE VIEW_ALL_EXAM()
+BEGIN
+    SELECT * FROM EXAM;
+END //
+
+#View an exam info with module ID
+CREATE PROCEDURE VIEW_EXAM_WITH_ID(IN module_id INT)
+BEGIN
+    SELECT *
+    FROM EXAM
+    WHERE module = module_id;
 END //
 
 -- ------------------------UTILS-----------------------------1
