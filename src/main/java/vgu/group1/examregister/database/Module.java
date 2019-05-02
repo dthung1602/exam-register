@@ -81,6 +81,12 @@ public class Module {
         return convertAll(rs);
     }
 
+    public  static JSONArray listSessionAttended(int moduleId) throws SQLException {
+        PreparedStatement statement = getPreparedStatement("CALL LIST_SESSION_ATTENDED(?)");
+        statement.setInt(1, moduleId);
+        ResultSet rs = statement.executeQuery();
+        return convertAll(rs);
+    }
     //List Module in a Semester
     public static JSONArray listModulesInSemester(int semesterID) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL LIST_MODULE_IN_SEMESTER(?)");

@@ -24,7 +24,7 @@ DROP PROCEDURE IF EXISTS VIEW_EXAM;
 DROP PROCEDURE IF EXISTS CREATE_SESSION;
 DROP PROCEDURE IF EXISTS CHANGE_SESSION_TIME;
 DROP PROCEDURE IF EXISTS CANCEL_SESSION;
-DROP PROCEDURE IF EXISTS LIST_SESSION_STUDENT;
+DROP PROCEDURE IF EXISTS LIST_SESSION_ATTENDED;
 DROP PROCEDURE IF EXISTS LIST_SESSION_IN_MODULES;
 DROP PROCEDURE IF EXISTS SIGN_SESSION;
 DROP PROCEDURE IF EXISTS SHOW_SESSION_ON;
@@ -98,9 +98,8 @@ BEGIN
     DELETE FROM SEMESTER WHERE id = semester_id;
 END //
 
--- ---------------- MODULE -------------------
-
 -- ------------------------ MODULE --------------------------
+
 # create module
 CREATE PROCEDURE CREATE_MODULE(IN my_name VARCHAR(50),
                                IN my_code VARCHAR(8),
@@ -218,6 +217,41 @@ BEGIN
     WHERE student = my_student
       AND exam = my_exam;
 END //
+#############################################################
+CREATE PROCEDURE ADD_EXAM(IN moduleId INT,
+                          IN examDate DATE,
+                          IN my_deadline DATE,
+                          IN my_start TIME,
+                          IN my_end TIME)
+BEGIN
+    INSERT INTO EXAM(module, date, deadline, start, end) VALUE
+        (moduleId, examDate, my_deadline, my_start, my_end);
+END //
+
+CREATE PROCEDURE DELETE_EXAM(IN examId INT)
+
+BEGIN
+    DELETE
+    FROM EXAM
+    WHERE examId = id;
+END //
+
+CREATE PROCEDURE UPDATE_EXAM(IN examId INT,
+                             IN moduleId INT,
+                             IN examDate DATE,
+                             IN my_deadline DATE,
+                             IN my_start TIME,
+                             IN my_end TIME)
+
+BEGIN
+    UPDATE EXAM
+    SET module   = moduleId,
+        date     = examDate,
+        deadline = my_deadline,
+        start    = my_start,
+        end      = my_end
+    WHERE id = examId;
+END //
 
 # views exam participant list
 CREATE PROCEDURE VIEW_PARTICIPANTS(IN exam_id INT)
@@ -261,11 +295,13 @@ END //
 # change session time
 CREATE PROCEDURE CHANGE_SESSION_TIME(IN my_start TIME,
                                      IN my_end TIME,
+                                     IN my_date DATE,
                                      IN session_id INT)
 BEGIN
     UPDATE SESSION
     SET start = my_start,
-        end   = my_end
+        end   = my_end,
+        date  = my_date
     WHERE id = session_id;
 END //
 
@@ -278,16 +314,18 @@ BEGIN
 END //
 
 # Check for the number of sessions the student "vth" attends in the given module
-CREATE PROCEDURE LIST_SESSION_STUDENT(IN my_lname VARCHAR(50),
-                                      IN my_module INT)
+CREATE PROCEDURE LIST_SESSION_ATTENDED(IN my_module INT)
 BEGIN
-    SELECT COUNT(SI.session) AS 'attendance_count'
+    SELECT COUNT(*) INTO @total_session
+    FROM SESSION
+    WHERE SESSION.module = my_module;
+
+    SELECT STU.account AS 'student_id', COUNT(SI.session) AS 'attendance_count', @total_session AS 'total_session'
     FROM SIGN SI
              JOIN SESSION SE ON SE.id = SI.session
              JOIN STUDENT STU ON SI.student = STU.account
              JOIN ACCOUNT A ON STU.account = A.id
-    WHERE A.lname = my_lname
-      AND SE.module = my_module;
+    WHERE SE.module = my_module;
 END //
 
 # Check for the number of sessions the given student attends in all modules

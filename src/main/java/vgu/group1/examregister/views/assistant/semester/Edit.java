@@ -1,5 +1,6 @@
 package vgu.group1.examregister.views.assistant.semester;
 
+
 import vgu.group1.examregister.database.Semester;
 import vgu.group1.examregister.views.BaseView;
 
@@ -7,6 +8,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+
 import java.net.URI;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -28,5 +30,6 @@ public class Edit extends BaseView {
                            @FormParam("end-date") Date endDate) throws SQLException {
         Semester.updateSemester(semesterID, startDate, endDate);
         return Response.seeOther(URI.create("/view/semester/" + semesterID)).build();
+
     }
 }

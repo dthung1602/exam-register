@@ -41,6 +41,21 @@ public class Exam {
         return convertAll(rs);
     }
 
+    public static void addExam(int moduleID, Date examDate, Date deadline, Time start, Time end) throws SQLException {
+        PreparedStatement statement = getPreparedStatement("CALL ADD_EXAM(?,?,?,?,?)");
+        statement.setInt(1, moduleID);
+        statement.setDate(2, examDate);
+        statement.setDate(3, deadline);
+        statement.setTime(4, start);
+        statement.setTime(5,end);
+        statement.executeQuery();
+    }
+    public static void deleteExam(int examId) throws SQLException{
+        PreparedStatement statement = getPreparedStatement("CALL DELETE_EXAM(?)");
+        statement.setInt(1, examId);
+        statement.executeQuery();
+    }
+
 
     public static JSONArray viewExam() throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL VIEW_EXAM()");
