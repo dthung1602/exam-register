@@ -42,4 +42,10 @@ public class Exam {
         return convertAll(rs);
     }
 
+    public static JSONArray viewExam() throws SQLException {
+        PreparedStatement statement = getPreparedStatement("CALL VIEW_EXAM()");
+        ResultSet rs = statement.executeQuery();
+        return convertAll(rs);
+    }
+
 }

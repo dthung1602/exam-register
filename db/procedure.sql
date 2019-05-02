@@ -144,6 +144,13 @@ BEGIN
     WHERE ER.student = my_student;
 END //
 
+CREATE PROCEDURE VIEW_EXAM()
+BEGIN
+    SELECT id, module, date, deadline, start, end
+    FROM EXAM
+    GROUP BY module;
+END //
+
 -- ----------------- SESSION -----------------------------
 
 # create sessions for given module
@@ -281,7 +288,7 @@ BEGIN
     INSERT INTO ASSISTANT VALUE (LAST_INSERT_ID());
 END //
 
-# a user  updates his/her account first name, last name base on his/her id
+# a user  updates his/her acecount first name, last name base on his/her id
 CREATE PROCEDURE UPDATE_LNAME_FNAME(IN my_id INT,
                                     IN my_fname VARCHAR(50),
                                     IN my_lname VARCHAR(50))
