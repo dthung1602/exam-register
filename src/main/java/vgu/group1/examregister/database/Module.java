@@ -89,11 +89,17 @@ public class Module {
         return Utils.convertAll(rs);
     }
 
-    public static void addParticipant(int moduleID, int studentID) {
-        // TODO
+    public static void addParticipant(int studentID, int moduleID) throws SQLException {
+        PreparedStatement statement = getPreparedStatement("CALL ENROLL_MODULE(?,?)");
+        statement.setInt(1, studentID);
+        statement.setInt(2,moduleID);
+        statement.executeQuery();
     }
 
-    public static void deleteParticipant(int moduleID, int studentID) {
-        // TODO
+    public static void deleteParticipant( int studentID,int moduleID) throws SQLException {
+        PreparedStatement statement = getPreparedStatement("CALL DELETE_STUDENT_IN_MODULE(?,?)");
+        statement.setInt(1, studentID);
+        statement.setInt(2,moduleID);
+        statement.executeQuery();
     }
 }

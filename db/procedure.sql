@@ -439,6 +439,13 @@ BEGIN
              JOIN MODULE M on E.module = M.id
     WHERE M.id = module_id;
 END //
+
+CREATE PROCEDURE DELETE_STUDENT_IN_MODULE(IN student_id INT,
+                                          IN module_id INT)
+BEGIN
+    DELETE FROM ENROLL
+    WHERE student=student_id AND module = module_id;
+END //
 -- ----------------------ASSISTANT/EXAM--------------
 #The assistant create an exam
 

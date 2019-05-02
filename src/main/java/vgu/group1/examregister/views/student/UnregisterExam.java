@@ -1,18 +1,12 @@
 package vgu.group1.examregister.views.student;
 
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 import vgu.group1.examregister.database.Exam;
 import vgu.group1.examregister.views.BaseView;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.io.IOException;
 import java.sql.SQLException;
-
-import static vgu.group1.examregister.views.Utils.getHTMLFile;
 
 @Path("/view/exams/{id}") //TODO
 public class UnregisterExam extends BaseView {
