@@ -21,8 +21,13 @@ public class Config {
     public final static int AUTH_COOKIE_MAX_AGE = 3600 * 24 * 3; // 3 days
     public final static SignatureAlgorithm AUTH_SIGN_ALGO = SignatureAlgorithm.HS256;
 
+    public final static String PASS_ID = "$31$";
+    public final static String PASS_ALGO = "PBKDF2WithHmacSHA1";
+    public final static int PASS_DEFAULT_COST = 8;
+
     public final static String HTML_BASE_FILE = "base.html";
     public final static String HTML_CONTENT_MARKER = "{{}}";
+
 
     private static String getenvOrDefault(String envVarName, String defaultValue) {
         String envVarValue = System.getenv(envVarName);

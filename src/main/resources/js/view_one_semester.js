@@ -4,13 +4,15 @@ function loadOneSemesterSuccess(data) {
     $('#semester-end-date').text(data.end);
 }
 
-$(document).ready(function () {
-    var semesterId = window.location.pathname.split("/")[3];
-     $.ajax({
+$(document).ready(
+    function () {
+        var semesterId = window.location.pathname.split("/")[3];
+        $.ajax({
             url: '/view/semester/' + semesterId,
             type: 'POST',
             dataType: 'json',
             success: loadOneSemesterSuccess,
             error: displayError
         });
-});
+    }
+);

@@ -30,9 +30,9 @@ public class Login extends BaseView {
     public Response doPost(@FormParam("username") String username,
                            @FormParam("password") String password) throws SQLException, IOException {
         JSONObject account = listAccountUsername(username);
+        PasswordAuth passwordAuth = new PasswordAuth();
         if (account != null &&
-                account.getString("username").equals(username) &&
-                account.getString("password").equals(password)) { // TODO hash password
+                passwordAuth.authenticate(password, account.getString("password"))) { // TODO hash password
             String jwt = createJWT(
                     account.getInt("id"),
                     username,

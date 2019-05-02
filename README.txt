@@ -6,10 +6,8 @@ tada:
     assistant
         semester
         exam
-        session
 
 vth:
-    lecturer
     student
     view
         exam
@@ -24,18 +22,13 @@ hung duong
 auth
     login {gp}
     logout {g}
-    // change-password
 
 view
     semester
         / {gp}
-        [id] {gp}
     modules
         / {gp}
         [id] {gp}
-    session
-        / {gp}
-        [module id] {gp}
     exam
         / {gp}
         [id] {gp}
@@ -57,12 +50,7 @@ assistant
         add {gp}
         edit/[id] {gpp}
         delete/[id] {p}
-        view-participants/[id] {gp}
-    session
-        add {gp}
-        edit/[id] {gpp}
-        delete/[id] {p}
-        view-attendance/[id] {gp}
+        participants/[id] {gp}
     user
         / {gp}
         [id] {gp}
@@ -70,15 +58,10 @@ assistant
         edit {gpp}
         delete {p}
 
-lecturer
-    module-participants/[id] {gp}
-    session-attendance/[id] {gp}
-    exam-participants/[id] {gp}
-
 student
     sign {gp}
-    register-exam {gpp}
-    deregister-exam {gpp}
+    register-exam {p}
+    deregister-exam {p}
 
 
 

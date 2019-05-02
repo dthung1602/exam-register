@@ -251,17 +251,17 @@ END //
 -- ------------------------ACCOUNT-----------------------------1
 
 -- ---------------    LOGIN    --------------------2
-# List all the accounts (username + password)
+# List all the accounts (username + passwordAuth)
 CREATE PROCEDURE LIST_ACCOUNT()
 BEGIN
-    SELECT username, password
+    SELECT username, passwordAuth
     FROM ACCOUNT;
 END //
 
 # List account by a given ID
 CREATE PROCEDURE LIST_ACCOUNT_ID(IN my_id INT)
 BEGIN
-    SELECT username, password
+    SELECT username, passwordAuth
     FROM ACCOUNT
     WHERE id = my_id;
 END //
@@ -272,14 +272,14 @@ BEGIN
     SET @id := 0;
 
     SELECT ACC.username,
-           ACC.password,
+           ACC.passwordAuth,
            ACC.id
-           INTO @username, @password, @id
+           INTO @username, @passwordAuth, @id
     FROM ACCOUNT ACC
     WHERE ACC.username = my_username;
 
     IF @id = 0 THEN
-        SELECT 'id', 'username', 'password', 'role'
+        SELECT 'id', 'username', 'passwordAuth', 'role'
         FROM dual
         WHERE false;
     ELSE
@@ -290,7 +290,7 @@ BEGIN
             SET @role = 'lecturer';
         END IF;
 
-        SELECT @id AS 'id', @username AS 'username', @password AS 'password', @role AS 'role';
+        SELECT @id AS 'id', @username AS 'username', @passwordAuth AS 'passwordAuth', @role AS 'role';
     END IF;
 END //
 
@@ -301,7 +301,7 @@ CREATE PROCEDURE ADD_NEW_STUDENT(IN my_username VARCHAR(25),
                                  IN my_lname VARCHAR(50),
                                  IN my_code CHAR(8))
 BEGIN
-    INSERT INTO ACCOUNT(username, password, fname, lname) VALUE
+    INSERT INTO ACCOUNT(username, passwordAuth, fname, lname) VALUE
         (my_username, my_password, my_fname, my_lname);
     INSERT INTO STUDENT VALUE (LAST_INSERT_ID(), my_code);
 END //
@@ -312,7 +312,7 @@ CREATE PROCEDURE ADD_NEW_LECTURER(IN my_username VARCHAR(25),
                                   IN my_fname VARCHAR(50),
                                   IN my_lname VARCHAR(50))
 BEGIN
-    INSERT INTO ACCOUNT(username, password, fname, lname) VALUE
+    INSERT INTO ACCOUNT(username, passwordAuth, fname, lname) VALUE
         (my_username, my_password, my_fname, my_lname);
     INSERT INTO LECTURER VALUE (LAST_INSERT_ID());
 END //
@@ -323,7 +323,7 @@ CREATE PROCEDURE ADD_NEW_ASSISTANT(IN my_username VARCHAR(25),
                                    IN my_fname VARCHAR(50),
                                    IN my_lname VARCHAR(50))
 BEGIN
-    INSERT INTO ACCOUNT(username, password, fname, lname) VALUE
+    INSERT INTO ACCOUNT(username, passwordAuth, fname, lname) VALUE
         (my_username, my_password, my_fname, my_lname);
     INSERT INTO ASSISTANT VALUE (LAST_INSERT_ID());
 END //
@@ -339,12 +339,12 @@ BEGIN
     WHERE A.id = my_id;
 END //
 
-# change password of a user
+# change passwordAuth of a user
 CREATE PROCEDURE CHANGE_PASSWORD(IN my_id INT,
                                  IN my_password VARCHAR(128))
 BEGIN
     UPDATE ACCOUNT A
-    SET A.password = my_password
+    SET A.passwordAuth = my_password
     WHERE A.id = my_id;
 END //
 
