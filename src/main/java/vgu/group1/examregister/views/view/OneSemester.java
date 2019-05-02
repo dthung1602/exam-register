@@ -4,7 +4,6 @@ package vgu.group1.examregister.views.view;
 import org.json.JSONObject;
 import vgu.group1.examregister.database.Semester;
 import vgu.group1.examregister.views.BaseView;
-import vgu.group1.examregister.views.auth.PasswordAuth;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -14,7 +13,7 @@ import java.sql.SQLException;
 
 
 @Path("/view/semester/{id}")
-public class Semesters extends BaseView {
+public class OneSemester extends BaseView {
 
     @GET
     @Produces(MediaType.TEXT_HTML)

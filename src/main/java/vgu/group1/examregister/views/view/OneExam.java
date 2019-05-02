@@ -1,7 +1,6 @@
 package vgu.group1.examregister.views.view;
 
-
-import org.json.JSONArray;
+import org.json.JSONObject;
 import vgu.group1.examregister.database.Exam;
 import vgu.group1.examregister.views.BaseView;
 
@@ -12,20 +11,19 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 
-@Path("/view/exam/")
-public class Exams extends BaseView {
+@Path("/view/exam/{id}")
+public class OneExam extends BaseView {
 
     @GET
     @Produces(MediaType.TEXT_HTML)
     public Response doGet() throws IOException {
-        return Response.ok(getHTMLFile("view_exams.html")).build();
+        return Response.ok(getHTMLFile("view_one_exam.html")).build();
     }
 
     @POST
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response doPost() throws SQLException {
-        JSONArray exam = Exam.viewExam();
+    public Response doPost(@PathParam("id") int examId) throws SQLException {
+        JSONObject exam = Exam.readExam(examId);
         return Response.ok(exam.toString()).build();
     }
 }

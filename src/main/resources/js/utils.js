@@ -10,3 +10,5 @@ function displayError(response, status, error) {
             alert("Unknown error\nPlease try again later");
     }
 }
+
+

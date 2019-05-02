@@ -42,7 +42,7 @@ public class Semester {
 
     //List all semesters
     public static JSONArray listAllSemester() throws SQLException {
-        PreparedStatement statement = getPreparedStatement("CALL LIST_SEMESTER()");
+        PreparedStatement statement = getPreparedStatement("CALL VIEW_ALL_SEMESTER()");
         ResultSet rs = statement.executeQuery();
         return Utils.convertAll(rs);
     }

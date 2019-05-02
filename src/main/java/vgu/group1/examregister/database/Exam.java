@@ -1,6 +1,7 @@
 package vgu.group1.examregister.database;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.sql.*;
 
@@ -59,13 +60,13 @@ public class Exam {
         statement.executeQuery();
     }
 
-    public static void cancelExam (int examID) throws SQLException {
+    public static void cancelExam(int examID) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL CANCEL_EXAM(?)");
         statement.setInt(1, examID);
         statement.executeQuery();
     }
 
-    public static void editExam (int examID, int moduleID, Date examDate, Date examDeadline, Time examStart, Time examEnd) throws SQLException {
+    public static void editExam(int examID, int moduleID, Date examDate, Date examDeadline, Time examStart, Time examEnd) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL EDIT_EXAM (?, ?, ?, ?, ?, ?)");
         statement.setInt(1, examID);
         statement.setInt(2, moduleID);
@@ -92,4 +93,9 @@ public class Exam {
         return Utils.convertAll(rs);
     }
 
+    public static JSONObject readExam(int examId) throws SQLException {
+        PreparedStatement statement = getPreparedStatement("CALL READ_EXAM (?)");
+        statement.setInt(1, examId);
+        return Utils.convertOne(statement.executeQuery());
+    }
 }

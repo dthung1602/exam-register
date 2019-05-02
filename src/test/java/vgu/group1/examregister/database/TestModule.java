@@ -63,25 +63,25 @@ public class TestModule extends TestWithDatabase {
         }
     }
 
-    @Test
-    public void testListModule() throws SQLException, ClassNotFoundException {
-        int[] semesterIds = new int[]{1, 2, 3, 4, 5};
-        Integer[][] expectedModuleIds = new Integer[][]{
-                new Integer[]{1, 2, 3},
-                new Integer[]{4, 5, 6, 7},
-                new Integer[]{8, 9, 10},
-                new Integer[]{11, 12},
-                new Integer[]{},
-        };
-        for (int i = 0; i < semesterIds.length; i++) {
-            JSONArray modules = Module.viewAModule(semesterIds[i]);
-            assertEquals(expectedModuleIds[i].length, modules.length());
-
-            HashSet<Integer> expectedIdSet = new HashSet<>(Arrays.asList(expectedModuleIds[i]));
-            for (int j = 0; j < modules.length(); j++) {
-                int actualId = ((JSONObject) modules.get(j)).getInt("id");
-                assertTrue(expectedIdSet.contains(actualId));
-            }
-        }
-    }
+//    @Test
+//    public void testListModule() throws SQLException {
+//        int[] semesterIds = new int[]{1, 2, 3, 4, 5};
+//        Integer[][] expectedModuleIds = new Integer[][]{
+//                new Integer[]{1, 2, 3},
+//                new Integer[]{4, 5, 6, 7},
+//                new Integer[]{8, 9, 10},
+//                new Integer[]{11, 12},
+//                new Integer[]{},
+//        };
+//        for (int i = 0; i < semesterIds.length; i++) {
+//            JSONArray modules = Module.viewAModule(semesterIds[i]);
+//            assertEquals(expectedModuleIds[i].length, modules.length());
+//
+//            HashSet<Integer> expectedIdSet = new HashSet<>(Arrays.asList(expectedModuleIds[i]));
+//            for (int j = 0; j < modules.length(); j++) {
+//                int actualId = ((JSONObject) modules.get(j)).getInt("id");
+//                assertTrue(expectedIdSet.contains(actualId));
+//            }
+//        }
+//    }
 }

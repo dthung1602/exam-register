@@ -1,26 +1,58 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <script src="/js/jquery-3.4.0.min.js"></script>
-    <link href="/css/style.css" rel="stylesheet">
-    <script src="/js/add_exam.js"></script>
-    <title>Add an exam</title>
-</head>
-<body>
 <h2>Add an exam</h2>
 <form method="POST">
-    <label>Module ID:</label> <br/>
-    <input type="number" name="module-id" placeholder="1, 2, 3..."/><br/>
-    <label>Exam date: </label> <br/>
-    <input type="date" name="exam-date" value="2017-01-01"/><br/>
-    <label> Exam deadline: </label><br/>
-    <input type="date" name="exam-deadline" value="2016-12-31"/><br/>
-    <label> Exam start time: </label><br/>
-    <input type="time" name="exam-start" value="08:00:00"/><br/>
-    <label> Exam end time: </label> <br/>
-    <input type="time" name="exam-end" value="10:30:00"/><br/>
-    <input type="submit" onclick="myFunction()" type="button" value="Submit"/>
+    <div>
+        <label>Module ID:</label>
+        <select name="module-id" id="module-id"></select>
+    </div>
+    <div>
+        <label>Exam date:</label>
+        <input type="date" name="exam-date"/>
+    </div>
+    <div>
+        <label> Exam deadline: </label>
+        <input type="date" name="exam-deadline"/>
+    </div>
+    <div>
+        <label> Exam start time: </label>
+        <input type="time" name="exam-start"/>
+    </div>
+    <div>
+        <label> Exam end time: </label>
+        <input type="time" name="exam-end"/>
+    </div>
+    <input type="submit" value="Submit"/>
 </form>
-</body>
-</html>
+
+<script>
+    function modulesToOptions(modules) {
+        $.ajax({
+            url: '/view/semester/',
+            type: 'POST',
+            success: function (semesters) {
+                var options = "";
+                for (var i = 0; i < semesters.length; i++) {
+                    var semesterLabel = "Sem " + semesters[i].id + " (" + semesters[i].start + " - " + semesters[i].end + ")";
+                    options += "<optgroup label='" + semesterLabel + "'>";
+                    for (var j = 0; j < modules.length; j++) {
+                        if (modules[j].semester === semesters[i].id)
+                            options += "<option value='" + modules[j].id + "'>" + modules[j].name + "</option>"
+                    }
+                    options += "</optgroup>";
+                }
+                $("#module-id").html(options);
+            },
+            error: displayError
+        });
+    }
+
+    $(document).ready(
+        function () {
+            $.ajax({
+                url: '/view/module/',
+                type: 'POST',
+                success: modulesToOptions,
+                error: displayError
+            })
+        }
+    )
+</script>

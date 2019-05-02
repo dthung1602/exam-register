@@ -58,7 +58,7 @@ CREATE TABLE SEMESTER
 CREATE TABLE MODULE
 (
     id       INT AUTO_INCREMENT,
-    name     VARCHAR(50) NOT NULL, #TODO move to another table?
+    name     VARCHAR(50) NOT NULL,
     code     VARCHAR(8)  NOT NULL,
     semester INT         NOT NULL,
     FOREIGN KEY (semester) REFERENCES SEMESTER (id) ON DELETE RESTRICT,

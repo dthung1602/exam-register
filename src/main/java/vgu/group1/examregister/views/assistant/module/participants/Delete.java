@@ -8,7 +8,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.sql.SQLException;
 
-@Path("/assistant/module/{id}/participants/add")
+@Path("/assistant/module/{id}/participants/delete")
 public class Delete extends BaseView {
 
     @POST

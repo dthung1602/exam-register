@@ -9,6 +9,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Time;
 
 abstract public class BaseView {
 
@@ -49,5 +50,9 @@ abstract public class BaseView {
         fis.close();
 
         return new String(data);
+    }
+
+    protected static Time toSQLTime(String timeStr) {
+        return Time.valueOf(timeStr + ":0");
     }
 }

@@ -1,13 +1,13 @@
 package vgu.group1.examregister.database;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import static vgu.group1.examregister.database.Utils.convertAll;
-import static vgu.group1.examregister.database.Utils.getPreparedStatement;
+import static vgu.group1.examregister.database.Utils.*;
 
 public class Module {
     //Create Module
@@ -46,11 +46,11 @@ public class Module {
 
 
     //List Module
-    public static JSONArray viewAModule(int moduleId) throws SQLException {
+    public static JSONObject viewAModule(int moduleId) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL VIEW_A_MODULE (?)");
         statement.setInt(1, moduleId);
         ResultSet rs = statement.executeQuery();
-        return convertAll(rs);
+        return convertOne(rs);
     }
 
     public static JSONArray viewLastModule() throws SQLException {
