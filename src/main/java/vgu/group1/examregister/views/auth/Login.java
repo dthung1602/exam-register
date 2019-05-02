@@ -25,7 +25,7 @@ public class Login {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     public Response doPost(@FormParam("start-date") String startDate,
-                           @FormParam("end-date") String endDate) throws SQLException {
+                           @FormParam("end-date") String endDate) throws SQLException{
         Semester.createSemester(
                 Date.valueOf(startDate),
                 Date.valueOf(endDate)

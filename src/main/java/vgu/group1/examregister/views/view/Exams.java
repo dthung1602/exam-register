@@ -2,7 +2,6 @@ package vgu.group1.examregister.views.view;
 
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 import vgu.group1.examregister.database.Exam;
 
 import javax.ws.rs.*;
@@ -13,7 +12,7 @@ import java.sql.SQLException;
 
 import static vgu.group1.examregister.views.Utils.getHTMLFile;
 
-@Path("/view/Exams/")
+@Path("/view/Exams/") //TODO
 public class Exams {
 
     @GET
@@ -23,6 +22,7 @@ public class Exams {
     }
 
     @POST
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     public Response doPost() throws SQLException {
         JSONArray exam = Exam.viewExam();
