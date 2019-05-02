@@ -1,4 +1,4 @@
-function myFunction(){
+function addAnExam(){
     var module_id = document.getElementById("module-id").value;
     var exam_date = document.getElementById("exam-date").value;
     var exam_deadline = document.getElementById("exam-deadline").value;
@@ -13,8 +13,8 @@ function myFunction(){
     {
         //AJAX code to submit form
         $.ajax({
-            type: "POST",
-            url: ajaxjs.php,
+            url: '/assistant/exam/add',
+            type: 'POST',
             data: dataString,
             cache: false,
             success: function(html) {

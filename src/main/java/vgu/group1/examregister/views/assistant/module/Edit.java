@@ -10,7 +10,7 @@ import java.sql.SQLException;
 
 import static vgu.group1.examregister.views.Utils.getHTMLFile;
 
-@Path("/assistant/module/add")
+@Path("/assistant/module/edit")
 public class Edit {
     /**
      * Method handling HTTP GET requests. The returned object will be sent

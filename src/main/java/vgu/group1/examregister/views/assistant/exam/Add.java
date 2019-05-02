@@ -1,7 +1,6 @@
 package vgu.group1.examregister.views.assistant.exam;
 
 import vgu.group1.examregister.database.Exam;
-import vgu.group1.examregister.database.Module;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -30,7 +29,12 @@ public class Add {
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response doPost(@FormParam("module-id") int moduleID, @FormParam("exam-date") Date examDate, @FormParam("exam-deadline") Date examDeadline, @FormParam("exam-start") Time examStart, @FormParam("exam-end") Time examEnd) throws SQLException {
+    public Response doPost(@FormParam("module-id") int moduleID,
+                           @FormParam("exam-date") Date examDate,
+                           @FormParam("exam-deadline") Date examDeadline,
+                           @FormParam("exam-start") Time examStart,
+                           @FormParam("exam-end") Time examEnd)
+            throws SQLException {
         Exam.createExam(moduleID, examDate, examDeadline, examStart, examEnd);
         return Response.ok(Exam.listAllExam().toString(), MediaType.APPLICATION_JSON).build();
     }

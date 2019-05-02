@@ -20,15 +20,17 @@ public class Edit {
      *
      * @return String that will be returned as a text/plain response.
      */
-    @GET
+
     @Produces(MediaType.TEXT_HTML)
+    @GET
     public Response doGet() throws IOException {
         return Response.ok(getHTMLFile("edit_exam.html")).build();
     }
 
-    @POST
+
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
+    @POST
     public Response doPost(@FormParam("exam-id") int examID,
                            @FormParam("module-id") int moduleID,
                            @FormParam("exam-date") Date examDate,
