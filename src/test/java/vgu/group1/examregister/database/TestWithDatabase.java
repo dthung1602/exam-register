@@ -12,6 +12,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public abstract class TestWithDatabase {
+    private static final String HOST = "jdbc:mysql://localhost:3306/examreg";
+    private static final String USERNAME = "root";
+    private static final String PASSWORD = "Hikari@123";
+
     static Connection connection;
 
     @BeforeClass

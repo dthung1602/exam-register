@@ -2,7 +2,27 @@
 <web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
          version="3.0">
+
     <display-name>VGU Exam Registration</display-name>
+    
+    <servlet>
+        <servlet-name>StaticFileServlet</servlet-name>
+        <servlet-class>org.eclipse.jetty.servlet.DefaultServlet</servlet-class>
+        <init-param>
+            <param-name>resourceBase</param-name>
+            <param-value>src/main/resources</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>StaticFileServlet</servlet-name>
+        <url-pattern>/js/*</url-pattern>
+        <url-pattern>/css/*</url-pattern>
+        <url-pattern>/img/*</url-pattern>
+        <url-pattern>/images/*</url-pattern>
+        <url-pattern>/vendor.bootstrap/*</url-pattern>
+        <url-pattern>/fonts/*</url-pattern>
+    </servlet-mapping>
+    
     <servlet>
         <servlet-name>VGUExamRegistration</servlet-name>
         <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
@@ -16,4 +36,44 @@
         <servlet-name>VGUExamRegistration</servlet-name>
         <url-pattern>/*</url-pattern>
     </servlet-mapping>
+
+    <filter>
+        <filter-name>RequireLogin</filter-name>
+        <filter-class>vgu.group1.examregister.filters.RequireLogin</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>RequireLogin</filter-name>
+        <url-pattern>/view/*</url-pattern>
+        <url-pattern>/assistant/*</url-pattern>
+        <url-pattern>/lecturer/*</url-pattern>
+        <url-pattern>/student/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>AssistantOnly</filter-name>
+        <filter-class>vgu.group1.examregister.filters.AssistantOnly</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AssistantOnly</filter-name>
+        <url-pattern>/assistant/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>LecturerOnly</filter-name>
+        <filter-class>vgu.group1.examregister.filters.LecturerOnly</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>LecturerOnly</filter-name>
+        <url-pattern>/lecturer/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>StudentOnly</filter-name>
+        <filter-class>vgu.group1.examregister.filters.StudentOnly</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>StudentOnly</filter-name>
+        <url-pattern>/student/*</url-pattern>
+    </filter-mapping>
+
 </web-app>
