@@ -42,8 +42,9 @@
     $(document).ready(
         function () {
             $.ajax({
-                url: "/assistant/user/view/lecturer",
-                type: 'POST',
+                url: "/assistant/user/view",
+                type: 'GET',
+                data: {role: 'lecturer'},
                 success: loadLecturerSuccess,
                 error: displayError
             });

@@ -1,0 +1,268 @@
+<h2>USERS</h2>
+
+<button onclick="showNewUserForm()" id="add-user-btn">ADD</button>
+<div id="new-user-form">
+    <div>
+        Role
+        <select name="role" onchange="toggleStudentCodeField()" id="role">
+            <option value="student">Student</option>
+            <option value="lecturer">Lecturer</option>
+            <option value="assistant">Assistant</option>
+        </select>
+    </div>
+    <div>
+        Username
+        <input id="username">
+    </div>
+    <div>
+        Password
+        <input id="password">
+    </div>
+    <div>
+        First name
+        <input id="fname">
+    </div>
+    <div>
+        Last name
+        <input id="lname">
+    </div>
+    <div id="student-code-field">
+        Student code
+        <input id="code">
+    </div>
+    <button onclick="addNewUser()">Add</button>
+</div>
+
+<hr><br>
+
+<button onclick="showTab('student')">Students</button>
+<button onclick="showTab('lecturer')">Lecturers</button>
+<button onclick="showTab('assistant')">Assistant</button>
+
+<hr><br>
+
+<div id="tab-student">
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>First name</th>
+            <th>Last name</th>
+            <th>Student code</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+
+<div id="tab-lecturer">
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>First name</th>
+            <th>Last name</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+
+<div id="tab-assistant">
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>First name</th>
+            <th>Last name</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function getNewUserData() {
+        return {
+            'role': $('#role').val(),
+            'username': $('#username').val(),
+            'password': $('#password').val(),
+            'fname': $('#fname').val(),
+            'lname': $('#lname').val(),
+            'code': $('#code').val()
+        };
+    }
+
+    function addNewUserSuccess(response) {
+        var data = getNewUserData();
+        data.id = response.id;
+
+        $('#role').val('');
+        $('#username').val('');
+        $('#password').val('');
+        $('#fname').val('');
+        $('#lname').val('');
+        $('#code').val('');
+
+        showTab(data.role);
+        $("#tab-" + data.role + " tbody")
+            .prepend(userDataToRow(data, data.role === "student"));
+    }
+
+    function addNewUser() {
+        var data = getNewUserData();
+        $.ajax({
+            url: '/assistant/user/add/',
+            type: 'POST',
+            data: data,
+            success: addNewUserSuccess,
+            error: displayError
+        });
+    }
+
+    function showNewUserForm() {
+        $('#new-user-form').show();
+        $('#add-user-btn').hide();
+    }
+
+    function showTab(role) {
+        $('[id^=tab]').hide();
+        $('#tab-' + role).show();
+    }
+
+    function doneEditUserFunc(id) {
+        return function () {
+            var code = $('#code-' + id).val();
+            var data = {
+                'username': $('#username-' + id).val(),
+                'fname': $('#fname-' + id).val(),
+                'lname': $('#lname-' + id).val(),
+                'code': code
+            };
+            $('#user' + id).html(userDataToRow(data, code !== undefined))
+        }
+    }
+
+    function saveUser(id) {
+        var data = {
+            'username': $('#username-' + id).val(),
+            'fname': $('#fname-' + id).val(),
+            'lname': $('#lname-' + id).val(),
+            'code': $('#code-' + id).val()
+        };
+        console.log(data);
+        $.ajax({
+            url: '/assistant/user/edit/' + id,
+            type: 'POST',
+            data: data,
+            success: doneEditUserFunc(id),
+            error: displayError
+        });
+    }
+
+    function editUser(id) {
+        var row = $('#user' + id);
+        var tds = row.find('td');
+        var username = tds[1].innerText;
+        var fname = tds[2].innerText;
+        var lname = tds[3].innerText;
+        var isStudent = (tds.length === 6);
+        var code = isStudent ? tds[4].innerText : undefined;
+
+        row.html(
+            ("<td>{}</td>" +
+                "<td> <input id='username-{}' value='" + username + "'></td>" +
+                "<td> <input id='fname-{}' value='" + fname + "'></td>" +
+                "<td> <input id='lname-{}' value='" + lname + "'></td>" +
+                (isStudent ? ("<td> <input id='code-{}' value='" + code + "'></td>") : "") +
+                "<td> <button onclick='saveUser({})'>save</button></td>")
+                .replace(/{}/g, id)
+        );
+    }
+
+    function delUser(id) {
+        $.ajax({
+            url: '/assistant/user/delete/' + id,
+            type: 'POST',
+            success: function () {
+                $('#user' + id).remove();
+                alert("User #" + id + " is deleted");
+            },
+            error: displayError
+        });
+    }
+
+    function escapeHTML(string) {
+        return $("<div>").text(string).html()
+    }
+
+    function escapeHTMLUserData(user) {
+        ['fname', 'lname', 'username'].forEach(function (value) {
+            user[value] = escapeHTML(user[value])
+        })
+    }
+
+    function userDataToRow(user, isStudent) {
+        escapeHTMLUserData(user);
+
+        var id = user.id;
+        var editBtn = "<button onclick='editUser(" + id + ")'>edit</button>";
+        var changePassBtn = "<a href='/assistant/user/changepass/" + id + "'><button>change pass</button></a>";
+        var delBtn = "<button onclick='delUser(" + id + ")'>del</button>";
+        return "<tr id='user" + id + "'>" +
+            "<td>" + id + "</td>" +
+            "<td>" + user.username + "</td>" +
+            "<td>" + user.fname + "</td>" +
+            "<td>" + user.lname + "</td>" +
+            (isStudent ? ("<td>" + user.code + "</td>") : "") +
+            "<td>" + editBtn + changePassBtn + delBtn + "</td>" +
+            "</tr>";
+    }
+
+    function loadUserSuccessFunc(role) {
+        return function (data) {
+            var tableBody = "";
+            for (var i = 0; i < data.length; i++)
+                tableBody += userDataToRow(data[i], role === "student");
+            $("#tab-" + role + " tbody").html(tableBody);
+        }
+    }
+
+    function loadUsers() {
+        var roles = ['student', 'lecturer', 'assistant'];
+        for (var i = 0; i < roles.length; i++)
+            $.ajax({
+                url: '/assistant/user/view',
+                type: 'GET',
+                data: {role: roles[i]},
+                success: loadUserSuccessFunc(roles[i]),
+                error: displayError
+            });
+    }
+
+    function toggleStudentCodeField() {
+        var studentCodeFiled = $('#student-code-field');
+        if ($('#role').val() === 'student')
+            studentCodeFiled.show();
+        else
+            studentCodeFiled.hide();
+    }
+
+    $(document).ready(
+        function () {
+            $('#new-user-form').hide();
+            toggleStudentCodeField();
+            loadUsers();
+            showTab('student');
+        }
+    )
+</script>

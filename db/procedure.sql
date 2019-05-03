@@ -47,6 +47,8 @@ DROP PROCEDURE IF EXISTS VIEW_EXAM_WITH_ID;
 DROP PROCEDURE IF EXISTS TRUNCATE_ALL;
 DROP PROCEDURE IF EXISTS READ_EXAM;
 DROP PROCEDURE IF EXISTS LIST_ALL_LECTURERS;
+DROP PROCEDURE IF EXISTS LIST_ALL_STUDENTS;
+DROP PROCEDURE IF EXISTS LIST_ALL_ASSISTANTS;
 DROP PROCEDURE IF EXISTS ADD_EXAM;
 DROP PROCEDURE IF EXISTS UPDATE_EXAM;
 DROP PROCEDURE IF EXISTS DELETE_EXAM;
@@ -428,9 +430,23 @@ END //
 
 CREATE PROCEDURE LIST_ALL_LECTURERS()
 BEGIN
-    SELECT id, fname, lname
+    SELECT id, username, fname, lname
     FROM LECTURER L
              JOIN ACCOUNT A ON L.account = A.id;
+END //
+
+CREATE PROCEDURE LIST_ALL_ASSISTANTS()
+BEGIN
+    SELECT id, username, fname, lname
+    FROM ASSISTANT AST
+    JOIN ACCOUNT A ON AST.account = A.id;
+END //
+
+CREATE PROCEDURE LIST_ALL_STUDENTS()
+BEGIN
+    SELECT id, username, fname, lname, code
+    FROM STUDENT S
+             JOIN ACCOUNT A ON S.account = A.id;
 END //
 
 #add a new student
@@ -442,7 +458,8 @@ CREATE PROCEDURE ADD_NEW_STUDENT(IN my_username VARCHAR(25),
 BEGIN
     INSERT INTO ACCOUNT(username, password, fname, lname) VALUE
         (my_username, my_password, my_fname, my_lname);
-    INSERT INTO STUDENT VALUE (LAST_INSERT_ID(), my_code);
+    INSERT INTO STUDENT(code, account) VALUE (my_code, LAST_INSERT_ID());
+    SELECT LAST_INSERT_ID() AS 'id';
 END //
 
 #add a new lecturer
@@ -454,6 +471,7 @@ BEGIN
     INSERT INTO ACCOUNT(username, password, fname, lname) VALUE
         (my_username, my_password, my_fname, my_lname);
     INSERT INTO LECTURER VALUE (LAST_INSERT_ID());
+    SELECT LAST_INSERT_ID() AS 'id';
 END //
 
 #add a new assistant
@@ -465,6 +483,7 @@ BEGIN
     INSERT INTO ACCOUNT(username, password, fname, lname) VALUE
         (my_username, my_password, my_fname, my_lname);
     INSERT INTO ASSISTANT VALUE (LAST_INSERT_ID());
+    SELECT LAST_INSERT_ID() AS 'id';
 END //
 
 # a user  updates his/her acecount first name, last name base on his/her id

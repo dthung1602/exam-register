@@ -3,6 +3,7 @@ package vgu.group1.examregister.database;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import javax.json.Json;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -33,32 +34,32 @@ public class Account {
         return convertOne(rs);
     }
 
-    public static void addNewStudent(String username, String password, String lname, String fname, String code) throws SQLException {
+    public static JSONObject addNewStudent(String username, String password, String fname, String lname, String code) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL ADD_NEW_STUDENT(?, ?, ?, ?, ?)");
         statement.setString(1, username);
         statement.setString(2, password);
-        statement.setString(3, lname);
-        statement.setString(4, fname);
+        statement.setString(3, fname);
+        statement.setString(4, lname);
         statement.setString(5, code);
-        statement.executeQuery();
+        return convertOne(statement.executeQuery());
     }
 
-    public static void addNewLecturer(String username, String password, String lname, String fname) throws SQLException {
+    public static JSONObject addNewLecturer(String username, String password, String fname, String lname) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL ADD_NEW_LECTURER(?, ?, ?, ?)");
         statement.setString(1, username);
         statement.setString(2, password);
-        statement.setString(3, lname);
-        statement.setString(4, fname);
-        statement.executeQuery();
+        statement.setString(3, fname);
+        statement.setString(4, lname);
+        return convertOne(statement.executeQuery());
     }
 
-    public static void addNewAssistant(String username, String password, String lname, String fname) throws SQLException {
+    public static JSONObject addNewAssistant(String username, String password, String fname, String lname) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL ADD_NEW_ASSISTANT(?, ?, ?, ?)");
         statement.setString(1, username);
         statement.setString(2, password);
-        statement.setString(3, lname);
-        statement.setString(4, fname);
-        statement.executeQuery();
+        statement.setString(3, fname);
+        statement.setString(4, lname);
+        return convertOne(statement.executeQuery());
     }
 
     public static void updateLastNameFirstName(int id, String lname, String fname) throws SQLException {
@@ -78,6 +79,16 @@ public class Account {
 
     public static JSONArray listAllLecturers() throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL LIST_ALL_LECTURERS()");
+        return convertAll(statement.executeQuery());
+    }
+
+    public static JSONArray listAllStudents() throws SQLException {
+        PreparedStatement statement = getPreparedStatement("CALL LIST_ALL_STUDENTS()");
+        return convertAll(statement.executeQuery());
+    }
+
+    public static JSONArray listAllAssistants() throws SQLException {
+        PreparedStatement statement = getPreparedStatement("CALL LIST_ALL_ASSISTANTS()");
         return convertAll(statement.executeQuery());
     }
 }

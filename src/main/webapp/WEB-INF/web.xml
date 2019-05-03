@@ -43,6 +43,7 @@
     </filter>
     <filter-mapping>
         <filter-name>RequireLogin</filter-name>
+        <url-pattern>/</url-pattern>
         <url-pattern>/view/*</url-pattern>
         <url-pattern>/assistant/*</url-pattern>
         <url-pattern>/lecturer/*</url-pattern>

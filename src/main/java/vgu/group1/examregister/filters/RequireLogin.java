@@ -9,7 +9,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.net.URLEncoder;
 
 public class RequireLogin implements Filter {
     @Override
@@ -30,7 +29,10 @@ public class RequireLogin implements Filter {
             }
 
         if (authCookie == null) {
-            response.sendError(403, "Missing Authorization cookie");
+            if (request.getMethod().equals("GET"))
+                response.sendRedirect("/auth/login");
+            else
+                response.sendError(403, "Forbidden");
             return;
         }
 

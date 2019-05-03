@@ -25,7 +25,7 @@ public final class PasswordAuth {
     /**
      * Each token produced by this class uses this identifier as a prefix.
      */
-    private static final String ID = Config.PASS_ID;
+    private static final String ID = "$31$";
 
     /**
      * The minimum recommended cost, used by default
@@ -40,7 +40,7 @@ public final class PasswordAuth {
 
     private final SecureRandom random;
 
-    public PasswordAuth() {
+    PasswordAuth() {
         this.random = new SecureRandom();
     }
 
@@ -111,7 +111,7 @@ public final class PasswordAuth {
      * Authenticate with a password in an immutable {@code String} and a stored
      * password token.
      */
-    public boolean authenticate(String password, String token) {
+    boolean authenticate(String password, String token) {
         return authenticate(password.toCharArray(), token);
     }
 }

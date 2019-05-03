@@ -13,6 +13,7 @@ public class Index extends BaseView {
 
     @GET
     public Response doGet() throws IOException {
-        return Response.ok(getHTMLFile("index.html")).build();
+        String role = getUserRole();
+        return Response.ok(getHTMLFile(role + "/index.html")).build();
     }
 }

@@ -19,6 +19,6 @@ public class Logout extends BaseView {
     @Produces(MediaType.TEXT_HTML)
     public Response doGet() throws IOException {
         NewCookie deleteAuthCookie = new NewCookie(Config.AUTH_COOKIE_NAME, null, "/", null, null, 0, false);
-        return Response.seeOther(URI.create("/")).cookie(deleteAuthCookie).build();
+        return Response.seeOther(URI.create("/auth/login")).cookie(deleteAuthCookie).build();
     }
 }
