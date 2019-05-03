@@ -96,9 +96,9 @@ public class Module {
         return Utils.convertAll(rs);
     }
 
-    public static void addParticipant(int studentID, int moduleID) throws SQLException {
+    public static void addParticipant(String studentCode, int moduleID) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL ENROLL_MODULE(?,?)");
-        statement.setInt(1, studentID);
+        statement.setString(1, studentCode);
         statement.setInt(2, moduleID);
         statement.executeQuery();
     }

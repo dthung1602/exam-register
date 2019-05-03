@@ -123,7 +123,7 @@
         $("#semester-end").text(data.end);
         $("#lecturer").text(data.lecturer);
         $("#edit-btn").html("<a href='/assistant/module/edit/" + data.id + "'>Edit</a>");
-        $("#view-participant-btn").html("<a href='/assistant/module/participants/" + data.id + "'>View Participants</a>");
+        $("#view-participant-btn").html("<a href='/assistant/module/" + data.id + "/participants/'>View Participants</a>");
     }
 
     function loadSessionsInModuleSuccess(data) {

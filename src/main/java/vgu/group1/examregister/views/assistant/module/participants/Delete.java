@@ -12,10 +12,10 @@ import java.sql.SQLException;
 public class Delete extends BaseView {
 
     @POST
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response doPost(@PathParam("id") int moduleID,
                            @FormParam("student-id") int studentID) throws SQLException {
-        Module.deleteParticipant(moduleID, studentID);
+        Module.deleteParticipant(studentID, moduleID);
         return Response.ok().build();
     }
 }

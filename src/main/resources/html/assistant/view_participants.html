@@ -1,0 +1,119 @@
+<div id="module-info">
+    <h2 id="module-name"></h2>
+    <div id="module-code"></div>
+    <div id="semester-start"></div>
+    <div id="semester-end"></div>
+    <div id="lecturer"></div>
+    <div id="edit-btn"></div>
+</div>
+<hr><br>
+<div id="participants">
+    <div>
+        <label>Student code</label>
+        <input name="student-code" id="student-code">
+    </div>
+    <button onclick="addParticipant()">Add</button>
+</div>
+<br>
+<div id="participants-table"></div>
+</div>
+
+<script>
+    function addParticipant() {
+        var moduleID = window.location.pathname.split("/")[3];
+
+        $.ajax({
+            url: "/assistant/module/" + moduleID + "/participants/add",
+            type: 'POST',
+            data: {'student-code': $('#student-code').val()},
+            success: function () {
+                $('#student-code').val('');
+                loadParticipants();
+            },
+            error: displayError
+        });
+    }
+
+    function loadParticipants() {
+        var moduleID = window.location.pathname.split("/")[3];
+        $.ajax({
+            url: '/assistant/module/' + moduleID + '/participants',
+            type: 'POST',
+            success: loadParticipantsSuccess,
+            error: displayError
+        });
+    }
+
+    function delParticipant(studentId, studentCode) {
+        if (!confirm("Are you sure to delete student " + studentCode + " ?"))
+            return;
+        var moduleID = window.location.pathname.split("/")[3];
+
+        $.ajax({
+            url: '/assistant/module/' + moduleID + '/participants/delete',
+            type: 'POST',
+            data: {'student-id': studentId},
+            success: function () {
+                $('#participant' + studentId).remove();
+                alert("Student " + studentCode + " deleted.");
+            },
+            error: displayError
+        });
+    }
+
+    function loadModuleInfoSuccess(data) {
+        console.log(data);
+        $("#module-id").val(data.id);
+        $("#module-name").text(data.name);
+        $("#module-code").text(data.code);
+        $("#semester-start").text(data.start);
+        $("#semester-end").text(data.end);
+        $("#lecturer").text(data.lecturer);
+        $("#edit-btn").html("<a href='/assistant/module/edit/" + data.id + "'>Edit</a>");
+    }
+
+    function loadParticipantsSuccess(data) {
+        var tableBody = "";
+        for (var i = 0; i < data.length; i++) {
+            var sid = data[i].id;
+            var delBtn = "<button onclick='delParticipant(" + sid + "," + data[i].code + ")'>del</button>";
+            tableBody +=
+                "<tr id='participant" + sid + "'>" +
+                "<td>" + data[i].code + "</td>" +
+                "<td>" + data[i].fname + "</td>" +
+                "<td>" + data[i].lname + "</td>" +
+                "<td>" + delBtn + "</td>" +
+                "</tr>"
+        }
+        $("#participants-table").html(
+            "<table>" +
+            "<thead>" +
+            "<tr>" +
+            "<td>Student code</td>" +
+            "<td>First name</td>" +
+            "<td>Last name</td>" +
+            "<td></td>" +
+            "</tr>" +
+            "</thead>" +
+            "<tbody>" +
+            tableBody +
+            "</tbody>" +
+            "</table>"
+        )
+    }
+
+    $(document).ready(
+        function () {
+            var moduleID = window.location.pathname.split("/")[3];
+
+            $.ajax({
+                url: '/view/module/' + moduleID,
+                type: 'POST',
+                success: loadModuleInfoSuccess,
+                error: displayError
+            });
+
+            loadParticipants();
+        }
+    )
+</script>

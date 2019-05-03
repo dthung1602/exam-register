@@ -11,7 +11,7 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.sql.SQLException;
 
-@Path("/assistant/module/participants/{id}")
+@Path("/assistant/module/{id}/participants")
 public class View extends BaseView {
     @GET
     @Produces(MediaType.TEXT_HTML)

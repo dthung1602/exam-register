@@ -12,10 +12,10 @@ import java.sql.SQLException;
 public class Add extends BaseView {
 
     @POST
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response doPost(@PathParam("id") int moduleID,
-                           @FormParam("student-id") int studentID) throws SQLException {
-        Module.addParticipant(moduleID, studentID);
+                           @FormParam("student-code") String studentCode) throws SQLException {
+        Module.addParticipant(studentCode, moduleID);
         return Response.ok().build();
     }
 }

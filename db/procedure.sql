@@ -142,10 +142,10 @@ CREATE PROCEDURE VIEW_A_MODULE(IN module_id INT)
 BEGIN
     SELECT M.id, code, name, semester, start, end, CONCAT(A.fname, ' ', A.lname) AS 'lecturer'
     FROM MODULE M
-    JOIN SEMESTER S on M.semester = S.id
-    JOIN TEACH T on M.id = T.module
-    JOIN LECTURER L on T.lecturer = L.account
-    JOIN ACCOUNT A on L.account = A.id
+             JOIN SEMESTER S on M.semester = S.id
+             JOIN TEACH T on M.id = T.module
+             JOIN LECTURER L on T.lecturer = L.account
+             JOIN ACCOUNT A on L.account = A.id
     WHERE M.id = module_id;
 END //
 
@@ -464,10 +464,13 @@ END //
 
 -- ----------------ENROLL-------------------
 # the assistant enrolls students to a module
-CREATE PROCEDURE ENROLL_MODULE(IN student_id INT,
+CREATE PROCEDURE ENROLL_MODULE(IN student_code INT,
                                IN module_id INT)
 BEGIN
-    INSERT INTO ENROLL(student, module) VALUE (student_id, module_id);
+    SELECT STUDENT.account INTO @student_id
+    FROM STUDENT
+    WHERE STUDENT.code = student_code;
+    INSERT INTO ENROLL(student, module) VALUE (@student_id, module_id);
 END //
 
 # the assistant views all the student in a given module
