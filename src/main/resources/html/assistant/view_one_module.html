@@ -9,11 +9,53 @@
 </div>
 <hr><br>
 <div id="sessions">
-    <a href="/assistant/session/add">ADD</a>
+    <!--    <a href="/assistant/session/add">ADD</a>-->
+    <button id="add-session-btn" onclick="showForm()">Add session</button>
+    <div id="new-session-form">
+        <input type="hidden" name="module-id" id="module-id">
+        <div>
+            <label>Date</label>
+            <input type="date" name="date" id="date">
+        </div>
+        <div>
+            <label>Start</label>
+            <input type="time" name="start" id="start" value="09:00:00" autocomplete="false">
+        </div>
+        <div>
+            <label>End</label>
+            <input type="time" name="end" id="end" value="12:00:00" autocomplete="false">
+        </div>
+        <button onclick="newSession()">Create</button>
+    </div>
+    <br>
     <div id="sessions-table"></div>
 </div>
 
 <script>
+    function newSession() {
+        var data = {};
+        var fields = ['module-id', 'date', 'end', 'start'];
+        for (var i = 0; i < fields.length; i++)
+            data[fields[i]] = $('#' + fields[i]).val();
+        console.log(data);
+        $.ajax({
+            url: "/assistant/session/add",
+            type: 'POST',
+            data: data,
+            success: function () {
+                $('#date').val('');
+                $('#start').val('');
+                $('#end').val('');
+                loadSessions();
+            },
+            error: displayError
+        });
+    }
+
+    function showForm() {
+        $('#new-session-form').show();
+        $('#add-session-btn').hide();
+    }
 
     function loadSessions() {
         var moduleID = window.location.pathname.split("/")[3];
@@ -30,8 +72,8 @@
             date: $('#date-session' + sessionId).val(),
             start: $('#start-session' + sessionId).val(),
             end: $('#end-session' + sessionId).val()
-        }; // TODO
-
+        };
+        console.log(data);
         $.ajax({
             url: '/assistant/session/edit/' + sessionId,
             type: 'POST',
@@ -49,9 +91,9 @@
 
         row.html(
             ("<td> <input type='date' id='date-session{}' value='" + date + "'>" +
-            "<td> <input type='time' id='start-session{}' value='" + start + "'>" +
-            "<td> <input type='time' id='end-session{}' value='" + end + "'>" +
-            "<td> <button onclick='saveSession({})'>save</button></td>")
+                "<td> <input type='time' id='start-session{}' value='" + start + "'>" +
+                "<td> <input type='time' id='end-session{}' value='" + end + "'>" +
+                "<td> <button onclick='saveSession({})'>save</button></td>")
                 .replace(/{}/g, sessionId)
         )
     }
@@ -73,6 +115,8 @@
     }
 
     function loadModuleInfoSuccess(data) {
+        console.log(data);
+        $("#module-id").val(data.id);
         $("#module-name").text(data.name);
         $("#module-code").text(data.code);
         $("#semester-start").text(data.start);
@@ -123,6 +167,7 @@
             });
 
             loadSessions();
+            $('#new-session-form').hide();
         }
     )
 </script>

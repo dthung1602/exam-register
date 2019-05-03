@@ -9,8 +9,6 @@ import javax.ws.rs.core.Response;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Time;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 
 @Path("/assistant/session/edit/{id}")
@@ -24,14 +22,5 @@ public class Edit {
 
         Session.changeSessionTime(start, end, date, sessionId);
         return Response.ok().build();
-    }
-
-    private Date toDate(String str) {
-        SimpleDateFormat format = new SimpleDateFormat("hh:mm:ss");
-        try {
-            return new Date(format.parse(str).getTime());
-        } catch (ParseException e) {
-            return null;
-        }
     }
 }

@@ -2,36 +2,28 @@ package vgu.group1.examregister.views.assistant.session;
 
 
 import vgu.group1.examregister.database.Session;
-import vgu.group1.examregister.views.BaseView;
 
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Time;
 
 
 @Path("/assistant/session/add")
-public class Add extends BaseView {
-
-    @GET
-    @Produces(MediaType.TEXT_HTML)
-    public Response doGet() throws IOException {
-        return Response.ok(getHTMLFile("add_session.html")).build();
-    }
-
+public class Add {
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response doPost(@FormParam("sessionDate") Date sessionDate,
-                           @FormParam("moduleId") int moduleId,
+    public Response doPost(@FormParam("module-id") int moduleId,
+                           @FormParam("date") Date date,
                            @FormParam("start") Time start,
                            @FormParam("end") Time end) throws SQLException {
 
-        Session.createSession(moduleId, sessionDate, start, end);
-        return Response.ok("").build();
+        Session.createSession(moduleId, date, start, end);
+        return Response.ok().build();
     }
-
 }
