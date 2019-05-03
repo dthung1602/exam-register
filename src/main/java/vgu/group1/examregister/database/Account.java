@@ -3,7 +3,6 @@ package vgu.group1.examregister.database;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import javax.json.Json;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,11 +18,11 @@ public class Account {
     }
 
     //List account by a given ID
-    public static JSONArray listAccountId(int accountID) throws SQLException {
+    public static JSONObject listAccountId(int accountID) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL LIST_ACCOUNT_ID(?)");
         statement.setInt(1, accountID);
         ResultSet rs = statement.executeQuery();
-        return convertAll(rs);
+        return convertOne(rs);
     }
 
     //List account by a given username
@@ -62,11 +61,28 @@ public class Account {
         return convertOne(statement.executeQuery());
     }
 
-    public static void updateLastNameFirstName(int id, String lname, String fname) throws SQLException {
-        PreparedStatement statement = getPreparedStatement("CALL UPDATE_LNAME_FNAME(?, ?, ?)");
+    public static void deleteUser(int userId) throws SQLException {
+        PreparedStatement statement = getPreparedStatement("CALL DELETE_USER(?)");
+        statement.setInt(1, userId);
+        statement.executeQuery();
+    }
+
+    public static void updateUser(int id, String username, String fname, String lname) throws SQLException {
+        PreparedStatement statement = getPreparedStatement("CALL UPDATE_USER(?, ?, ?, ?)");
         statement.setInt(1, id);
-        statement.setString(2, lname);
+        statement.setString(2, username);
         statement.setString(3, fname);
+        statement.setString(4, lname);
+        statement.executeQuery();
+    }
+
+    public static void updateStudent(int id, String username, String fname, String lname, String code) throws SQLException {
+        PreparedStatement statement = getPreparedStatement("CALL UPDATE_STUDENT(?, ?, ?, ?, ?)");
+        statement.setInt(1, id);
+        statement.setString(2, username);
+        statement.setString(3, fname);
+        statement.setString(4, lname);
+        statement.setString(5, code);
         statement.executeQuery();
     }
 

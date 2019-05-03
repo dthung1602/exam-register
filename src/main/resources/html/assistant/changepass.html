@@ -1,0 +1,44 @@
+<h2>CHANGE PASSWORD</h2>
+<div>
+    User ID <span id="userID"></span>
+</div>
+<div>
+    New password
+    <input type="password" id="password1">
+</div>
+<div>
+    Confirm password
+    <input type="password" id="password2">
+</div>
+<button onclick="submit()">Submit</button>
+
+<script>
+    function submit() {
+        var pass1 = $('#password1').val();
+        var pass2 = $('#password2').val();
+
+        if (pass1 === "")
+            return alert("Please fill all the fields!");
+
+        if (pass1 !== pass2)
+            return alert("Passwords does not match!");
+
+        $.ajax({
+            url: window.location.pathname,
+            type: 'POST',
+            data: {password: pass1},
+            success: function () {
+                alert("Password changed");
+                $('#password1').val('');
+                $('#password2').val('');
+            },
+            error: displayError
+        });
+    }
+
+    $(document).ready(
+        function () {
+            $("#userID").text(window.location.pathname.split("/")[4])
+        }
+    )
+</script>

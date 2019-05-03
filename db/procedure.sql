@@ -34,7 +34,8 @@ DROP PROCEDURE IF EXISTS LIST_ACCOUNT_USERNAME;
 DROP PROCEDURE IF EXISTS ADD_NEW_STUDENT;
 DROP PROCEDURE IF EXISTS ADD_NEW_LECTURER;
 DROP PROCEDURE IF EXISTS ADD_NEW_ASSISTANT;
-DROP PROCEDURE IF EXISTS UPDATE_LNAME_FNAME;
+DROP PROCEDURE IF EXISTS UPDATE_USER;
+DROP PROCEDURE IF EXISTS UPDATE_STUDENT;
 DROP PROCEDURE IF EXISTS CHANGE_PASSWORD;
 DROP PROCEDURE IF EXISTS ENROLL_MODULE;
 DROP PROCEDURE IF EXISTS VIEW_STUDENTS_OF_MODULE;
@@ -52,6 +53,7 @@ DROP PROCEDURE IF EXISTS LIST_ALL_ASSISTANTS;
 DROP PROCEDURE IF EXISTS ADD_EXAM;
 DROP PROCEDURE IF EXISTS UPDATE_EXAM;
 DROP PROCEDURE IF EXISTS DELETE_EXAM;
+DROP PROCEDURE IF EXISTS DELETE_USER;
 
 
 DELIMITER //
@@ -395,7 +397,14 @@ END //
 # List account by a given ID
 CREATE PROCEDURE LIST_ACCOUNT_ID(IN my_id INT)
 BEGIN
-    SELECT username, password
+    SET @role = 'student';
+    IF EXISTS(SELECT * FROM ASSISTANT WHERE account = my_id) THEN
+        SET @role = 'assistant';
+    ELSEIF EXISTS(SELECT * FROM LECTURER WHERE account = my_id) THEN
+        SET @role = 'lecturer';
+    END IF;
+
+    SELECT username, password, id, @role AS 'role'
     FROM ACCOUNT
     WHERE id = my_id;
 END //
@@ -439,7 +448,7 @@ CREATE PROCEDURE LIST_ALL_ASSISTANTS()
 BEGIN
     SELECT id, username, fname, lname
     FROM ASSISTANT AST
-    JOIN ACCOUNT A ON AST.account = A.id;
+             JOIN ACCOUNT A ON AST.account = A.id;
 END //
 
 CREATE PROCEDURE LIST_ALL_STUDENTS()
@@ -486,15 +495,37 @@ BEGIN
     SELECT LAST_INSERT_ID() AS 'id';
 END //
 
-# a user  updates his/her acecount first name, last name base on his/her id
-CREATE PROCEDURE UPDATE_LNAME_FNAME(IN my_id INT,
-                                    IN my_fname VARCHAR(50),
-                                    IN my_lname VARCHAR(50))
+CREATE PROCEDURE DELETE_USER(IN user_id INT)
+BEGIN
+    DELETE FROM STUDENT WHERE account = user_id;
+    DELETE FROM LECTURER WHERE account = user_id;
+    DELETE FROM ASSISTANT WHERE account = user_id;
+    DELETE FROM ACCOUNT WHERE id = user_id;
+END //
+
+# a user  updates his/her account first name, last name base on his/her id
+CREATE PROCEDURE UPDATE_USER(IN my_id INT,
+                             IN my_username VARCHAR(50),
+                             IN my_fname VARCHAR(50),
+                             IN my_lname VARCHAR(50))
 BEGIN
     UPDATE ACCOUNT A
-    SET A.fname = my_fname,
-        A.lname = my_lname
+    SET A.username = my_username,
+        A.fname    = my_fname,
+        A.lname    = my_lname
     WHERE A.id = my_id;
+END //
+
+CREATE PROCEDURE UPDATE_STUDENT(IN my_id INT,
+                                IN my_username VARCHAR(50),
+                                IN my_fname VARCHAR(50),
+                                IN my_lname VARCHAR(50),
+                                IN my_code VARCHAR(8))
+BEGIN
+    CALL UPDATE_USER(my_id, my_username, my_fname, my_lname);
+    UPDATE STUDENT
+    SET code = my_code
+    WHERE account = my_id;
 END //
 
 # change password of a user

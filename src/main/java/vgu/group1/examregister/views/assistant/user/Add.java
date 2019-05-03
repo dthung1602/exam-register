@@ -3,6 +3,7 @@ package vgu.group1.examregister.views.assistant.user;
 import org.json.JSONObject;
 import vgu.group1.examregister.database.Account;
 import vgu.group1.examregister.views.BaseView;
+import vgu.group1.examregister.views.auth.PasswordAuth;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -21,6 +22,7 @@ public class Add extends BaseView {
                            @FormParam("lname") String lname,
                            @FormParam("code") String code) throws SQLException {
         JSONObject result;
+        password = (new PasswordAuth()).hash(password);
         switch (role) {
             case "student":
                 result = Account.addNewStudent(username, password, fname, lname, code);
