@@ -1,0 +1,52 @@
+<h2>EDIT MODULE</h2>
+<form method="POST">
+    Module name: <br/>
+    <input type="text" name="module-name" id="module-name"/><br/>
+    Module code: <br/>
+    <input type="text" name="module-code" id="module-code"/><br>
+    <div>Lecturer</div>
+    <select name="lecturer" id="lecturer"></select>
+    <div>Semester start: <span id="start"></span></div>
+    <div>Semester end: <span id="end"></span></div>
+    <input type="submit" value="submit"/>
+</form>
+
+<script>
+    function loadModuleInfoSuccess(data) {
+        $('#module-name').val(data.name);
+        $('#module-code').val(data.code);
+        $('#lecturer').val(data.lecturer_id);
+        $('#start').text(data.start);
+        $('#end').text(data.end);
+    }
+
+    function loadLecturerSuccess(data) {
+        var options = "";
+        for (var i = 0; i < data.length; i++) {
+            options +=
+                "<option value='" + data[i].id + "'>" +
+                data[i].fname + " " + data[i].lname +
+                "</option>"
+        }
+        $('#lecturer').html(options);
+
+        var moduleID = window.location.pathname.split("/")[4];
+        $.ajax({
+            url: "/view/module/" + moduleID,
+            type: 'POST',
+            success: loadModuleInfoSuccess,
+            error: displayError
+        });
+    }
+
+    $(document).ready(
+        function () {
+            $.ajax({
+                url: "/assistant/user/view/lecturer",
+                type: 'POST',
+                success: loadLecturerSuccess,
+                error: displayError
+            });
+        }
+    )
+</script>

@@ -75,4 +75,9 @@ public class Account {
         statement.setString(2, password);
         statement.executeQuery();
     }
+
+    public static JSONArray listAllLecturers() throws SQLException {
+        PreparedStatement statement = getPreparedStatement("CALL LIST_ALL_LECTURERS()");
+        return convertAll(statement.executeQuery());
+    }
 }

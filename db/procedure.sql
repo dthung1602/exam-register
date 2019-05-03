@@ -46,6 +46,11 @@ DROP PROCEDURE IF EXISTS VIEW_ALL_EXAM;
 DROP PROCEDURE IF EXISTS VIEW_EXAM_WITH_ID;
 DROP PROCEDURE IF EXISTS TRUNCATE_ALL;
 DROP PROCEDURE IF EXISTS READ_EXAM;
+DROP PROCEDURE IF EXISTS LIST_ALL_LECTURERS;
+DROP PROCEDURE IF EXISTS ADD_EXAM;
+DROP PROCEDURE IF EXISTS UPDATE_EXAM;
+DROP PROCEDURE IF EXISTS DELETE_EXAM;
+
 
 DELIMITER //
 
@@ -120,14 +125,19 @@ END //
 # update module
 CREATE PROCEDURE UPDATE_MODULE(IN my_name VARCHAR(50),
                                IN my_code VARCHAR(8),
-                               IN my_semester INT,
-                               IN my_id INT)
+                               IN lecturer_id INT,
+                               IN module_id INT)
 BEGIN
     UPDATE MODULE
-    SET name     = my_name,
-        semester = my_semester,
-        code     = my_code
-    WHERE id = my_id;
+    SET name = my_name,
+        code = my_code
+    WHERE id = module_id;
+
+    DELETE FROM TEACH WHERE TEACH.module = module_id;
+
+    INSERT INTO TEACH
+    VALUES (module_id, lecturer_id);
+
 END //
 
 CREATE PROCEDURE CANCEL_MODULE(IN module_id INT)
@@ -140,7 +150,14 @@ END //
 # View a module's info
 CREATE PROCEDURE VIEW_A_MODULE(IN module_id INT)
 BEGIN
-    SELECT M.id, code, name, semester, start, end, CONCAT(A.fname, ' ', A.lname) AS 'lecturer'
+    SELECT M.id,
+           code,
+           name,
+           semester,
+           start,
+           end,
+           CONCAT(A.fname, ' ', A.lname) AS 'lecturer',
+           CONCAT(A.id, '')              AS 'lecturer_id'
     FROM MODULE M
              JOIN SEMESTER S on M.semester = S.id
              JOIN TEACH T on M.id = T.module
@@ -223,6 +240,7 @@ BEGIN
     WHERE student = my_student
       AND exam = my_exam;
 END //
+
 #############################################################
 CREATE PROCEDURE ADD_EXAM(IN moduleId INT,
                           IN examDate DATE,
@@ -408,6 +426,13 @@ BEGIN
     END IF;
 END //
 
+CREATE PROCEDURE LIST_ALL_LECTURERS()
+BEGIN
+    SELECT id, fname, lname
+    FROM LECTURER L
+             JOIN ACCOUNT A ON L.account = A.id;
+END //
+
 #add a new student
 CREATE PROCEDURE ADD_NEW_STUDENT(IN my_username VARCHAR(25),
                                  IN my_password VARCHAR(128),
@@ -491,7 +516,9 @@ BEGIN
     WHERE student = student_id
       AND module = module_id;
 END //
+
 -- ----------------------ASSISTANT/EXAM--------------
+
 #The assistant create an exam
 
 CREATE PROCEDURE CREATE_EXAM(IN module_id INT,
@@ -514,7 +541,6 @@ BEGIN
 END //
 
 #The assistant edit an exam
-DELIMITER //
 CREATE PROCEDURE EDIT_EXAM(IN exam_id INT,
                            IN module_id INT,
                            IN exam_date DATE,

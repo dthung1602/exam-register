@@ -21,7 +21,7 @@ public class Edit extends BaseView {
     @GET
     @Produces(MediaType.TEXT_HTML)
     public Response doGet() throws IOException {
-        return Response.ok(getHTMLFile("edit_module.html")).build();
+        return Response.ok(getHTMLFile("assistant/edit_module.html")).build();
     }
 
     @POST
@@ -29,9 +29,9 @@ public class Edit extends BaseView {
     public Response doPost(@PathParam("id") int moduleID,
                            @FormParam("module-name") String moduleName,
                            @FormParam("module-code") String moduleCode,
-                           @FormParam("semester-id") int semesterID)
+                           @FormParam("lecturer") int lecturerId)
             throws SQLException {
-        Module.updateModule(moduleName, moduleCode, semesterID, moduleID);
-        return Response.seeOther(URI.create("/view/module/")).build();
+        Module.updateModule(moduleName, moduleCode, lecturerId, moduleID);
+        return Response.seeOther(URI.create("/view/module/" + moduleID)).build();
     }
 }

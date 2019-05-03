@@ -35,15 +35,14 @@ public class Module {
     }
 
     //Update Module
-    public static void updateModule(String moduleName, String moduleCode, int semesterID, int moduleID) throws SQLException {
+    public static void updateModule(String moduleName, String moduleCode, int lecturerID, int moduleID) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL UPDATE_MODULE(?, ?, ?, ?)");
         statement.setString(1, moduleName);
         statement.setString(2, moduleCode);
-        statement.setInt(3, semesterID);
+        statement.setInt(3, lecturerID);
         statement.setInt(4, moduleID);
         statement.executeQuery();
     }
-
 
     //List Module
     public static JSONObject viewModule(int moduleId) throws SQLException {
