@@ -44,9 +44,9 @@ public class Session {
     }
 
     //Check for the number of sessions the given student attends in all modules
-    public static JSONArray listSessionInModules(int studentID) throws SQLException {
-        PreparedStatement statement = getPreparedStatement("CALL LIST_SESSION_IN_MODULES(?)");
-        statement.setInt(1, studentID);
+    public static JSONArray listSessionInModule(int moduleID) throws SQLException {
+        PreparedStatement statement = getPreparedStatement("CALL LIST_SESSION_IN_MODULE(?)");
+        statement.setInt(1, moduleID);
         ResultSet rs = statement.executeQuery();
         return convertAll(rs);
     }

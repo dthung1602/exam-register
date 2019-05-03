@@ -1,0 +1,128 @@
+<div id="module-info">
+    <h2 id="module-name"></h2>
+    <div id="module-code"></div>
+    <div id="semester-start"></div>
+    <div id="semester-end"></div>
+    <div id="lecturer"></div>
+    <div id="edit-btn"></div>
+    <div id="view-participant-btn"></div>
+</div>
+<hr><br>
+<div id="sessions">
+    <a href="/assistant/session/add">ADD</a>
+    <div id="sessions-table"></div>
+</div>
+
+<script>
+
+    function loadSessions() {
+        var moduleID = window.location.pathname.split("/")[3];
+        $.ajax({
+            url: "/assistant/session/" + moduleID,
+            type: 'POST',
+            success: loadSessionsInModuleSuccess,
+            error: displayError
+        });
+    }
+
+    function saveSession(sessionId) {
+        var data = {
+            date: $('#date-session' + sessionId).val(),
+            start: $('#start-session' + sessionId).val(),
+            end: $('#end-session' + sessionId).val()
+        }; // TODO
+
+        $.ajax({
+            url: '/assistant/session/edit/' + sessionId,
+            type: 'POST',
+            data: data,
+            success: loadSessions,
+            error: displayError
+        });
+    }
+
+    function editSession(sessionId) {
+        var row = $('#session' + sessionId);
+        var date = row.find('td')[0].innerText;
+        var start = row.find('td')[1].innerText;
+        var end = row.find('td')[2].innerText;
+
+        row.html(
+            ("<td> <input type='date' id='date-session{}' value='" + date + "'>" +
+            "<td> <input type='time' id='start-session{}' value='" + start + "'>" +
+            "<td> <input type='time' id='end-session{}' value='" + end + "'>" +
+            "<td> <button onclick='saveSession({})'>save</button></td>")
+                .replace(/{}/g, sessionId)
+        )
+    }
+
+    function delSession(sessionId) {
+        if (!confirm("Are you sure to delete session #" + sessionId + " ?"))
+            return;
+
+        $.ajax({
+            url: '/assistant/session/delete/' + sessionId,
+            type: 'POST',
+            success: function () {
+                $('#session' + sessionId).remove();
+                alert("Session #" + sessionId + " deleted.");
+            },
+            error: displayError
+        });
+
+    }
+
+    function loadModuleInfoSuccess(data) {
+        $("#module-name").text(data.name);
+        $("#module-code").text(data.code);
+        $("#semester-start").text(data.start);
+        $("#semester-end").text(data.end);
+        $("#lecturer").text(data.lecturer);
+        $("#edit-btn").html("<a href='/assistant/module/edit/" + data.id + "'>Edit</a>");
+        $("#view-participant-btn").html("<a href='/assistant/module/participants/" + data.id + "'>View Participants</a>");
+    }
+
+    function loadSessionsInModuleSuccess(data) {
+        var tableBody = "";
+        for (var i = 0; i < data.length; i++) {
+            var sid = data[i].id;
+            var editBtn = "<button onclick='editSession(" + sid + ")'>edit</button>";
+            var delBtn = "<button onclick='delSession(" + sid + ")'>del</button>";
+            tableBody +=
+                "<tr id='session" + sid + "'>" +
+                "<td>" + data[i].date + "</td>" +
+                "<td>" + data[i].start + "</td>" +
+                "<td>" + data[i].end + "</td>" +
+                "<td>" + editBtn + " " + delBtn + "</td>" +
+                "</tr>"
+        }
+        $("#sessions-table").html(
+            "<table>" +
+            "<thead>" +
+            "<tr>" +
+            "<td>Date</td>" +
+            "<td>Start time</td>" +
+            "<td>End time</td>" +
+            "<td></td>" +
+            "</tr>" +
+            "</thead>" +
+            "<tbody>" +
+            tableBody +
+            "</tbody>" +
+            "</table>"
+        )
+    }
+
+    $(document).ready(
+        function () {
+            $.ajax({
+                url: window.location.pathname,
+                type: 'POST',
+                success: loadModuleInfoSuccess,
+                error: displayError
+            });
+
+            loadSessions();
+        }
+    )
+</script>

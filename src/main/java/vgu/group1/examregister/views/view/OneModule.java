@@ -17,13 +17,14 @@ public class OneModule extends BaseView {
     @GET
     @Produces(MediaType.TEXT_HTML)
     public Response doGet() throws IOException {
-        return Response.ok(getHTMLFile("view_one_module.html")).build();
+        String role = getUserRole();
+        return Response.ok(getHTMLFile(role + "/view_one_module.html")).build();
     }
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     public Response doPost(@PathParam("id") int moduleId) throws SQLException {
-        JSONObject module = Module.viewAModule(moduleId);
+        JSONObject module = Module.viewModule(moduleId);
         return Response.ok(module.toString()).build();
     }
 }

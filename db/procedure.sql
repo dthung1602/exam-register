@@ -25,7 +25,7 @@ DROP PROCEDURE IF EXISTS CREATE_SESSION;
 DROP PROCEDURE IF EXISTS CHANGE_SESSION_TIME;
 DROP PROCEDURE IF EXISTS CANCEL_SESSION;
 DROP PROCEDURE IF EXISTS LIST_SESSION_ATTENDED;
-DROP PROCEDURE IF EXISTS LIST_SESSION_IN_MODULES;
+DROP PROCEDURE IF EXISTS LIST_SESSION_IN_MODULE;
 DROP PROCEDURE IF EXISTS SIGN_SESSION;
 DROP PROCEDURE IF EXISTS SHOW_SESSION_ON;
 DROP PROCEDURE IF EXISTS LIST_ACCOUNT;
@@ -140,7 +140,13 @@ END //
 # View a module's info
 CREATE PROCEDURE VIEW_A_MODULE(IN module_id INT)
 BEGIN
-    SELECT * FROM MODULE WHERE id = module_id;
+    SELECT M.id, code, name, semester, start, end, CONCAT(A.fname, ' ', A.lname) AS 'lecturer'
+    FROM MODULE M
+    JOIN SEMESTER S on M.semester = S.id
+    JOIN TEACH T on M.id = T.module
+    JOIN LECTURER L on T.lecturer = L.account
+    JOIN ACCOUNT A on L.account = A.id
+    WHERE M.id = module_id;
 END //
 
 # list all of modules
@@ -329,16 +335,11 @@ BEGIN
 END //
 
 # Check for the number of sessions the given student attends in all modules
-CREATE PROCEDURE LIST_SESSION_IN_MODULES(IN my_student INT)
+CREATE PROCEDURE LIST_SESSION_IN_MODULE(IN my_module INT)
 BEGIN
-    SELECT STU.account, M.code, M.name, COUNT(SI.session) AS 'attendance_count'
-    FROM SIGN SI
-             JOIN SESSION SE ON SE.id = SI.session
-             JOIN MODULE M on SE.module = M.id
-             JOIN STUDENT STU ON SI.student = STU.account
-             JOIN ACCOUNT A ON STU.account = A.id
-    GROUP BY M.id, STU.account
-    HAVING STU.account = my_student;
+    SELECT id, date, start, end
+    FROM SESSION
+    WHERE SESSION.module = my_module;
 END //
 
 # a student sign a session
@@ -472,12 +473,11 @@ END //
 # the assistant views all the student in a given module
 CREATE PROCEDURE VIEW_STUDENTS_OF_MODULE(IN module_id INT)
 BEGIN
-    SELECT S.code, A.fname, A.lname
+    SELECT A.id, S.code, A.fname, A.lname
     FROM ENROLL E
              JOIN STUDENT S on E.student = S.account
              JOIN ACCOUNT A on S.account = A.id
-             JOIN MODULE M on E.module = M.id
-    WHERE M.id = module_id;
+    WHERE E.module = module_id;
 END //
 
 CREATE PROCEDURE DELETE_STUDENT_IN_MODULE(IN student_id INT,

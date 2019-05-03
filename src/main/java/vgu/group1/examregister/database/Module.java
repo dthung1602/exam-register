@@ -46,7 +46,7 @@ public class Module {
 
 
     //List Module
-    public static JSONObject viewAModule(int moduleId) throws SQLException {
+    public static JSONObject viewModule(int moduleId) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL VIEW_A_MODULE (?)");
         statement.setInt(1, moduleId);
         ResultSet rs = statement.executeQuery();
@@ -81,12 +81,13 @@ public class Module {
         return convertAll(rs);
     }
 
-    public  static JSONArray listSessionAttended(int moduleId) throws SQLException {
+    public static JSONArray listSessionAttended(int moduleId) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL LIST_SESSION_ATTENDED(?)");
         statement.setInt(1, moduleId);
         ResultSet rs = statement.executeQuery();
         return convertAll(rs);
     }
+
     //List Module in a Semester
     public static JSONArray listModulesInSemester(int semesterID) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL LIST_MODULE_IN_SEMESTER(?)");
@@ -98,14 +99,14 @@ public class Module {
     public static void addParticipant(int studentID, int moduleID) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL ENROLL_MODULE(?,?)");
         statement.setInt(1, studentID);
-        statement.setInt(2,moduleID);
+        statement.setInt(2, moduleID);
         statement.executeQuery();
     }
 
-    public static void deleteParticipant( int studentID,int moduleID) throws SQLException {
+    public static void deleteParticipant(int studentID, int moduleID) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL DELETE_STUDENT_IN_MODULE(?,?)");
         statement.setInt(1, studentID);
-        statement.setInt(2,moduleID);
+        statement.setInt(2, moduleID);
         statement.executeQuery();
     }
 }
