@@ -171,7 +171,10 @@ END //
 # list all of modules
 CREATE PROCEDURE LIST_ALL_MODULES()
 BEGIN
-    SELECT * FROM MODULE;
+    SELECT CONCAT('Semester ', S.id) AS semester, S.start, S.end, M.name, M.code, M.id
+    FROM MODULE M,
+         SEMESTER S
+    WHERE S.id = M.semester;
 END //
 
 # List all the module of a given semester
@@ -439,7 +442,7 @@ CREATE PROCEDURE LIST_ALL_ASSISTANTS()
 BEGIN
     SELECT id, username, fname, lname
     FROM ASSISTANT AST
-    JOIN ACCOUNT A ON AST.account = A.id;
+             JOIN ACCOUNT A ON AST.account = A.id;
 END //
 
 CREATE PROCEDURE LIST_ALL_STUDENTS()

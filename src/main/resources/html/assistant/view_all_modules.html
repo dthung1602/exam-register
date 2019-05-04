@@ -1,0 +1,70 @@
+<a href="/assistant/module/add">
+    <button>Add</button>
+</a><br>
+
+
+<table>
+    <thead>
+    <tr>
+        <th>Semester</th>
+        <th>From</th>
+        <th>To</th>
+        <th>Module</th>
+        <th>Code</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody id="module-table">
+
+    </tbody>
+</table>
+
+<script>
+    function delModule(id) {
+        $.ajax({
+            url: "/assistant/module/delete/" + id,
+            type: "POST",
+            success: function () {
+                $("#module-" + id).remove()
+            },
+            error: displayError
+        })
+    }
+
+    function loadModuleSuccess(modules) {
+        var table = $("#module-table");
+        var tableContent = "";
+        for (var i = 0; i < modules.length; i++) {
+            var delBtn = "<button onclick='delModule(" + modules[i].id + ")'>del</button>";
+            var editBtn =
+                "<a href='/assistant/module/edit/"+modules[i].id+"'>" +
+                "    <button>Edit</button>" +
+                "</a>";
+            var viewBtn =
+                "<a href='/assistant/module/"+modules[i].id+"/participants'>" +
+                "    <button>View</button>" +
+                "</a>";
+            tableContent +=
+                "<tr id='module-" + modules[i].id + "'>" +
+                "<td>" + modules[i].semester + "</td>" +
+                "<td>" + modules[i].start + "</td>" +
+                "<td>" + modules[i].end + "</td>" +
+                "<td>" + modules[i].name + "</td>" +
+                "<td>" + modules[i].code + "</td>" +
+                "<td>" + viewBtn + editBtn + delBtn + "</td>" +
+                "</tr>"
+        }
+        table.html(tableContent);
+    }
+
+    $(document).ready(
+        function () {
+            $.ajax({
+                url: "/view/module",
+                type: 'POST',
+                success: loadModuleSuccess,
+                error: displayError
+            });
+        }
+    )
+</script>

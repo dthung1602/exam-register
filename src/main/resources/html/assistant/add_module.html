@@ -1,0 +1,42 @@
+<h2>Add a module</h2>
+<form method="POST">
+    Module name: <br/>
+    <input type="text" name="module-name" placeholder="Java, Databases..."/><br/>
+    Module code: <br/>
+    <input type="text" name="module-code" placeholder="JAV, PRO, DTB..."/><br>
+    Semester: <br/>
+    <select name="semester-id" id="selectSem">
+
+    </select>
+    <br>
+    <input type="submit" value="submit"/>
+</form>
+
+<script>
+
+    function success(semesters) {
+        var select = $("#selectSem");
+        var option = "";
+        for (var i = 0; i < semesters.length; i++) {
+            option +=
+                "<option value='" + semesters[i].id + "'>" +
+                "Semester " + semesters[i].id + ": [" + semesters[i].start + " - " + semesters[i].end + "]" +
+                "</option>"
+
+        }
+        select.html(option);
+    }
+
+    function getSemester() {
+
+        $.ajax({
+            url: "/view/semester",
+            type: "POST",
+            success: success,
+            error: displayError
+        })
+
+    }
+
+    $(document).ready(getSemester);
+</script>
