@@ -40,7 +40,7 @@ public final class PasswordAuth {
 
     private final SecureRandom random;
 
-    PasswordAuth() {
+    public PasswordAuth() {
         this.random = new SecureRandom();
     }
 

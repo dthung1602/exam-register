@@ -143,12 +143,15 @@
         return function () {
             var code = $('#code-' + id).val();
             var data = {
+                'id': id,
                 'username': $('#username-' + id).val(),
                 'fname': $('#fname-' + id).val(),
                 'lname': $('#lname-' + id).val(),
                 'code': code
             };
-            $('#user' + id).html(userDataToRow(data, code !== undefined))
+            $('#user' + id).html(
+                $(userDataToRow(data, code !== undefined)).html()
+            )
         }
     }
 
@@ -190,15 +193,16 @@
     }
 
     function delUser(id) {
-        $.ajax({
-            url: '/assistant/user/delete/' + id,
-            type: 'POST',
-            success: function () {
-                $('#user' + id).remove();
-                alert("User #" + id + " is deleted");
-            },
-            error: displayError
-        });
+        if (confirm("Are you sure to delete user #" + id + "?"))
+            $.ajax({
+                url: '/assistant/user/delete/' + id,
+                type: 'POST',
+                success: function () {
+                    $('#user' + id).remove();
+                    alert("User #" + id + " is deleted");
+                },
+                error: displayError
+            });
     }
 
     function escapeHTML(string) {
