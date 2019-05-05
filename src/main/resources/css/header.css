@@ -1,0 +1,66 @@
+@charset "utf-8";
+/* CSS Document */
+
+
+
+/*//////////////////////////////////////////////////////////////////
+[ FONT ]*/
+
+
+@font-face {
+  font-family: Poppins-Regular;
+  src: url('../new/fonts/poppins/Poppins-Regular.ttf');
+}
+
+@font-face {
+  font-family: Poppins-Light;
+  src: url('../new/fonts/poppins/Poppins-Light.ttf');
+}
+
+@font-face {
+  font-family: Poppins-SemiBold;
+  src: url('../new/fonts/poppins/Poppins-SemiBold.ttf');
+}
+
+@font-face {
+  font-family: Poppins-Bold;
+  src: url('../new/fonts/poppins/Poppins-Bold.ttf');
+}
+
+/*==========Status Pane===========*/
+header{
+	width: 100%;
+}
+
+.status-pane{
+	position: absolute;
+	background-color: transparent;
+	width: 100%;
+	height: auto;
+	display: inline-flex;
+	align-items: center;
+	justify-content: flex-end; 	
+}
+.status-wrap{
+	width: 50%;
+	display: inherit;
+	justify-content: inherit; 
+	border-bottom: 1px solid darkgrey;
+}
+.status-pane span{
+	padding: 0;
+}
+
+.status-pane button{
+	border:none;
+	background: transparent;
+	font-family: Poppins-Light;
+	font-size: 12.5px;
+	color: dimgrey;
+	min-width: 100px;
+	padding: 10px 20px;
+}
+
+.status-pane button:hover::before{
+	content:"> ";
+}
