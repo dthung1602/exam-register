@@ -3,23 +3,23 @@
 
 @font-face {
 	font-family: Poppins-Regular;
-	src: url('../new/fonts/poppins/Poppins-Regular.ttf');
+	src: url('../fonts/poppins/Poppins-Regular.ttf');
 }
 @font-face {
 	font-family: Poppins-Bold;
-	src: url('../new/fonts/poppins/Poppins-Bold.ttf');
+	src: url('../fonts/poppins/Poppins-Bold.ttf');
 }
 @font-face {
 	font-family: Poppins-SemiBold;
-	src: url('../new/fonts/poppins/Poppins-SemiBold.ttf');
+	src: url('../fonts/poppins/Poppins-SemiBold.ttf');
 }
 @font-face {
 	font-family: Poppins-ExtraBold;
-	src: url('../new/fonts/poppins/Poppins-ExtraBold.ttf');
+	src: url('../fonts/poppins/Poppins-ExtraBold.ttf');
 }
 @font-face {
 	font-family: Poppins-Light;
-	src: url('../new/fonts/poppins/Poppins-Light.ttf');
+	src: url('../fonts/poppins/Poppins-Light.ttf');
 }
 /*//////////////////////////////////////////////////////////////////
 [ RESTYLE TAG ]*/
@@ -78,53 +78,53 @@ textarea {
 textarea:focus, input:focus {
 	border-color: transparent !important;
 }
- input:focus::-webkit-input-placeholder {
-color:transparent;
+input:focus::-webkit-input-placeholder {
+	color:transparent;
 }
 input:focus:-moz-placeholder {
-color:transparent;
+	color:transparent;
 }
 input:focus::-moz-placeholder {
-color:transparent;
+	color:transparent;
 }
 input:focus:-ms-input-placeholder {
-color:transparent;
+	color:transparent;
 }
- textarea:focus::-webkit-input-placeholder {
-color:transparent;
+textarea:focus::-webkit-input-placeholder {
+	color:transparent;
 }
 textarea:focus:-moz-placeholder {
-color:transparent;
+	color:transparent;
 }
 textarea:focus::-moz-placeholder {
-color:transparent;
+	color:transparent;
 }
 textarea:focus:-ms-input-placeholder {
-color:transparent;
+	color:transparent;
 }
- input::-webkit-input-placeholder {
-color: #adadad;
+input::-webkit-input-placeholder {
+	color: #adadad;
 }
 input:-moz-placeholder {
-color: #adadad;
+	color: #adadad;
 }
 input::-moz-placeholder {
-color: #adadad;
+	color: #adadad;
 }
 input:-ms-input-placeholder {
-color: #adadad;
+	color: #adadad;
 }
- textarea::-webkit-input-placeholder {
-color: #adadad;
+textarea::-webkit-input-placeholder {
+	color: #adadad;
 }
 textarea:-moz-placeholder {
-color: #adadad;
+	color: #adadad;
 }
 textarea::-moz-placeholder {
-color: #adadad;
+	color: #adadad;
 }
 textarea:-ms-input-placeholder {
-color: #adadad;
+	color: #adadad;
 }
 /*---------------------------------------------*/
 button {
@@ -249,20 +249,20 @@ div.form-top-logo {
 input.input {
 	height: 50px;
 }
- input::-webkit-inner-spin-button {
- width: 1em;
- margin: 10px 0 0 0;
- padding: 10px 0 0 0;
- cursor: pointer;
+input::-webkit-inner-spin-button {
+	width: 1em;
+	margin: 10px 0 0 0;
+	padding: 10px 0 0 0;
+	cursor: pointer;
 }
 index-logo-top {
 	position: relative;
 }
 input::-webkit-clear-button {
- padding: 0 5px 0 0;
+	padding: 0 5px 0 0;
 }
- input::-webkit-calendar-picker-indicator {
- padding: 0 0 0 5px;
+input::-webkit-calendar-picker-indicator {
+	padding: 0 0 0 5px;
 }
 
 select.input{
@@ -333,21 +333,21 @@ textarea.input {
 [ Responsive ]*/
 
 @media (max-width: 992px) {
-.wrap {
-	padding: 66px 80px 59px 80px;
-}
+	.wrap {
+		padding: 66px 80px 59px 80px;
+	}
 }
 
 @media (max-width: 768px) {
-.rs1-wrap-input {
-	width: 100%;
-}
+	.rs1-wrap-input {
+		width: 100%;
+	}
 }
 
 @media (max-width: 576px) {
-.wrap {
-	padding: 66px 15px 59px 15px;
-}
+	.wrap {
+		padding: 66px 15px 59px 15px;
+	}
 }
 /*------------------------------------------------------------------
 [ Alert validate ]*/
@@ -404,10 +404,10 @@ textarea.input {
 }
 
 @media (max-width: 992px) {
-.alert-validate::before {
-	visibility: visible;
-	opacity: 1;
-}
+	.alert-validate::before {
+		visibility: visible;
+		opacity: 1;
+	}
 }
 /*==================================================================
 [ Contact more ]*/
