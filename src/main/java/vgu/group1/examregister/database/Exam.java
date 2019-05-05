@@ -81,14 +81,13 @@ public class Exam {
         statement.executeQuery();
     }
 
-    public static void editExam(int examID, int moduleID, Date examDate, Date examDeadline, Time examStart, Time examEnd) throws SQLException {
+    public static void editExam(int examID, Date examDate, Date examDeadline, Time examStart, Time examEnd) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL EDIT_EXAM (?, ?, ?, ?, ?, ?)");
         statement.setInt(1, examID);
-        statement.setInt(2, moduleID);
-        statement.setDate(3, examDate);
-        statement.setDate(4, examDeadline);
-        statement.setTime(5, examStart);
-        statement.setTime(6, examEnd);
+        statement.setDate(2, examDate);
+        statement.setDate(3, examDeadline);
+        statement.setTime(4, examStart);
+        statement.setTime(5, examEnd);
         statement.executeQuery();
     }
 

@@ -69,18 +69,4 @@ public class TestSession extends TestWithDatabase {
         }
 
     }
-
-    @Test
-    public void testListSessionStudent() throws SQLException, ClassNotFoundException {
-        int[] moduleID = new int[]{2, 3};
-        String[] lnames = new String[]{"hung", "hung"};
-        int[] expectedAttendanceCount = new int[]{4, 5};
-
-        for (int i = 0; i < moduleID.length; i++) {
-            JSONArray sessionsCount = Session.listSessionStudent(lnames[i], moduleID[i]);
-            int ac = ((JSONObject) sessionsCount.get(0)).getInt("attendance_count");
-            assertEquals(expectedAttendanceCount[i], ac);
-        }
-    }
-
 }

@@ -19,7 +19,7 @@ public class Session {
     }
 
     // change session time
-    public static void changeSessionTime(Time sessionStart, Time sessionEnd,Date sessionDate, int sessionId) throws SQLException {
+    public static void changeSessionTime(Time sessionStart, Time sessionEnd, Date sessionDate, int sessionId) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL CHANGE_SESSION_TIME(?,?,?,?)");
         statement.setTime(1, sessionStart);
         statement.setTime(2, sessionEnd);
@@ -33,14 +33,6 @@ public class Session {
         PreparedStatement statement = getPreparedStatement("CALL CANCEL_SESSION(?)");
         statement.setInt(1, sessionId);
         statement.executeQuery();
-    }
-
-    //Check for the number of sessions the student "vth" attends in the given module
-    public static JSONArray listSessionStudent(String studentLname, int moduleID) throws SQLException {
-        PreparedStatement statement = getPreparedStatement("CALL LIST_SESSION_STUDENT(?,?)");
-        statement.setString(1, studentLname);
-        statement.setInt(2, moduleID);
-        return convertAll(statement.executeQuery());
     }
 
     //Check for the number of sessions the given student attends in all modules
@@ -65,5 +57,12 @@ public class Session {
         statement.setDate(1, date);
         ResultSet rs = statement.executeQuery();
         return convertAll(rs, new String[]{"start", "end", "name", "lname"});
+    }
+
+    public static JSONArray listCurrentSessionOfStudent(int studentID) throws SQLException {
+        PreparedStatement statement = getPreparedStatement("CALL LIST_CURRENT_SESSIONS_OF_STUDENT(?)");
+        statement.setInt(1, studentID);
+        ResultSet rs = statement.executeQuery();
+        return convertAll(rs, new String[]{"id", "start", "end", "module", "lecturer"});
     }
 }

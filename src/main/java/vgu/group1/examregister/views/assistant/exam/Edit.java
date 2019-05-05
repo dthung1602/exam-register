@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.sql.Time;
 
 @Path("/assistant/exam/edit/{id}")
 public class Edit extends BaseView {
@@ -23,13 +22,17 @@ public class Edit extends BaseView {
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public Response doPost(@PathParam("id") int examID,
-                           @FormParam("module-id") int moduleID,
                            @FormParam("exam-date") Date examDate,
                            @FormParam("exam-deadline") Date examDeadline,
-                           @FormParam("exam-start") Time examStart,
-                           @FormParam("exam-end") Time examEnd)
+                           @FormParam("exam-start") String examStart,
+                           @FormParam("exam-end") String examEnd)
             throws SQLException {
-        Exam.editExam(examID, moduleID, examDate, examDeadline, examStart, examEnd);
+        Exam.editExam(
+                examID,
+                examDate,
+                examDeadline,
+                toSQLTime(examStart),
+                toSQLTime(examEnd));
         return Response.seeOther(URI.create("/view/exam/" + examID)).build();
     }
 }

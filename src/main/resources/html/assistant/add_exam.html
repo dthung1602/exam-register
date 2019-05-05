@@ -34,7 +34,7 @@
                     var semesterLabel = "Sem " + semesters[i].id + " (" + semesters[i].start + " - " + semesters[i].end + ")";
                     options += "<optgroup label='" + semesterLabel + "'>";
                     for (var j = 0; j < modules.length; j++) {
-                        if (modules[j].semester === semesters[i].id)
+                        if (modules[j].semester.slice(9) == semesters[i].id)
                             options += "<option value='" + modules[j].id + "'>" + modules[j].name + "</option>"
                     }
                     options += "</optgroup>";

@@ -13,7 +13,7 @@ public class Utils {
     static PreparedStatement getPreparedStatement(String statement) throws SQLException {
         // first time call this function, init the connection
         if (connection == null) {
-            connection = DriverManager.getConnection(Config.DB_HOST, Config.DB_USER, Config.DB_PASSWORD);
+            connection = DriverManager.getConnection(Config.DB_URL);
         }
         return connection.prepareStatement(statement);
     }
