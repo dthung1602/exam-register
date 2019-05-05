@@ -11,7 +11,7 @@ public class Main {
 
     public static void main(String[] args) throws Exception{
 
-        final Server server = new Server(Config.WEB_PORT);
+        final Server server = new Server(Config.PORT);
         final WebAppContext root = new WebAppContext();
 
         root.setContextPath(Config.CONTEXT_PATH);

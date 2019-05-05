@@ -5,7 +5,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public class Config {
     public static final String SECRET_KEY = getenvOrDefault("SECRET_KEY", "eEowkdOOGbM8i41HWhiopf3CpDoQHGq0");
 
-    static final int WEB_PORT = Integer.valueOf(getenvOrDefault("WEB_PORT", "8000"));
+    static final int PORT = Integer.valueOf(getenvOrDefault("PORT", "8000"));
     static final String WEB_DIR_LOCATION = "src/main/webapp/";
     static final String CONTEXT_PATH = "/";
 
