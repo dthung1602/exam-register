@@ -54,6 +54,7 @@ DROP PROCEDURE IF EXISTS ADD_EXAM;
 DROP PROCEDURE IF EXISTS UPDATE_EXAM;
 DROP PROCEDURE IF EXISTS DELETE_EXAM;
 DROP PROCEDURE IF EXISTS DELETE_USER;
+DROP PROCEDURE IF EXISTS LIST_CURRENT_SESSIONS_OF_STUDENT;
 
 
 DELIMITER //
@@ -309,6 +310,25 @@ CREATE PROCEDURE VIEW_EXAM()
 BEGIN
     SELECT id, module, date, deadline, start, end
     FROM EXAM;
+END //
+
+CREATE PROCEDURE LIST_CURRENT_SESSIONS_OF_STUDENT(IN student_id INT)
+BEGIN
+    SELECT SE.id, SE.start, SE.end, M.name, A.fname || A.lname
+    FROM SESSION SE
+             JOIN MODULE M ON SE.module = M.id
+             JOIN ENROLL E ON M.id = E.module
+             JOIN TEACH T on M.id = T.module
+             JOIN LECTURER L on T.lecturer = L.account
+             JOIN ACCOUNT A on L.account = A.id
+    WHERE E.student = student_id
+      AND CURRENT_DATE() = SE.date
+      AND CURRENT_TIME() BETWEEN SE.start AND SE.end
+      AND NOT EXISTS(
+            SELECT *
+            FROM SIGN SI
+            WHERE SI.student = student_id
+              AND SI.session = SE.id);
 END //
 
 -- ----------------- SESSION -----------------------------
@@ -595,7 +615,6 @@ END //
 
 #The assistant edit an exam
 CREATE PROCEDURE EDIT_EXAM(IN exam_id INT,
-                           IN module_id INT,
                            IN exam_date DATE,
                            IN exam_deadline DATE,
                            IN exam_start TIME,
@@ -603,8 +622,7 @@ CREATE PROCEDURE EDIT_EXAM(IN exam_id INT,
 
 BEGIN
     UPDATE EXAM
-    SET module   = module_id,
-        date     = exam_date,
+    SET date     = exam_date,
         deadline = exam_deadline,
         start    = exam_start,
         end      = exam_end

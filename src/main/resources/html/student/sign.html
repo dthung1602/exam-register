@@ -1,0 +1,60 @@
+<h2>SIGN</h2>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Module</th>
+        <th>Lecturer</th>
+        <th>Start</th>
+        <th>End</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody id="current-sessions-table">
+
+    </tbody>
+</table>
+
+<script>
+
+    function sign(id) {
+        $.ajax({
+                url: "/student/sign/" + id,
+                type: "POST",
+                success: function () {
+                    $('#session-' + id).remove();
+                    alert("Signed session #" + id);
+                },
+                error: displayError
+            })
+    }
+
+    function loadCurrentSessionsSuccess(sessions) {
+        var tableBody = "";
+        for (var i = 0; i < sessions.length; i++) {
+            tableBody +=
+                ("<tr id='session-{}'>" +
+                    "<td>{}</td>" +
+                    "<td>" + sessions[i].module + "</td>" +
+                    "<td>" + sessions[i].lecturer + "</td>" +
+                    "<td>" + sessions[i].start + "</td>" +
+                    "<td>" + sessions[i].end + "</td>" +
+                    "<td><button onclick='sign({})'>Sign</button></td>" +
+                    "</tr>").replace(/{}/g, sessions[i].id)
+        }
+        $('#current-sessions-table').html(tableBody);
+    }
+
+    $(document).ready(
+        function () {
+            $.ajax({
+                url: "/student/sign",
+                type: "POST",
+                success: loadCurrentSessionsSuccess,
+                error: displayError
+            })
+
+        }
+    )
+</script>

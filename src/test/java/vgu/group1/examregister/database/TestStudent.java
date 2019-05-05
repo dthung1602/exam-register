@@ -78,22 +78,22 @@ public class TestStudent extends TestWithDatabase {
 
     @Test
     public void testAddNewStudentFail() {
-        String[][] expectedValues = new String[][]{
+        String[][] data = new String[][]{
                 new String[]{"vth", "dth", "abc"},
                 new String[]{"hahahaha", "hihihihi", "hohohoho"},
                 new String[]{"vu", "nguyen", "a"},
                 new String[]{"tuan hung", "truong thanh hung", "bc"},
-                new String[]{"11111", "22222", "12112"}
+                new String[]{"11111", "22222", "1211233333333333"}
         };
-        for (int i = 0; i < expectedValues[0].length; i++) {
+        for (int i = 0; i < data[0].length; i++) {
             boolean exceptionThrown = false;
             try {
                 Account.addNewStudent(
-                        expectedValues[0][i],
-                        expectedValues[1][i],
-                        expectedValues[2][i],
-                        expectedValues[3][i],
-                        expectedValues[4][i]);
+                        data[0][i],
+                        data[1][i],
+                        data[2][i],
+                        data[3][i],
+                        data[4][i]);
 
             } catch (SQLException e) {
                 exceptionThrown = true;
