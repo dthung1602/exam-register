@@ -1,0 +1,69 @@
+<a href="/assistant/exam/add">
+    <button>Add</button>
+</a><br>
+
+<table>
+    <thead>
+    <tr>
+        <th>Module</th>
+        <th>Deadline</th>
+        <th>Exam Date</th>
+        <th>Start</th>
+        <th>End</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody id="exam-table">
+
+    </tbody>
+</table>
+
+<script>
+    function delExam(id) {
+        $.ajax({
+            url: "/assistant/exam/delete/" + id,
+            type: "POST",
+            success: function () {
+                $("#exam-" + id).remove()
+            },
+            error: displayError
+        })
+    }
+
+    function loadExamSuccess(exams){
+        var table = $("#exam-table");
+        var tableContent = "";
+        for (var i = 0; i < exams.length; i++) {
+            var delBtn = "<button onclick='delExam(" + exams[i].id + ")'>Del</button>";
+            var editBtn =
+                "<a href='/assistant/exam/edit/"+exams[i].id+"'>" +
+                "    <button>Edit</button>" +
+                "</a>";
+            var viewBtn =
+                "<a href='/view/exam/"+exams[i].id+"'>" +
+                "    <button>View</button>" +
+                "</a>";
+            tableContent +=
+                "<tr id='exam-" + exams[i].id + "'>" +
+                "<td>" + exams[i].module + "</td>" +
+                "<td>" + exams[i].date + "</td>" +
+                "<td>" + exams[i].deadline + "</td>" +
+                "<td>" + exams[i].start + "</td>" +
+                "<td>" + exams[i].end + "</td>" +
+                "<td>" + viewBtn + editBtn + delBtn + "</td>" +
+                "</tr>"
+        }
+        table.html(tableContent);
+    }
+
+    $(document).ready(
+        function () {
+            $.ajax({
+                url: "/view/exam",
+                type: 'POST',
+                success: loadExamSuccess,
+                error: displayError
+            });
+        }
+    )
+</script>

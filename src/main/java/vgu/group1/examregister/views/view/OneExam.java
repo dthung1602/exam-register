@@ -17,7 +17,7 @@ public class OneExam extends BaseView {
     @GET
     @Produces(MediaType.TEXT_HTML)
     public Response doGet() throws IOException {
-        return Response.ok(getHTMLFile("view_one_exam.html")).build();
+        return Response.ok(getHTMLFile("assistant/view_one_exam.html")).build();
     }
 
     @POST

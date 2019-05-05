@@ -1,0 +1,93 @@
+<h2>View Exams</h2>
+<div>
+    <p>ID: <span id="exam-id"></span></p>
+    <p>Module: <span id="module-id"></span></p>
+    <p>Date: <span id="exam-date"></span></p>
+    <p>Deadline: <span id="exam-deadline"></span></p>
+    <p>Start: <span id="exam-start"></span></p>
+    <p>End: <span id="exam-end"></span></p>
+</div>
+<br>
+<table>
+    <thead>
+    <tr>
+        <th>Student ID</th>
+        <th>Last Name</th>
+        <th>First Name</th>
+    </tr>
+    </thead>
+    <tbody id="student-table">
+
+    </tbody>
+</table>
+
+
+<script>
+
+    function loadParticipants() {
+        var examID = window.location.pathname.split("/")[3];
+        $.ajax({
+            url: '/assistant/exam/' + examID + '/participants',
+            type: 'POST',
+            success: loadParticipantsSuccess,
+            error: displayError
+        });
+    }
+
+    function delParticipant(studentId, studentCode) {
+        if (!confirm("Are you sure to delete student " + studentCode + " ?"))
+            return;
+        var examID = window.location.pathname.split("/")[3];
+
+        $.ajax({
+            url: '/assistant/exam/' + examID + '/participants/delete',
+            type: 'POST',
+            data: {'student-id': studentId},
+            success: function () {
+                $('#participant' + studentId).remove();
+                alert("Student " + studentCode + " deleted.");
+            },
+            error: displayError
+        });
+    }
+
+    function loadParticipantsSuccess(data) {
+        var tableBody = "";
+        for (var i = 0; i < data.length; i++) {
+            var sid = data[i].id;
+            var delBtn = "<button onclick='delParticipant(" + sid + "," + data[i].code + ")'>del</button>";
+            tableBody +=
+                "<tr id='participant" + sid + "'>" +
+                "<td>" + data[i].code + "</td>" +
+                "<td>" + data[i].fname + "</td>" +
+                "<td>" + data[i].lname + "</td>" +
+                "<td>" + delBtn + "</td>" +
+                "</tr>"
+        }
+        $("#student-table").html(tableBody)
+    }
+
+
+    function loadExamInfoSuccess(data) {
+        $('#exam-id').text(data.id);
+        $('#module-id').text(data.module);
+        $('#exam-date').text(data.date);
+        $('#exam-deadline').text(data.deadline)
+        $('#exam-start').text(data.start);
+        $('#exam-end').text(data.end);
+    }
+
+    $(document).ready(
+        function () {
+            //var examID = window.location.pathname.split("/")[4];
+            $.ajax({
+                url: window.location.pathname,
+                type: 'POST',
+                success: loadExamInfoSuccess,
+                error: displayError
+            });
+            loadParticipants();
+        }
+
+    )
+</script>
