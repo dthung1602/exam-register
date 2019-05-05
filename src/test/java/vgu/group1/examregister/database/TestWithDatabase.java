@@ -12,21 +12,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public abstract class TestWithDatabase {
-    private static final String HOST = "jdbc:mysql://localhost:3306/examreg";
-    private static final String USERNAME = "root";
-    private static final String PASSWORD = "Hikari@123";
-
     static Connection connection;
 
     @BeforeClass
     public static void beforeClass() {
         // setup db connection
         try {
-            connection = DriverManager.getConnection(
-                    Config.TEST_DB_HOST,
-                    Config.TEST_DB_USERNAME,
-                    Config.TEST_DB_PASSWORD
-            );
+            connection = DriverManager.getConnection(Config.TEST_DB_URL);
         } catch (SQLException e) {
             System.err.println("Cannot connect to test MySQL database");
             e.printStackTrace();
