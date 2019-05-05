@@ -9,13 +9,8 @@ public class Config {
     static final String WEB_DIR_LOCATION = "src/main/webapp/";
     static final String CONTEXT_PATH = "/";
 
-    public final static String DB_HOST = getenvOrDefault("DB_HOST", "jdbc:mysql://localhost:3306/examreg");
-    public final static String DB_USER = getenvOrDefault("DB_USER", "examreguser");
-    public final static String DB_PASSWORD = getenvOrDefault("DB_PASSWORD", "whatever123");
-
-    public final static String TEST_DB_HOST = getenvOrDefault("TEST_DB_HOST", "jdbc:mysql://localhost:3306/examreg");
-    public final static String TEST_DB_USERNAME = getenvOrDefault("TEST_DB_USER", "examreguser");
-    public final static String TEST_DB_PASSWORD = getenvOrDefault("TEST_DB_PASSWORD", "whatever123");
+    public final static String DB_URL = getenvOrDefault("DB_URL", "jdbc:mysql://examreguser:whatever123@localhost/examreg?reconnect=true");
+    public final static String TEST_DB_URL = getenvOrDefault("TEST_DB_URL", "jdbc:mysql://examreguser:whatever123@localhost/examreg?reconnect=true");
 
     public final static String AUTH_COOKIE_NAME = "Authorization";
     public final static int AUTH_COOKIE_MAX_AGE = 3600 * 24 * 3; // 3 days
