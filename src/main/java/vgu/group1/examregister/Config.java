@@ -19,9 +19,6 @@ public class Config {
     public final static String PASS_ALGO = "PBKDF2WithHmacSHA1";
     public final static int PASS_DEFAULT_COST = 8;
 
-    public final static String HTML_BASE_FILE = "base.html";
-    public final static String HTML_CONTENT_MARKER = "{{}}";
-
     private static String getenvOrDefault(String envVarName, String defaultValue) {
         String envVarValue = System.getenv(envVarName);
         return (envVarValue == null) ? defaultValue : envVarValue;
