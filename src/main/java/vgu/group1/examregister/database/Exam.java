@@ -19,7 +19,7 @@ public class Exam {
 
     //Unregister a student for an exam
     public static void unregisterExam(int studentID, int examID) throws SQLException {
-        PreparedStatement statement = getPreparedStatement("CALL UNREGISTERED_EXAM(?,?)");
+        PreparedStatement statement = getPreparedStatement("CALL UNREGISTER_EXAM(?,?)");
         statement.setInt(1, studentID);
         statement.setInt(2, examID);
         statement.executeQuery();
@@ -30,7 +30,7 @@ public class Exam {
         PreparedStatement statement = getPreparedStatement("CALL VIEW_PARTICIPANTS(?)");
         statement.setInt(1, examID);
         ResultSet rs = statement.executeQuery();
-        return convertAll(rs, new String[]{"code", "fname", "lname"});
+        return convertAll(rs, new String[]{"id", "code", "fname", "lname"});
     }
 
     //A student views his/her registered exam(s) in a given semester
@@ -95,7 +95,7 @@ public class Exam {
     // ------------------ EXAM ------------//
     // View all exams list
     public static JSONArray listAllExam() throws SQLException {
-        PreparedStatement statement = getPreparedStatement("CALL VIEW_ALL_EXAM ()");
+        PreparedStatement statement = getPreparedStatement("CALL VIEW_EXAM()");
         ResultSet rs = statement.executeQuery();
         return Utils.convertAll(rs);
     }

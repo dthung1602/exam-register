@@ -287,7 +287,7 @@ END //
 # views exam participant list
 CREATE PROCEDURE VIEW_PARTICIPANTS(IN exam_id INT)
 BEGIN
-    SELECT S.code, A.fname, A.lname
+    SELECT S.account, S.code, A.fname, A.lname
     FROM EXAM E
              JOIN EXAM_REG ER on E.id = ER.exam
              JOIN STUDENT S on ER.student = S.account

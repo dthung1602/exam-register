@@ -20,7 +20,7 @@ public class AllExams extends BaseView {
     @GET
     @Produces(MediaType.TEXT_HTML)
     public Response doGet() throws IOException {
-        return Response.ok(getHTMLFile("view_all_exams.html")).build();
+        return Response.ok(getHTMLFile("assistant/view_all_exams.html")).build();
     }
 
     @POST

@@ -17,7 +17,7 @@ public class Edit extends BaseView {
     @GET
     @Produces(MediaType.TEXT_HTML)
     public Response doGet() throws IOException {
-        return Response.ok(getHTMLFile("edit_exam.html")).build();
+        return Response.ok(getHTMLFile("assistant/edit_exam.html")).build();
     }
 
     @POST
