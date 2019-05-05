@@ -205,7 +205,7 @@ div.form-top-logo {
 	padding-bottom: 20px;
 }
 
-.user-info{
+.short-info{
 	font-family: Poppins-Light;
 	font-size: 24px;
 	width: 100%;
@@ -263,6 +263,11 @@ input::-webkit-clear-button {
 }
  input::-webkit-calendar-picker-indicator {
  padding: 0 0 0 5px;
+}
+
+select.input{
+	border: none;
+	height: 50px;
 }
 textarea.input {
 	min-height: 162px;

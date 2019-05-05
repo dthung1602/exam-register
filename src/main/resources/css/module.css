@@ -210,36 +210,49 @@ iframe {
 }
 
 .row.header .cell {
-  font-family: Poppins-Regular;
-  font-size: 18px;
-  color: #fff;
-  line-height: 1.2;
-  font-weight: unset !important;
+    font-family: Poppins-Regular;
+    font-size: 16px;
+    color: #fff;
+    line-height: 1.2;
+    font-weight: unset !important;
 
   padding-top: 19px;
   padding-bottom: 19px;
 }
 
 .row .cell:nth-child(1) {
-  width: 200px;
-  padding-left: 40px;
+    width: 200px;
+    padding-left: 40px;
 }
 
 .row .cell:nth-child(2) {
-  width: 200px;
+    width: 250px;
 }
 
 .row .cell:nth-child(3) {
-  width: 200px;
+    width: 250px;
 }
 
 .row .cell:nth-child(4) {
-  width: 210px;
+    width: 250px;
 }
 
 .row .cell:nth-child(5) {
-  width: 210px;
+    width: 100px;
 }
+
+.row .cell:nth-child(6) {
+    width: 150px;
+}
+
+.row .cell:nth-child(7) {
+    width: 150px;
+}
+
+.row .cell:nth-child(8) {
+    width: 150px;
+}
+
 
 
 .table, .row {

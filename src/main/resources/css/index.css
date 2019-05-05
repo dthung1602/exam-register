@@ -29,34 +29,38 @@
 
 header{
 	width: 100%;
-		background-color: #F5F5F6;
+	background-color: #F5F5F6;
 }
 div.logo{
 	width: 100%;
-		background-color: #F5F5F6;
+	background-color: #F5F5F6;
 
 }
 
 /*------------------------*/
 body{
-    margin: 0;
-    padding: 0;
+	margin: 0;
+	padding: 0;
 }
 
 div.index-button{
+	display: block;
+	align-items: center;
 	width: 100%;
+	background-color:#F5F5F6;
+	min-height: 50vh;
 	text-align: center;
 	vertical-align: middle;
 	margin: 0;
-    padding: 0;
-	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	padding: 0;
 }
-
 .index-img-button{
+	width: 100%;
 	opacity: 0.5;
 	border: 0px;
 	padding: 0px;
 	margin: -1.5px ;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .index-img-button:hover{
@@ -73,10 +77,8 @@ div.index-button{
 	box-sizing: border-box;
 	width: 100%;
 	text-align: left;
-	font: bold 16px sans-serif;
 	margin-left: 0;
 	padding: 25px 50px;
-	
 }
 
 .footer-distributed .footer-left,
