@@ -1,0 +1,51 @@
+<div id="exam-table-body"></div>
+
+<script>
+    function loadStudentExams(exams) {
+        let tbody = "";
+        for (let i = 0; i < exams.length; i++) {
+            let button = (exams[i].registered) ? "Unregister" : "Register";
+            tbody += '' +
+                `<div id="exam-${exams[i].id}">
+                    <div>${exams[i].id}</div>
+                    <div>${exams[i].module}</div>
+                    <div>${exams[i].date}</div>
+                    <div>${exams[i].start}</div>
+                    <div>${exams[i].end}</div>
+                    <div>${exams[i].deadline}</div>
+                    <div>
+                        <button onclick="handleRegister(${exams[i].id})">${button}</button>
+                    </div>
+                </div>`
+        }
+
+        $('#exam-table-body').html(tbody);
+    }
+
+    function handleRegister(id) {
+        const button = $('#exam-' + id);
+        const action = button.text().toLowerCase();
+        $.ajax({
+            url: '/student/' + action,
+            type: 'POST',
+            success: function () {
+                if (action === 'register')
+                    button.text('Unregister');
+                else
+                    button.text('Register');
+            },
+            error: displayError
+        });
+    }
+
+    $(document).ready(
+        function () {
+            $.ajax({
+                url: '/view/exam/',
+                type: 'POST',
+                success: loadStudentExams,
+                error: displayError
+            });
+        }
+    )
+</script>

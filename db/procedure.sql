@@ -53,7 +53,10 @@ DROP PROCEDURE IF EXISTS UPDATE_EXAM;
 DROP PROCEDURE IF EXISTS DELETE_EXAM;
 DROP PROCEDURE IF EXISTS DELETE_USER;
 DROP PROCEDURE IF EXISTS LIST_CURRENT_SESSIONS_OF_STUDENT;
-
+DROP PROCEDURE IF EXISTS LIST_EXAMS_AVAILABLE_FOR_STUDENT;
+DROP PROCEDURE IF EXISTS LIST_LECTURER_EXAM;
+DROP FUNCTION IF EXISTS COUNT_ATTENDANCE;
+DROP FUNCTION IF EXISTS PERCENT_ATTENDANCE;
 
 DELIMITER //
 
@@ -228,6 +231,43 @@ BEGIN
 END //
 
 -- -------------------- EXAM REGISTER -----------------------7
+
+CREATE FUNCTION COUNT_ATTENDANCE(student_id INT,
+                                 module_id INT)
+    RETURNS INT
+BEGIN
+    SET @count = 0;
+    SELECT COUNT(*) INTO @count
+    FROM SESSION SE
+             JOIN SIGN SI ON SE.id = SI.session
+    WHERE SI.student = student_id
+      AND SE.module = module_id;
+    RETURN @count;
+END //
+
+CREATE FUNCTION PERCENT_ATTENDANCE(student_id INT,
+                                   module_id INT)
+    RETURNS FLOAT(3, 2)
+BEGIN
+    SET @count = COUNT_ATTENDANCE(student_id, module_id);
+
+    set @total = 0;
+    SELECT COUNT(*) INTO @total FROM SESSION WHERE module = module_id;
+
+    RETURN CAST(@count AS DECIMAL) /
+           CAST(@total AS DECIMAL);
+END //
+
+CREATE PROCEDURE LIST_EXAMS_AVAILABLE_FOR_STUDENT(IN student_id INT,
+                                                  IN percent FLOAT(3, 2))
+BEGIN
+    SELECT *
+    FROM EXAM EX
+             JOIN MODULE M ON EX.module = M.id
+             JOIN ENROLL EN ON M.id = EN.module
+    WHERE EN.student = student_id
+      AND PERCENT_ATTENDANCE(student_id, M.id) >= percent;
+END //
 
 # a student registers for an exam
 CREATE PROCEDURE REGISTER_EXAM(IN my_student INT,
@@ -646,6 +686,15 @@ BEGIN
     SELECT *
     FROM EXAM
     WHERE module = module_id;
+END //
+
+CREATE PROCEDURE LIST_LECTURER_EXAM(IN lecturer_id INT)
+BEGIN
+    SELECT E.*
+    FROM EXAM E
+             JOIN MODULE M ON E.module = M.id
+             JOIN TEACH T ON M.id = T.module
+    WHERE T.lecturer = lecturer_id;
 END //
 
 -- ------------------------UTILS-----------------------------1
