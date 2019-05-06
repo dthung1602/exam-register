@@ -79,3 +79,14 @@ h4.title-text {
   border: 1px solid #ccc;
   border-top: none;
 }
+
+div.cell input{
+    border-radius: 2px;
+    background-color: #F1F1F1;
+    min-height: 25px;
+    font-family: Poppins-Regular;
+    font-size: 15px;
+    color: #666666;
+    line-height: 1.2;
+    font-weight: unset !important;
+}

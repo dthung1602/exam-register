@@ -1,19 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <title>VGU Exam Registration - Add Semester</title>
     <meta charset="UTF-8">
-    <title>Add a semester</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="/images/ico/vgu-logo-transparent.png"/>
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/css/util.css">
+    <link rel="stylesheet" type="text/css" href="/css/form.css">
+    <link rel="stylesheet" type="text/css" href="/css/header.css">
+    <!--===============================================================================================-->
 </head>
 <body>
 
-<h1>NEW SEMESTER</h1>
-    <form method="post">
-        <label for="start">Start</label>
-        <input type="date" id="start" name="start-date" required>
-        <label for="end">end</label>
-        <input type="date" id="end" name="end-date" required>
-        <input type="submit">
-    </form>
-
+<header>
+    <div class="status-pane">
+        <div class="status-wrap"> <span> <a href="/view/semester">
+      <button type="button">Semester</button>
+      </a> </span> <span> <a href="/view/module">
+      <button type="button">Module</button>
+      </a> </span> <span> <a href=/view/exam">
+      <button type="button">Exam</button>
+      </a> </span> <span> <a href="/assistant/user/view">
+      <button type="button">User</button>
+      </a> </span> <span> <a href="/auth/login">
+      <button type="button">Logout</button>
+      </a> </span> </div>
+    </div>
+</header>
+<div class="container" style="background-image: url('/images/bg-02.jpg');">
+    <div class="form-top-logo"> <a href="/"> <img src="/images/logo-header.png" width="20%" class="top-logo" alt="Back to Index"/> </a> </div>
+    <div class="wrap">
+        <form class="form validate-form" method="POST">
+            <span class="form-title"> ADD A SEMESTER </span>
+            <div class="wrap-input rs1-wrap-input"> <span class="label-input">From *</span>
+                <input class="input" type="date" name="start-date" value="2018-01-01">
+            </div>
+            <div class="wrap-input rs1-wrap-input"> <span class="label-input">To *</span>
+                <input class="input" type="date" name="end-date" value="2018-06-01">
+            </div>
+            <div class="container-form-btn">
+                <div class="wrap-form-btn">
+                    <div class="form-bgbtn"></div>
+                    <button>
+                        <a href="/view/semester" class="form-btn" > Cancel</a>
+                    </button>
+                </div>
+                <div class="wrap-form-btn">
+                    <div class="form-bgbtn"></div>
+                    <button class="form-btn" type="reset"> Reset </button>
+                </div>
+                <div class="wrap-form-btn">
+                    <div class="form-bgbtn"></div>
+                    <button class="form-btn" type="submit"> Submit </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 </body>
 </html>
+
+

@@ -239,7 +239,15 @@ iframe {
 }
 
 .row .cell:nth-child(5) {
-  width: 210px;
+  width: 110px;
+}
+
+.row .cell:nth-child(6) {
+  width: 110px;
+}
+
+.row .cell:nth-child(7) {
+  width: 110px;
 }
 
 

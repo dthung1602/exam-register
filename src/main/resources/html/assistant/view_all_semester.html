@@ -23,50 +23,38 @@
 <body>
 <header>
     <div class="status-pane">
-        <div class="status-wrap"> <span> <a href="semester.html">
+        <div class="status-wrap"> <span> <a href="/view/semester">
       <button type="button">Semester</button>
-      </a> </span> <span> <a href="module.html">
+      </a> </span> <span> <a href="/view/module">
       <button type="button">Module</button>
-      </a> </span> <span> <a href="exam.html">
+      </a> </span> <span> <a href="/view/exam">
       <button type="button">Exam</button>
-      </a> </span> <span> <a href="user.html">
+      </a> </span> <span> <a href="/assistant/user/view">
       <button type="button">User</button>
-      </a> </span> <span> <a href="sign.html">
-      <button type="button">Sign</button>
-      </a> </span> <span> <a href="login.html">
+      </a> </span> <span> <a href="/auth/login">
       <button type="button">Logout</button>
-      </a> </span> </div>
+      </a> </span></div>
     </div>
 </header>
-<div class="container-header"> <span class="index-logo-top"> <a href="index.html"> <img src="/images/logo-header.png" width="20%" class="top-logo" alt="Back to Index"/> </a>
+<div class="container-header"> <span class="index-logo-top"> <a href="/"> <img src="/images/logo-header.png"
+                                                                                        width="20%" class="top-logo"
+                                                                                        alt="Back to Index"/> </a>
   <div class="title">
     <h4 class="title-text">SEMESTER</h4>
   </div>
-  <div class="add"> <a href="add-semester.html">
+  <div class="add"> <a href="/assistant/semester/add">
     <button type="button" class="add-button">ADD SEMESTER +</button>
     </a> </div>
-  </span> </div>
+  </span></div>
 <div class="limiter">
     <div class="container-table">
         <div class="wrap-table">
             <div class="table">
                 <div class="row header">
-                    <div class="cell"> Semester ID </div>
-                    <div class="cell"> From </div>
-                    <div class="cell"> To </div>
-                    <div class="cell"> Action </div>
-                </div>
-                <div class="row body">
-                    <div class="cell" data-title="Semester"> Semester 1 </div>
-                    <div class="cell" data-title="From"> 2017-09-15 </div>
-                    <div class="cell" data-title="To"> 2018-02-01 </div>
-                    <div class="cell" data-title="action"> <span class="tooltip hov-pointer"><img class="hov-dropshadow-3px" src="images/edit.png" alt=""> <span class="tooltiptext">Edit</span></span> <span class="tooltip hov-pointer p-l-10 p-r-10"><img class="hov-dropshadow-3px" src="images/delete.png" alt=""> <span class="tooltiptext">Delete</span></span></div>
-                </div>
-                <div class="row body">
-                    <div class="cell" data-title="Semester"> Semester 2 </div>
-                    <div class="cell" data-title="From"> 2017-09-15 </div>
-                    <div class="cell" data-title="To"> 2018-02-01 </div>
-                    <div class="cell" data-title="action"> <span class="tooltip hov-pointer"><img class="hov-dropshadow-3px" src="images/edit.png" alt=""> <span class="tooltiptext">Edit</span></span> <span class="tooltip hov-pointer p-l-10 p-r-10"><img class="hov-dropshadow-3px" src="images/delete.png" alt=""> <span class="tooltiptext">Delete</span></span></div>
+                    <div class="cell"> Semester ID</div>
+                    <div class="cell"> From</div>
+                    <div class="cell"> To</div>
+                    <div class="cell"> Action</div>
                 </div>
             </div>
             <div class="table" id="semester-table"></div>
@@ -136,26 +124,27 @@
         })
     }
 
-    function loadSemesterSuccess(sem_table){
-        var table = $("#semester-table");
-        var tableContent = "";
-        for (var i = 0; i < sem_table.length; i++) {
-            var delBtn = `<span class="tooltip hov-pointer p-l-10 p-r-10" onclick='delSemester(${sem_table[i].id})'><img class="hov-dropshadow-3px" src="images/delete.png" alt=""> <span class="tooltiptext">Delete</span></span>`;
-            var editBtn =
+    function loadSemesterSuccess(sem_table) {
+        let table = $("#semester-table");
+        let tableContent = "";
+        for (let i = 0; i < sem_table.length; i++) {
+            let sid = sem_table[i].id;
+            let delBtn = `<span class="tooltip hov-pointer p-l-10 p-r-10" onclick='delSemester(${sem_table[i].id})'><img class="hov-dropshadow-3px" src="/images/delete.png" alt=""> <span class="tooltiptext">Delete</span></span>`;
+            let editBtn =
                 `<span class="tooltip hov-pointer"><a href='/assistant/semester/edit/${sem_table[i].id}'><img class="hov-dropshadow-3px" src="/images/edit.png" alt=""> <span class="tooltiptext">Edit</span></a></span>`;
 
-            /*var viewBtn =       //Deciding to write view_one_semester.html or not
+            /*let viewBtn =       //Deciding to write view_one_semester.html or not
                 "<a href='/view/semester/"+sem_table[i].id+"'>" +
                 "    <button>View</button>" +
                 "</a>"
              */
             tableContent +=
-            `<div class="row body">`+
-                `<div class="cell" data-title="Semester"> ${sem_table[i].id} </div>`+
-                `<div class="cell" data-title="From"> ${sem_table[i].start} </div>`+
-                `<div class="cell" data-title="To">${sem_table[i].end} </div>`+
-                `<div class="cell" data-title="action">${editBtn}${delBtn}</div>`+
-            `</div>`
+                `<div class='row body' id='semester-${sid}'>` +
+                `<div class='cell' data-title='Semester'> ${sem_table[i].id} </div>` +
+                `<div class='cell' data-title='From'> ${sem_table[i].start} </div>` +
+                `<div class='cell' data-title='To'>${sem_table[i].end} </div>` +
+                `<div class='cell' data-title='action'>${editBtn}${delBtn}</div>` +
+                `</div>`
         }
         table.html(tableContent);
     }

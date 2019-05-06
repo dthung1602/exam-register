@@ -5,11 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VGU Exam Registration - Exam</title>
-    <link rel="icon" type="image/png" href="images/ico/vgu-logo-transparent.png"/>
-    <link href="css/exam.css" rel="stylesheet" type="text/css">
-    <link href="css/util.css" rel="stylesheet" type="text/css">
-    <link href="css/bootstrap.css" rel="stylesheet" type="text/css">
-    <link href="css/header.css" rel="stylesheet" type="text/css">
+    <link rel="icon" type="image/png" href="/images/ico/vgu-logo-transparent.png"/>
+    <link href="/css/exam.css" rel="stylesheet" type="text/css">
+    <link href="/css/util.css" rel="stylesheet" type="text/css">
+    <link href="/css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="/css/header.css" rel="stylesheet" type="text/css">
     <script src="/js/jquery-3.3.1.min.js"></script>
     <script src="/js/utils.js"></script>
 </head>
@@ -17,28 +17,27 @@
 <body>
 <header>
     <div class="status-pane">
-        <div class="status-wrap"> <span> <a href="semester.html">
+
+            <div class="status-wrap"> <span> <a href="/view/semester">
       <button type="button">Semester</button>
-      </a> </span> <span> <a href="module.html">
+      </a> </span> <span> <a href="/view/module">
       <button type="button">Module</button>
-      </a> </span> <span> <a href="exam.html">
+      </a> </span> <span> <a href="/view/exam">
       <button type="button">Exam</button>
-      </a> </span> <span> <a href="user.html">
+      </a> </span> <span> <a href="/assistant/user/view">
       <button type="button">User</button>
-      </a> </span> <span> <a href="sign.html">
-      <button type="button">Sign</button>
-      </a> </span> <span> <a href="login.html">
+      </a> </span> <span> <a href="/auth/login">
       <button type="button">Logout</button>
-      </a> </span> </div>
+            </a> </span></div>
     </div>
 </header>
-<div class="container-header"><span class="index-logo-top"> <a href="index.html"> <img src="images/logo-header.png" width="20%" class="top-logo" alt="Back to Index"/> </a>
+<div class="container-header"><span class="index-logo-top"> <a href="/"> <img src="/images/logo-header.png" width="20%" class="top-logo" alt="Back to Index"/> </a>
   <div class="title">
     <h4 class="title-text">EXAM</h4>
   </div>
-  <div class="add"> <a href="add-exam.html">
-    <button type="button" class="add-button"></button><a href="/assistant/exam/add">ADD EXAM +</a></button>
-    </a> </div>
+  <div class="add"><a href="/assistant/exam/add">
+    <button type="button" class="add-button">ADD EXAM +</button></a>
+   </div>
   </span> </div>
 <div class="limiter">
     <div class="container-table">
@@ -52,14 +51,6 @@
                     <div class="cell"> Start </div>
                     <div class="cell"> End </div>
                     <div class="cell"> Action </div>
-                </div>
-                <div class="row body">
-                    <div class="cell" data-title="exam-id"> 1 </div>
-                    <div class="cell" data-title="from"> JAV </div>
-                    <div class="cell" data-title="to"> 2018-09-23 </div>
-                    <div class="cell" data-title="start"> 10:00 </div>
-                    <div class="cell" data-title="end"> 12:30 </div>
-                    <div class="cell" data-title="action"> <span class="tooltip hov-pointer"><img class="hov-dropshadow-3px" src="images/edit.png" alt=""> <span class="tooltiptext">Edit</span></span> <span class="tooltip hov-pointer p-l-10 p-r-10"><img class="hov-dropshadow-3px" src="images/delete.png" alt=""> <span class="tooltiptext">Delete</span></span></div>
                 </div>
             </div>
             <div class="table" id="exam-table"></div>
@@ -88,17 +79,18 @@
         let table = $("#exam-table");
         let tableContent = "";
         for (let i = 0; i < exams.length; i++) {
-            let delBtn = `<span class='tooltip hov-pointer' onclick='delExam(${exams[i].id})'><img class='hov-dropshadow-3px' src='images/delete.png' alt=''> <span class='tooltiptext'>Delete</span></span>`
+            let eid = exams[i].id;
+            let delBtn = `<span class='tooltip hov-pointer' onclick='delExam(${exams[i].id})'><img class='hov-dropshadow-3px' src='/images/delete.png' alt=''> <span class='tooltiptext'>Delete</span></span>`
             let editBtn =
                 "<a href='/assistant/exam/edit/"+exams[i].id+"'>" +
                 "<span class='tooltip hov-pointer p-r-10'><img class='hov-dropshadow-3px' src='/images/edit.png' alt=''> <span class='tooltiptext'>Edit</span></span>" +
                 "</a>";
             let viewBtn =
                 "<a href='/view/exam/"+exams[i].id+"'>" +
-                "<span class='tooltip hov-pointer p-r-10'><img class='hov-dropshadow-3px' src='/images/view.png' alt=''> <span class='tooltiptext'>View</span></span>" +
+                "<span class='tooltip hov-pointer p-r-10'><img class='hov-dropshadow-3px' src='/images/view.png' alt=''> <span class='tooltiptext'>View Examinees</span></span>" +
                 "</a>";
             tableContent +=
-            `<div class="row body">`+
+            `<div class="row body" id='exam-${eid}'>`+
                `<div class="cell" data-title="exam-id"> ${exams[i].id} </div>`+
                ` <div class="cell" data-title="exam-module">${exams[i].module} </div>`+
                 `<div class="cell" data-title="date"> ${exams[i].date} </div>`+
