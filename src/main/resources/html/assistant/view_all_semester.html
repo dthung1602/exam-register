@@ -1,29 +1,108 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html>
 <head>
-    <title>View All Semesters</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VGU Exam Registration - Semester</title>
+    <link rel="icon" type="image/png" href="/images/ico/vgu-logo-transparent.png"/>
+    <link href="/css/semester.css" rel="stylesheet" type="text/css">
+    <link href="/css/util.css" rel="stylesheet" type="text/css">
+    <link href="/css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="/css/header.css" rel="stylesheet" type="text/css">
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/utils.js"></script>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
 </head>
 
 <body>
-<h2>View All Semester</h2>
+<header>
+    <div class="status-pane">
+        <div class="status-wrap"> <span> <a href="semester.html">
+      <button type="button">Semester</button>
+      </a> </span> <span> <a href="module.html">
+      <button type="button">Module</button>
+      </a> </span> <span> <a href="exam.html">
+      <button type="button">Exam</button>
+      </a> </span> <span> <a href="user.html">
+      <button type="button">User</button>
+      </a> </span> <span> <a href="sign.html">
+      <button type="button">Sign</button>
+      </a> </span> <span> <a href="login.html">
+      <button type="button">Logout</button>
+      </a> </span> </div>
+    </div>
+</header>
+<div class="container-header"> <span class="index-logo-top"> <a href="index.html"> <img src="/images/logo-header.png" width="20%" class="top-logo" alt="Back to Index"/> </a>
+  <div class="title">
+    <h4 class="title-text">SEMESTER</h4>
+  </div>
+  <div class="add"> <a href="add-semester.html">
+    <button type="button" class="add-button">ADD SEMESTER +</button>
+    </a> </div>
+  </span> </div>
+<div class="limiter">
+    <div class="container-table">
+        <div class="wrap-table">
+            <div class="table">
+                <div class="row header">
+                    <div class="cell"> Semester ID </div>
+                    <div class="cell"> From </div>
+                    <div class="cell"> To </div>
+                    <div class="cell"> Action </div>
+                </div>
+                <div class="row body">
+                    <div class="cell" data-title="Semester"> Semester 1 </div>
+                    <div class="cell" data-title="From"> 2017-09-15 </div>
+                    <div class="cell" data-title="To"> 2018-02-01 </div>
+                    <div class="cell" data-title="action"> <span class="tooltip hov-pointer"><img class="hov-dropshadow-3px" src="images/edit.png" alt=""> <span class="tooltiptext">Edit</span></span> <span class="tooltip hov-pointer p-l-10 p-r-10"><img class="hov-dropshadow-3px" src="images/delete.png" alt=""> <span class="tooltiptext">Delete</span></span></div>
+                </div>
+                <div class="row body">
+                    <div class="cell" data-title="Semester"> Semester 2 </div>
+                    <div class="cell" data-title="From"> 2017-09-15 </div>
+                    <div class="cell" data-title="To"> 2018-02-01 </div>
+                    <div class="cell" data-title="action"> <span class="tooltip hov-pointer"><img class="hov-dropshadow-3px" src="images/edit.png" alt=""> <span class="tooltiptext">Edit</span></span> <span class="tooltip hov-pointer p-l-10 p-r-10"><img class="hov-dropshadow-3px" src="images/delete.png" alt=""> <span class="tooltiptext">Delete</span></span></div>
+                </div>
+            </div>
+            <div class="table" id="semester-table"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
 
-<a href="/assistant/semester/add">
-    <button>Add +</button>
-</a><br>
 
-<table>
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Start</th>
-        <th>End</th>
-        <th></th>
-    </tr>
-    </thead>
-    <tbody id="semester-table">
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <title>View All Semesters</title>-->
+<!--</head>-->
 
-    </tbody>
-</table>
+<!--<body>-->
+<!--<h2>View All Semester</h2>-->
+
+<!--<a href="/assistant/semester/add">-->
+<!--    <button>Add +</button>-->
+<!--</a><br>-->
+
+<!--<table>-->
+<!--    <thead>-->
+<!--    <tr>-->
+<!--        <th>ID</th>-->
+<!--        <th>Start</th>-->
+<!--        <th>End</th>-->
+<!--        <th></th>-->
+<!--    </tr>-->
+<!--    </thead>-->
+<!--    <tbody id="semester-table">-->
+
+<!--    </tbody>-->
+<!--</table>-->
 
 <script>
     /*function loadOneSemesterSuccess(data) {
@@ -61,22 +140,22 @@
         var table = $("#semester-table");
         var tableContent = "";
         for (var i = 0; i < sem_table.length; i++) {
-            var delBtn = "<button onclick='delSemester(" + sem_table[i].id + ")'>Del</button>";
+            var delBtn = `<span class="tooltip hov-pointer p-l-10 p-r-10" onclick='delSemester(${sem_table[i].id})'><img class="hov-dropshadow-3px" src="images/delete.png" alt=""> <span class="tooltiptext">Delete</span></span>`;
             var editBtn =
-                "<a href='/assistant/semester/edit/"+sem_table[i].id+"'>" +
-                "    <button>Edit</button>" +
-                "</a>";
+                `<span class="tooltip hov-pointer"><a href='/assistant/semester/edit/${sem_table[i].id}'><img class="hov-dropshadow-3px" src="/images/edit.png" alt=""> <span class="tooltiptext">Edit</span></a></span>`;
+
             /*var viewBtn =       //Deciding to write view_one_semester.html or not
                 "<a href='/view/semester/"+sem_table[i].id+"'>" +
                 "    <button>View</button>" +
                 "</a>"
              */
             tableContent +=
-                "<tr id='semester-" + sem_table[i].id + "'>" +
-                "<td>" + sem_table[i].start + "</td>" +
-                "<td>" + sem_table[i].end + "</td>" +
-                "<td>" /*+ viewBtn*/ + editBtn + delBtn + "</td>" +
-                "</tr>"
+            `<div class="row body">`+
+                `<div class="cell" data-title="Semester"> ${sem_table[i].id} </div>`+
+                `<div class="cell" data-title="From"> ${sem_table[i].start} </div>`+
+                `<div class="cell" data-title="To">${sem_table[i].end} </div>`+
+                `<div class="cell" data-title="action">${editBtn}${delBtn}</div>`+
+            `</div>`
         }
         table.html(tableContent);
     }
