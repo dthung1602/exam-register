@@ -34,7 +34,7 @@
         <form class="form validate-form" method="POST">
             <h2><span class="form-title">EDIT SEMESTER</span></h2>
             <span class="short-info">
-                <p>Semester ID: </p><span id="semester-id"></span>
+                <p>Semester ID: <span id="semester-id"></span></p>
             </span>
 
             <div class="wrap-input rsl-wrap-input"><span class="label-input">Start </span>
@@ -75,8 +75,8 @@
         function () {
             let semID = window.location.pathname.split("/")[4];
             $.ajax({
-                url: "/assistant/semester/edit" + semID,
-                type: 'GET',
+                url: "/view/semester/" + semID,
+                type: 'POST',
                 data: {role: 'assistant'},
                 //dataType: 'json',
                 success: loadOneSemesterSuccess,
