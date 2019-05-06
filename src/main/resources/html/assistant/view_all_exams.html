@@ -1,23 +1,75 @@
-<a href="/assistant/exam/add">
-    <button>Add</button>
-</a><br>
-<script src="/js/jquery-3.3.1.min.js"></script>
-<script src="/js/utils.js"></script>
-<table>
-    <thead>
-    <tr>
-        <th>Module</th>
-        <th>Deadline</th>
-        <th>Exam Date</th>
-        <th>Start</th>
-        <th>End</th>
-        <th></th>
-    </tr>
-    </thead>
-    <tbody id="exam-table">
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VGU Exam Registration - Exam</title>
+    <link rel="icon" type="image/png" href="images/ico/vgu-logo-transparent.png"/>
+    <link href="css/exam.css" rel="stylesheet" type="text/css">
+    <link href="css/util.css" rel="stylesheet" type="text/css">
+    <link href="css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="css/header.css" rel="stylesheet" type="text/css">
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/utils.js"></script>
+</head>
 
-    </tbody>
-</table>
+<body>
+<header>
+    <div class="status-pane">
+        <div class="status-wrap"> <span> <a href="semester.html">
+      <button type="button">Semester</button>
+      </a> </span> <span> <a href="module.html">
+      <button type="button">Module</button>
+      </a> </span> <span> <a href="exam.html">
+      <button type="button">Exam</button>
+      </a> </span> <span> <a href="user.html">
+      <button type="button">User</button>
+      </a> </span> <span> <a href="sign.html">
+      <button type="button">Sign</button>
+      </a> </span> <span> <a href="login.html">
+      <button type="button">Logout</button>
+      </a> </span> </div>
+    </div>
+</header>
+<div class="container-header"><span class="index-logo-top"> <a href="index.html"> <img src="images/logo-header.png" width="20%" class="top-logo" alt="Back to Index"/> </a>
+  <div class="title">
+    <h4 class="title-text">EXAM</h4>
+  </div>
+  <div class="add"> <a href="add-exam.html">
+    <button type="button" class="add-button"></button><a href="/assistant/exam/add">ADD EXAM +</a></button>
+    </a> </div>
+  </span> </div>
+<div class="limiter">
+    <div class="container-table">
+        <div class="wrap-table">
+            <div class="table">
+                <div class="row header">
+                    <div class="cell"> Exam ID </div>
+                    <div class="cell"> Module ID </div>
+                    <div class="cell"> Date </div>
+                    <div class="cell"> Deadline </div>
+                    <div class="cell"> Start </div>
+                    <div class="cell"> End </div>
+                    <div class="cell"> Action </div>
+                </div>
+                <div class="row body">
+                    <div class="cell" data-title="exam-id"> 1 </div>
+                    <div class="cell" data-title="from"> JAV </div>
+                    <div class="cell" data-title="to"> 2018-09-23 </div>
+                    <div class="cell" data-title="start"> 10:00 </div>
+                    <div class="cell" data-title="end"> 12:30 </div>
+                    <div class="cell" data-title="action"> <span class="tooltip hov-pointer"><img class="hov-dropshadow-3px" src="images/edit.png" alt=""> <span class="tooltiptext">Edit</span></span> <span class="tooltip hov-pointer p-l-10 p-r-10"><img class="hov-dropshadow-3px" src="images/delete.png" alt=""> <span class="tooltiptext">Delete</span></span></div>
+                </div>
+            </div>
+            <div class="table" id="exam-table"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+
 
 <script>
     function delExam(id) {
@@ -33,27 +85,28 @@
     }
 
     function loadExamSuccess(exams){
-        var table = $("#exam-table");
-        var tableContent = "";
-        for (var i = 0; i < exams.length; i++) {
-            var delBtn = "<button onclick='delExam(" + exams[i].id + ")'>Del</button>";
-            var editBtn =
+        let table = $("#exam-table");
+        let tableContent = "";
+        for (let i = 0; i < exams.length; i++) {
+            let delBtn = `<span class='tooltip hov-pointer' onclick='delExam(${exams[i].id})'><img class='hov-dropshadow-3px' src='images/delete.png' alt=''> <span class='tooltiptext'>Delete</span></span>`
+            let editBtn =
                 "<a href='/assistant/exam/edit/"+exams[i].id+"'>" +
-                "    <button>Edit</button>" +
+                "<span class='tooltip hov-pointer p-r-10'><img class='hov-dropshadow-3px' src='/images/edit.png' alt=''> <span class='tooltiptext'>Edit</span></span>" +
                 "</a>";
-            var viewBtn =
+            let viewBtn =
                 "<a href='/view/exam/"+exams[i].id+"'>" +
-                "    <button>View</button>" +
+                "<span class='tooltip hov-pointer p-r-10'><img class='hov-dropshadow-3px' src='/images/view.png' alt=''> <span class='tooltiptext'>View</span></span>" +
                 "</a>";
             tableContent +=
-                "<tr id='exam-" + exams[i].id + "'>" +
-                "<td>" + exams[i].module + "</td>" +
-                "<td>" + exams[i].date + "</td>" +
-                "<td>" + exams[i].deadline + "</td>" +
-                "<td>" + exams[i].start + "</td>" +
-                "<td>" + exams[i].end + "</td>" +
-                "<td>" + viewBtn + editBtn + delBtn + "</td>" +
-                "</tr>"
+            `<div class="row body">`+
+               `<div class="cell" data-title="exam-id"> ${exams[i].id} </div>`+
+               ` <div class="cell" data-title="exam-module">${exams[i].module} </div>`+
+                `<div class="cell" data-title="date"> ${exams[i].date} </div>`+
+                `<div class="cell" data-title="deadline"> ${exams[i].deadline} </div>`+
+                `<div class="cell" data-title="start"> ${exams[i].start} </div>`+
+                `<div class="cell" data-title="end"> ${exams[i].end} </div>`+
+                `<div class="cell" data-title="action">${viewBtn}${editBtn}${delBtn}</div>`+
+            `</div>`
         }
         table.html(tableContent);
     }

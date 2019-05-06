@@ -73,7 +73,7 @@ VALUES
     /* Module 6 1/2 sessions */
     (5, 17, '2018-04-03'),
     /* Module 7, 8 do not attend */
-    /* Student 6 attends all sessions of module 9, < 80% sessions of module 10-11, do not attends any sessions of module 12 */
+    /* Student 6 attends all sessions of module 9, 11, < 80% sessions of module 10, do not attends any sessions of module 12 */
     /* Module 9 */
     (6, 25, '2018-03-14'),
     /* Module 10 1/2 sessions */

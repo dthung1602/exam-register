@@ -57,15 +57,8 @@
     <filter-mapping>
         <filter-name>AssistantOnly</filter-name>
         <url-pattern>/assistant/*</url-pattern>
-    </filter-mapping>
-
-    <filter>
-        <filter-name>LecturerOnly</filter-name>
-        <filter-class>vgu.group1.examregister.filters.LecturerOnly</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>LecturerOnly</filter-name>
-        <url-pattern>/lecturer/*</url-pattern>
+        <url-pattern>/view/user/*</url-pattern>
+        <url-pattern>/view/semester/*</url-pattern>
     </filter-mapping>
 
     <filter>

@@ -22,11 +22,13 @@ public class RequireLogin implements Filter {
         final HttpServletResponse response = (HttpServletResponse) res;
 
         Cookie authCookie = null;
-        for (Cookie cookie : request.getCookies())
-            if (cookie.getName().equals(Config.AUTH_COOKIE_NAME)) {
-                authCookie = cookie;
-                break;
-            }
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null)
+            for (Cookie cookie : cookies)
+                if (cookie.getName().equals(Config.AUTH_COOKIE_NAME)) {
+                    authCookie = cookie;
+                    break;
+                }
 
         if (authCookie == null) {
             if (request.getMethod().equals("GET"))

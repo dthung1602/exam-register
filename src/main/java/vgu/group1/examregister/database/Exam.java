@@ -2,6 +2,7 @@ package vgu.group1.examregister.database;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import vgu.group1.examregister.Config;
 
 import java.sql.*;
 
@@ -47,10 +48,11 @@ public class Exam {
         statement.setDate(2, examDate);
         statement.setDate(3, deadline);
         statement.setTime(4, start);
-        statement.setTime(5,end);
+        statement.setTime(5, end);
         statement.executeQuery();
     }
-    public static void deleteExam(int examId) throws SQLException{
+
+    public static void deleteExam(int examId) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL DELETE_EXAM(?)");
         statement.setInt(1, examId);
         statement.executeQuery();
@@ -111,5 +113,18 @@ public class Exam {
         PreparedStatement statement = getPreparedStatement("CALL READ_EXAM (?)");
         statement.setInt(1, examId);
         return Utils.convertOne(statement.executeQuery());
+    }
+
+    public static JSONArray listCanRegisterExams(int studentID) throws SQLException {
+        PreparedStatement statement = getPreparedStatement("CALL LIST_EXAMS_AVAILABLE_FOR_STUDENT (?, ?)");
+        statement.setInt(1, studentID);
+        statement.setFloat(2, Config.MINIMUM_ATTENDANCE_PERCENT);
+        return Utils.convertAll(statement.executeQuery());
+    }
+
+    public static JSONArray listLectureExam(int lecturerID) throws SQLException {
+        PreparedStatement statement = getPreparedStatement("CALL LIST_LECTURER_EXAM (?)");
+        statement.setInt(1, lecturerID);
+        return Utils.convertAll(statement.executeQuery());
     }
 }

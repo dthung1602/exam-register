@@ -40,7 +40,7 @@ public class Login extends BaseView {
                     Config.AUTH_COOKIE_NAME, jwt,
                     "/",
                     "",
-                    "what",
+                    "",
                     Config.AUTH_COOKIE_MAX_AGE,
                     false
             );
@@ -55,7 +55,6 @@ public class Login extends BaseView {
 
     private String createJWT(int id, String username, String role) {
         return Jwts.builder()
-                .setAudience("")
                 .claim("username", username)
                 .claim("accountId", id)
                 .claim("role", role)

@@ -20,13 +20,22 @@ public class AllExams extends BaseView {
     @GET
     @Produces(MediaType.TEXT_HTML)
     public Response doGet() throws IOException {
-        return Response.ok(getHTMLFile("assistant/view_all_exams.html")).build();
+        String role = getUserRole();
+        return Response.ok(getHTMLFile(role + "/view_all_exams.html")).build();
     }
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     public Response doPost() throws SQLException {
-        JSONArray exams = Exam.listAllExam();
+        JSONArray exams;
+        String role = getUserRole();
+        if (role.equals("student"))
+            exams = Exam.listCanRegisterExams(getAccountId());
+        else if (role.equals("assistant"))
+            exams = Exam.listAllExam();
+        else
+            exams = Exam.listLectureExam(getAccountId());
+
         return Response.ok(exams.toString()).build();
     }
 }
