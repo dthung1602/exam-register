@@ -8,6 +8,7 @@
     <link rel="icon" type="image/png" href="/images/ico/vgu-logo-transparent.png"/>
     <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/vendor/bootstrap/css/bootstrap.min.css">
     <!--===============================================================================================-->
     <link rel="stylesheet" type="text/css" href="/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
     <!--===============================================================================================-->
@@ -43,27 +44,27 @@
         <form class="form validate-form" method="post">
             <span class="form-title"> ADD A USER &nbsp; &nbsp; </span>
             <div class="wrap-input rs1-wrap-input"><span class="label-input">Username *</span>
-                <input class="input" type="text" name="username">
+                <input class="input" type="text" name="username" required>
             </div>
             <div class="wrap-input rs1-wrap-input"><span class="label-input">Password *</span>
-                <input class="input" type="password" name="password">
+                <input class="input" type="password" name="password" required>
             </div>
             <div class="wrap-input rs1-wrap-input"><span class="label-input">Role *</span>
-                <select class="input" name="role" style="border: none; height: 40px;" onchange="checkIsStudent(this)">
+                <select class="input" name="role" style="border: none; height: 40px;" onchange="checkIsStudent(this)" required>
                     <option value="assistant">Assistant</option>
                     <option value="lecturer">Lecturer</option>
                     <option value="student">Student</option>
                 </select>
             </div>
             <div class="wrap-input rs1-wrap-input"><span class="label-input">First name *</span>
-                <input class="input" type="text" name="fname">
+                <input class="input" type="text" name="fname" required>
             </div>
             <div class="wrap-input rs1-wrap-input"><span class="label-input">Last name *</span>
-                <input class="input" type="text" name="lname">
+                <input class="input" type="text" name="lname" required>
             </div>
             <div class="wrap-input rs1-wrap-input" id="student-code-field">
                 <span class="label-input">Student code*</span>
-                <input class="input" type="text" name="code">
+                <input class="input" type="text" name="code" required>
             </div>
 
             <div class="container-form-btn">

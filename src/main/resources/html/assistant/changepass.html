@@ -5,15 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--===============================================================================================-->
-    <link rel="icon" type="image/png" href="images/ico/vgu-logo-transparent.png"/>
+    <link rel="icon" type="image/png" href="/images/ico/vgu-logo-transparent.png"/>
+    <link rel="stylesheet" type="text/css" href="/vendor/bootstrap/css/bootstrap.min.css">
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+    <link rel="stylesheet" type="text/css" href="/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="css/util.css">
-    <link rel="stylesheet" type="text/css" href="css/form.css">
-    <link rel="stylesheet" type="text/css" href="css/header.css">
+    <link rel="stylesheet" type="text/css" href="/css/util.css">
+    <link rel="stylesheet" type="text/css" href="/css/form.css">
+    <link rel="stylesheet" type="text/css" href="/css/header.css">
     <!--===============================================================================================-->
 </head>
 <body>
@@ -32,13 +33,14 @@
       </a> </span> </div>
     </div>
 </header>
-<div class="container" style="background-image: url('images/bg-02.jpg');">
-    <div class="form-top-logo"> <a href="/"> <img src="images/logo-header.png" width="20%" class="top-logo" alt="Back to Index"/> </a> </div>
+<div class="container" style="background-image: url('/images/bg-02.jpg');">
+    <div class="form-top-logo"> <a href="/"> <img src="/images/logo-header.png" width="20%" class="top-logo" alt="Back to Index"/> </a> </div>
     <div class="wrap">
         <form class="form validate-form">
-            <span class="form-title"> CHANGE PASSWORD </span> <span class="short-info">
-      <h5>User ID <span id="userID"></span></h5>
-      </span>
+            <span class="form-title"> CHANGE PASSWORD </span>
+            <span class="short-info">
+                <h5>User ID: <span id="userID"></span></h5>
+            </span>
             <div class="wrap-input rs1-wrap-input"><span class="label-input">New Password *</span>
                 <input class="input" type="password" id="password1" required>
             </div>
@@ -67,8 +69,8 @@
 
 <script>
     function submit() {
-        var pass1 = $('#password1').val();
-        var pass2 = $('#password2').val();
+        let pass1 = $('#password1').val();
+        let pass2 = $('#password2').val();
 
         if (pass1 === "")
             return alert("Please fill all the fields!");
@@ -98,18 +100,3 @@
 
 </body>
 </html>
-
-
-<!--<h2>CHANGE PASSWORD</h2>-->
-<!--<div>-->
-<!--    User ID <span id="userID"></span>-->
-<!--</div>-->
-<!--<div>-->
-<!--    New password-->
-<!--    <input type="password" id="password1">-->
-<!--</div>-->
-<!--<div>-->
-<!--    Confirm password-->
-<!--    <input type="password" id="password2">-->
-<!--</div>-->
-<!--<button onclick="submit()">Submit</button>-->

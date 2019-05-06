@@ -49,9 +49,9 @@
     <div class="container-table">
         <div class="wrap-table">
             <div class="tab">
-                <button class="tablinks" onclick="showTab('student', this)">Student</button>
-                <button class="tablinks" onclick="showTab('lecturer', this)">Lecturer</button>
-                <button class="tablinks" onclick="showTab('assistant', this)">Assistant</button>
+                <button class="tablinks" onclick="showTab('student', event)">Student</button>
+                <button class="tablinks" onclick="showTab('lecturer', event)">Lecturer</button>
+                <button class="tablinks" onclick="showTab('assistant', event)">Assistant</button>
             </div>
 
             <div id="tab-student">
@@ -146,6 +146,11 @@
     function showTab(role, btn) {
         $('[id^=tab]').hide();
         $('#tab-' + role).show();
+        let tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        btn.currentTarget.className += " active";
     }
 
     function doneEditUserFunc(id) {
