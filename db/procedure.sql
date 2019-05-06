@@ -68,7 +68,7 @@ BEGIN
     SELECT id, start, end FROM SEMESTER WHERE id = LAST_INSERT_ID();
 END //
 
-# read semester
+# view semester
 CREATE PROCEDURE READ_SEMESTER(IN my_id INT)
 BEGIN
     SELECT * FROM SEMESTER WHERE id = my_id;
@@ -668,5 +668,136 @@ BEGIN
     TRUNCATE TABLE ACCOUNT;
     SET FOREIGN_KEY_CHECKS = 1;
 END //
+
+#############################################
+#                 CHECK                     #
+#############################################
+CREATE PROCEDURE CHECK_DATE(IN start_date DATE,
+                            IN end_date DATE)
+BEGIN
+    IF DATE(start_date) > DATE(end_date)
+    THEN
+        SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Error: Invalid starting and ending date received.';
+    END IF;
+END //
+
+CREATE PROCEDURE CHECK_TIME(IN start_time TIME,
+                            IN end_time TIME)
+BEGIN
+    IF DATE(start_time) > DATE(end_time)
+    THEN
+        SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Error: Invalid starting and ending date received.';
+    END IF;
+END //
+
+CREATE PROCEDURE CHECK_OVERLAP_SESSION_ONLY(IN date1 DATE,
+                                            IN end1 TIME,
+                                            IN start1 TIME,
+                                            IN date2 DATE,
+                                            IN end2 TIME,
+                                            IN start2 TIME)
+BEGIN
+    SET @checker = 1;
+    IF DATE(date1) = DATE(date2)
+    THEN
+        IF (start1 BETWEEN start2 AND end2)
+            OR (end1 BETWEEN start2 AND end2)
+            OR (start1 < start2 AND end2 > end2)
+        THEN
+            SET @checker = 0;
+        END IF;
+    END IF;
+
+    IF @checker = 0
+    THEN
+        SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Error: Overlapped sessions.';
+    END IF;
+END //
+
+CREATE PROCEDURE CHECK_SESSION_SEMESTER(IN sem_start DATE,
+                                        IN sem_end DATE,
+                                        IN sess_date DATE,
+                                        IN mod_sem INT,
+                                        IN sess_mod INT,
+                                        IN sem_id INT,
+                                        IN mod_id INT)
+BEGIN
+    SET @checker = 1;
+    IF (sess_mod = mod_id) AND (mod_sem = sem_id)
+    THEN
+        IF (sem_start>sess_date) OR (sem_end<sess_date)
+            THEN
+            SET @checker = 0;
+        END IF;
+    END IF;
+
+    IF @checker = 0
+        THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Error: Session out of semester bound.';
+    END IF;
+END //
+#############################################
+#                  TRIGGERS                 #
+#############################################
+CREATE TRIGGER CHECK_INSERT_SEMESTER
+    BEFORE INSERT
+    ON semester
+    FOR EACH ROW
+BEGIN
+    CALL CHECK_DATE(NEW.start, NEW.end);
+END//
+
+CREATE TRIGGER CHECK_UPDATE_SEMESTER
+    BEFORE UPDATE
+    ON semester
+    FOR EACH ROW
+BEGIN
+    CALL CHECK_DATE(NEW.start, NEW.end);
+END //
+
+CREATE TRIGGER CHECK_INSERT_EXAM
+    BEFORE INSERT
+    ON exam
+    FOR EACH ROW
+BEGIN
+    CALL CHECK_TIME(NEW.start, NEW.end);
+END//
+
+CREATE TRIGGER CHECK_INSERT_SESSION
+    BEFORE INSERT
+    ON session
+    FOR EACH ROW
+BEGIN
+    CALL CHECK_TIME(NEW.start, NEW.end);
+END//
+
+CREATE TRIGGER CHECK_UPDATE_SESSION
+    BEFORE UPDATE
+    ON session
+    FOR EACH ROW
+BEGIN
+    CALL CHECK_TIME(NEW.start, NEW.end);
+END//
+
+CREATE TRIGGER CHECK_UPDATE_EXAM
+    BEFORE UPDATE
+    ON exam
+    FOR EACH ROW
+BEGIN
+    CALL CHECK_TIME(NEW.start, NEW.end);
+END//
+
+CREATE TRIGGER CHECK_OVERLAP_SESSION
+    BEFORE INSERT
+    ON session
+    FOR EACH ROW
+BEGIN
+    CALL CHECK_OVERLAP_SESSION_ONLY(NEW.date, NEW.end, NEW.start, date, end, start);
+END //
+
 
 DELIMITER ;
