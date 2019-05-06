@@ -2,6 +2,7 @@ package vgu.group1.examregister.database;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import vgu.group1.examregister.Config;
 
 import java.sql.*;
 
@@ -115,8 +116,9 @@ public class Exam {
     }
 
     public static JSONArray listCanRegisterExams(int studentID) throws SQLException {
-        PreparedStatement statement = getPreparedStatement("CALL LIST_EXAMS_AVAILABLE_FOR_STUDENT (?)");
+        PreparedStatement statement = getPreparedStatement("CALL LIST_EXAMS_AVAILABLE_FOR_STUDENT (?, ?)");
         statement.setInt(1, studentID);
+        statement.setFloat(2, Config.MINIMUM_ATTENDANCE_PERCENT);
         return Utils.convertAll(statement.executeQuery());
     }
 

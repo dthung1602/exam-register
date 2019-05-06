@@ -55,8 +55,21 @@ DROP PROCEDURE IF EXISTS DELETE_USER;
 DROP PROCEDURE IF EXISTS LIST_CURRENT_SESSIONS_OF_STUDENT;
 DROP PROCEDURE IF EXISTS LIST_EXAMS_AVAILABLE_FOR_STUDENT;
 DROP PROCEDURE IF EXISTS LIST_LECTURER_EXAM;
+
 DROP FUNCTION IF EXISTS COUNT_ATTENDANCE;
 DROP FUNCTION IF EXISTS PERCENT_ATTENDANCE;
+
+DROP PROCEDURE IF EXISTS CHECK_DATE;
+DROP PROCEDURE IF EXISTS CHECK_TIME;
+DROP PROCEDURE IF EXISTS CHECK_SESSION_OVERLAP;
+DROP PROCEDURE IF EXISTS CHECK_DATE_IN_SEMESTER;
+
+DROP TRIGGER IF EXISTS CHECK_INSERT_SEMESTER;
+DROP TRIGGER IF EXISTS CHECK_UPDATE_SEMESTER;
+DROP TRIGGER IF EXISTS CHECK_INSERT_EXAM;
+DROP TRIGGER IF EXISTS CHECK_UPDATE_EXAM;
+DROP TRIGGER IF EXISTS CHECK_INSERT_SESSION;
+DROP TRIGGER IF EXISTS CHECK_UPDATE_SESSION;
 
 DELIMITER //
 
@@ -261,20 +274,34 @@ END //
 CREATE PROCEDURE LIST_EXAMS_AVAILABLE_FOR_STUDENT(IN student_id INT,
                                                   IN percent FLOAT(3, 2))
 BEGIN
-    SELECT *
+    SELECT EX.id, EX.date, EX.start, EX.end, M.name
     FROM EXAM EX
              JOIN MODULE M ON EX.module = M.id
              JOIN ENROLL EN ON M.id = EN.module
     WHERE EN.student = student_id
+      AND CURRENT_DATE() <= EX.deadline
       AND PERCENT_ATTENDANCE(student_id, M.id) >= percent;
 END //
 
 # a student registers for an exam
-CREATE PROCEDURE REGISTER_EXAM(IN my_student INT,
-                               IN my_exam INT)
+CREATE PROCEDURE REGISTER_EXAM(IN student_id INT,
+                               IN exam_id INT,
+                               IN percent FLOAT(3, 2))
 BEGIN
-    INSERT INTO EXAM_REG(student, exam) VALUE
-        (my_student, my_exam);
+    IF exam_id IN (SELECT EX.id
+                   FROM EXAM EX
+                            JOIN MODULE M ON EX.module = M.id
+                            JOIN ENROLL EN ON M.id = EN.module
+                   WHERE EN.student = student_id
+                     AND CURRENT_DATE() <= EX.deadline
+                     AND PERCENT_ATTENDANCE(student_id, M.id) >= percent)
+    THEN
+        INSERT INTO EXAM_REG(student, exam) VALUE
+            (student_id, exam_id);
+    ELSE
+        SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Error: Student cannot register for the exam';
+    END IF;
 END //
 
 # unregister a student for an exam
@@ -287,7 +314,6 @@ BEGIN
       AND exam = my_exam;
 END //
 
-#############################################################
 CREATE PROCEDURE ADD_EXAM(IN moduleId INT,
                           IN examDate DATE,
                           IN my_deadline DATE,
@@ -447,7 +473,6 @@ END //
 
 -- ------------------------ACCOUNT-----------------------------1
 
--- ---------------    LOGIN    --------------------
 # List all the accounts (username + password)
 CREATE PROCEDURE LIST_ACCOUNT()
 BEGIN
@@ -672,12 +697,15 @@ END //
 CREATE PROCEDURE READ_EXAM(IN exam_id INT)
 BEGIN
     SELECT * FROM EXAM WHERE id = exam_id;
-end //
+END //
 
 #View all exams list
 CREATE PROCEDURE VIEW_ALL_EXAM()
 BEGIN
-    SELECT * FROM EXAM ORDER BY start DESC;
+    SELECT E.id, E.date, E.start, E.end, M.name
+    FROM EXAM E
+             JOIN MODULE M on E.module = M.id
+    ORDER BY start;
 END //
 
 #View an exam info with module ID
@@ -697,7 +725,7 @@ BEGIN
     WHERE T.lecturer = lecturer_id;
 END //
 
--- ------------------------UTILS-----------------------------1
+-- ------------------------UTILS-----------------------------
 
 # truncate all tables in database
 CREATE PROCEDURE TRUNCATE_ALL()
@@ -718,9 +746,8 @@ BEGIN
     SET FOREIGN_KEY_CHECKS = 1;
 END //
 
-#############################################
-#                 CHECK                     #
-#############################################
+-- ------------------------ CHECK PROCEDURES FOR TRIGGERS -----------------------------
+
 CREATE PROCEDURE CHECK_DATE(IN start_date DATE,
                             IN end_date DATE)
 BEGIN
@@ -734,75 +761,65 @@ END //
 CREATE PROCEDURE CHECK_TIME(IN start_time TIME,
                             IN end_time TIME)
 BEGIN
-    IF DATE(start_time) > DATE(end_time)
+    IF TIME(start_time) > TIME(end_time)
     THEN
         SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'Error: Invalid starting and ending date received.';
+            SET MESSAGE_TEXT = 'Error: Invalid starting and ending time received.';
     END IF;
 END //
 
-CREATE PROCEDURE CHECK_OVERLAP_SESSION_ONLY(IN date1 DATE,
-                                            IN end1 TIME,
-                                            IN start1 TIME,
-                                            IN date2 DATE,
-                                            IN end2 TIME,
-                                            IN start2 TIME)
+CREATE PROCEDURE CHECK_SESSION_OVERLAP(IN date DATE,
+                                       IN start TIME,
+                                       IN end TIME,
+                                       IN module_id INT,
+                                       IN self_id INT)
 BEGIN
-    SET @checker = 1;
-    IF DATE(date1) = DATE(date2)
-    THEN
-        IF (start1 BETWEEN start2 AND end2)
-            OR (end1 BETWEEN start2 AND end2)
-            OR (start1 < start2 AND end2 > end2)
-        THEN
-            SET @checker = 0;
-        END IF;
-    END IF;
-
-    IF @checker = 0
+    IF EXISTS(SELECT *
+              FROM SESSION SE
+              WHERE date = SE.date
+                AND SE.module = module_id
+                AND SE.id != self_id
+                AND (
+                      start BETWEEN SE.start AND SE.end
+                      OR end BETWEEN SE.start AND SE.end
+                      OR (start < SE.start AND SE.end < end)
+                  ))
     THEN
         SIGNAL SQLSTATE '45000'
             SET MESSAGE_TEXT = 'Error: Overlapped sessions.';
     END IF;
 END //
 
-CREATE PROCEDURE CHECK_SESSION_SEMESTER(IN sem_start DATE,
-                                        IN sem_end DATE,
-                                        IN sess_date DATE,
-                                        IN mod_sem INT,
-                                        IN sess_mod INT,
-                                        IN sem_id INT,
-                                        IN mod_id INT)
+CREATE PROCEDURE CHECK_DATE_IN_SEMESTER(IN module_id INT,
+                                        IN d DATE)
 BEGIN
-    SET @checker = 1;
-    IF (sess_mod = mod_id) AND (mod_sem = sem_id)
-    THEN
-        IF (sem_start>sess_date) OR (sem_end<sess_date)
-            THEN
-            SET @checker = 0;
-        END IF;
-    END IF;
+    SELECT start,
+           end
+           INTO @sem_start, @sem_end
+    FROM SEMESTER SEM
+             JOIN MODULE M on SEM.id = M.semester
+    WHERE M.id = module_id;
 
-    IF @checker = 0
-        THEN
+    IF d NOT BETWEEN @sem_start AND @sem_end
+    THEN
         SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Error: Session out of semester bound.';
+            SET MESSAGE_TEXT = 'Error: Session out of semester bound.';
     END IF;
 END //
-#############################################
-#                  TRIGGERS                 #
-#############################################
+
+-- ------------------------  TRIGGERS -----------------------------
+
 CREATE TRIGGER CHECK_INSERT_SEMESTER
     BEFORE INSERT
-    ON semester
+    ON SEMESTER
     FOR EACH ROW
 BEGIN
     CALL CHECK_DATE(NEW.start, NEW.end);
-END//
+END //
 
 CREATE TRIGGER CHECK_UPDATE_SEMESTER
     BEFORE UPDATE
-    ON semester
+    ON SEMESTER
     FOR EACH ROW
 BEGIN
     CALL CHECK_DATE(NEW.start, NEW.end);
@@ -810,43 +827,40 @@ END //
 
 CREATE TRIGGER CHECK_INSERT_EXAM
     BEFORE INSERT
-    ON exam
+    ON EXAM
     FOR EACH ROW
 BEGIN
     CALL CHECK_TIME(NEW.start, NEW.end);
-END//
+    CALL CHECK_DATE_IN_SEMESTER(NEW.module, NEW.date);
+END //
+
+CREATE TRIGGER CHECK_UPDATE_EXAM
+    BEFORE INSERT
+    ON EXAM
+    FOR EACH ROW
+BEGIN
+    CALL CHECK_TIME(NEW.start, NEW.end);
+    CALL CHECK_DATE_IN_SEMESTER(NEW.module, NEW.date);
+END //
 
 CREATE TRIGGER CHECK_INSERT_SESSION
     BEFORE INSERT
-    ON session
+    ON SESSION
     FOR EACH ROW
 BEGIN
     CALL CHECK_TIME(NEW.start, NEW.end);
-END//
+    CALL CHECK_DATE_IN_SEMESTER(NEW.module, NEW.date);
+    CALL CHECK_SESSION_OVERLAP(NEW.date, NEW.start, NEW.end, NEW.module, -1);
+END //
 
 CREATE TRIGGER CHECK_UPDATE_SESSION
     BEFORE UPDATE
-    ON session
+    ON SESSION
     FOR EACH ROW
 BEGIN
     CALL CHECK_TIME(NEW.start, NEW.end);
-END//
-
-CREATE TRIGGER CHECK_UPDATE_EXAM
-    BEFORE UPDATE
-    ON exam
-    FOR EACH ROW
-BEGIN
-    CALL CHECK_TIME(NEW.start, NEW.end);
-END//
-
-CREATE TRIGGER CHECK_OVERLAP_SESSION
-    BEFORE INSERT
-    ON session
-    FOR EACH ROW
-BEGIN
-    CALL CHECK_OVERLAP_SESSION_ONLY(NEW.date, NEW.end, NEW.start, date, end, start);
+    CALL CHECK_DATE_IN_SEMESTER(NEW.module, NEW.date);
+    CALL CHECK_SESSION_OVERLAP(NEW.date, NEW.start, NEW.end, NEW.module, NEW.id);
 END //
-
 
 DELIMITER ;
