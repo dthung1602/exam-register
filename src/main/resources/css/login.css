@@ -3,33 +3,33 @@
 
 @font-face {
   font-family: Ubuntu-Regular;
-  src: url('../fonts/ubuntu/Ubuntu-Regular.ttf');
+  src: url('/fonts/ubuntu/Ubuntu-Regular.ttf');
 }
 
 @font-face {
   font-family: Ubuntu-Bold;
-  src: url('../fonts/ubuntu/Ubuntu-Bold.ttf');
+  src: url('/fonts/ubuntu/Ubuntu-Bold.ttf');
 }
 
 
 @font-face {
   font-family: Poppins-Regular;
-  src: url('../fonts/poppins/Poppins-Regular.ttf');
+  src: url('/fonts/poppins/Poppins-Regular.ttf');
 }
 
 @font-face {
   font-family: Poppins-Bold;
-  src: url('../fonts/poppins/Poppins-Bold.ttf');
+  src: url('/fonts/poppins/Poppins-Bold.ttf');
 }
 
 @font-face {
   font-family: Poppins-SemiBold;
-  src: url('../fonts/poppins/Poppins-SemiBold.ttf');
+  src: url('/fonts/poppins/Poppins-SemiBold.ttf');
 }
 
 @font-face {
   font-family: Poppins-Medium;
-  src: url('../fonts/poppins/Poppins-Medium.ttf');
+  src: url('/fonts/poppins/Poppins-Medium.ttf');
 }
 
 
@@ -246,7 +246,7 @@ iframe {
 
 .input {
   font-family: Poppins-Regular;
-  font-size: 20px;
+  font-size: 16px;
   color: #555555;
   line-height: 1.2;
 
@@ -291,8 +291,9 @@ iframe {
 
 .focus-input::after {
   font-family: Linearicons-Free;
-  font-size: 18px;
-  color: #999999;
+  font-size: 16px;
+  color: #555555;
+  line-height: 1.2;
 
   content: attr(data-placeholder);
   display: block;
@@ -430,7 +431,7 @@ iframe {
   right: 10px;
   pointer-events: none;
 
-  font-family: Ubuntu-Bold;
+  font-family: Poppins-Light;
   color: #c80000;
   font-size: 13px;
   line-height: 1.4;
@@ -447,7 +448,7 @@ iframe {
 
 .alert-validate::after {
   content: "\f12a";
-  font-family: FontAwesome;
+  font-family: Poppins-Light;
   font-size: 16px;
   color: #c80000;
 
@@ -474,3 +475,8 @@ iframe {
   }
 }
 
+.wrong-alert{
+  font-family: Poppins-SemiBold;
+  color: #FF3E3E;
+  padding-top: 15px;
+}

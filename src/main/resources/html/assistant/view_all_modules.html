@@ -29,19 +29,19 @@
       <button type="button">Semester</button>
       </a> </span> <span> <a href="/view/module">
       <button type="button">Module</button>
-      </a> </span> <span> <a href=/view/exam">
+      </a> </span> <span> <a href="/view/exam">
       <button type="button">Exam</button>
       </a> </span> <span> <a href="/assistant/user/view">
       <button type="button">User</button>
       </a> </span> <span> <a href="sign">
       <button type="button">Sign</button>
-      </a> </span> <span> <a href="/auth/login">
+      </a> </span> <span> <a href="/auth/logout">
       <button type="button">Logout</button>
       </a> </span> </div>
     </div>
 </header>
 <div class="container-top">
-    <div class="index-logo-top"> <a href="/"> <img src="images/logo-header.png" width="17%" class="top-logo" alt="Back to Index"/> </a></div>
+    <div class="index-logo-top"> <a href="/"> <img src="/images/logo-header.png" class="top-logo" alt="Back to Index"/> </a></div>
 
     <div class="title">
         <h4 class="title-text">MODULE</h4>
@@ -91,17 +91,19 @@
         let tableContent = "";
         for (let i = 0; i < modules.length; i++) {
             let mid = modules[i].id;
-            let delBtn = `<span class='tooltip hov-pointer p-l-10' onclick='delModule(${modules[i].id},\"${modules[i].name}\")'>
+            let delBtn = `<span class='tooltip hov-pointer' onclick='delModule(${modules[i].id},\"${modules[i].name}\")'>
                             <img class='hov-dropshadow-3px' src='/images/delete.png' alt=''>
                              <span class='tooltiptext'>Delete</span></span>`;
 
             let editBtn =
-                "<a href='/assistant/module/edit/" + modules[i].id + "'>" +
-                "<span class='tooltip hov-pointer p-l-10'><img class='hov-dropshadow-3px' src='/images/edit.png' alt=''><span class='tooltiptext'>Edit</span></span>" +
-                "</a>";
-            let viewBtn =
+                `<a href='/assistant/module/edit/${modules[i].id}'><span class='tooltip hov-pointer p-r-10'><img class='hov-dropshadow-3px' src='/images/edit.png' alt=''><span class='tooltiptext'>Edit</span></span></a>`;
+            let viewParticipantsBtn =
                 "<a href='/assistant/module/" + modules[i].id + "/participants'>" +
-                "<span class='tooltip hov-pointer'><img class='hov-dropshadow-3px' src='/images/view.png' alt=''> <span class='tooltiptext'>View Participants</span></span>" +
+                "<span class='tooltip hov-pointer p-r-10'><img class='hov-dropshadow-3px' src='/images/viewperson.png' alt=''><span class='tooltiptext'>View Participants</span></span>" +
+                "</a>";
+            let viewInfoBtn =
+                "<a href='/view/module/" + modules[i].id + "'>" +
+                "<span class='tooltip hov-pointer p-r-10'><img class='hov-dropshadow-3px' src='/images/view.png' alt=''><span class='tooltiptext'>View Sessions</span></span>" +
                 "</a>";
             tableContent +=
                 ` <div class='row body' id='module-${mid}'    >` +
@@ -112,7 +114,7 @@
                     `<div class='cell' data-title='semester'>${modules[i].semester}</div>` +
                     `<div class='cell' data-title='start'>${modules[i].start}</div>` +
                     `<div class='cell' data-title='start'>${modules[i].end}</div>` +
-                    `<div class='cell' data-title='action'>${viewBtn}${editBtn}${delBtn}</div>`+
+                    `<div class='cell' data-title='action'>${viewInfoBtn}${viewParticipantsBtn}${editBtn}${delBtn}</div>`+
                 `</div>`
 
         }

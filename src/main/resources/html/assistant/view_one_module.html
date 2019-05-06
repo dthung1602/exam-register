@@ -36,7 +36,7 @@
             <span> <a href="/assistant/user/view/">
                 <button type="button">User</button>
              </a> </span>
-            <span> <a href="/auth/login">
+            <span> <a href="/auth/logout">
                  <button type="button">Logout</button>
             </a> </span>
         </div>
@@ -44,9 +44,9 @@
 </header>
 <div class="container-header">
     <div class="index-logo-top"><a href="/"> <img src="/images/logo-header.png" class="top-logo"
-                                                           alt="Back to Index"/> </a>
+                                                  alt="Back to Index"/> </a>
         <div class="module-infobox">
-            <!--            <span class="text-infobox"><strong>Module ID:</strong> <span id="module-id"></span></span>-->
+
             <span class="text-infobox"><strong>Module Code:</strong> <span id="module-code"></span></span>
             <span class="text-infobox"><strong>Lecturer:</strong> <span id="lecturer"></span></span>
             <span class="text-infobox"><strong>Start:</strong> <span id="semester-start"></span></span>
@@ -94,7 +94,7 @@
 <div class="limiter">
     <div class="container-table">
         <div class="wrap-table">
-            <div class="table" id='sessions-table'>
+            <div class="table">
                 <div class="row header">
                     <div class="cell"> Session ID</div>
                     <div class="cell"> Date</div>
@@ -102,6 +102,8 @@
                     <div class="cell"> End</div>
                     <div class="cell"> Action</div>
                 </div>
+            </div>
+            <div class="table" id='sessions-table'>
             </div>
         </div>
     </div>
@@ -250,7 +252,7 @@
             $('#new-session-form').hide();
 
             let moduleId = window.location.pathname.split("/")[3];
-            $('#edit-module-btn').attr('href', '/assistant/module/' + moduleId + '/participants');
+            $('#edit-module-btn').attr('href', '/assistant/module/edit/' + moduleId);
             $('#view-participants-btn').attr('href', '/assistant/module/' + moduleId + '/participants');
         }
     )
