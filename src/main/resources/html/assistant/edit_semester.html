@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Semester</title>
+</head>
+<body>
+<header>
+    <div class="status-pane">
+        <div class="status-wrap"> <span> <a href="semester.html">
+      <button type="button">Semester</button>
+      </a> </span> <span> <a href="module.html">
+      <button type="button">Module</button>
+      </a> </span> <span> <a href="exam.html">
+      <button type="button">Exam</button>
+      </a> </span> <span> <a href="user.html">
+      <button type="button">User</button>
+      </a> </span> <span> <a href="login.html">
+      <button type="button">Logout</button>
+      </a> </span> </div>
+    </div>
+</header>
+<div class="container">
+    <div><a href="index.html">Index</a></div>
+    <div class="wrap">
+        <form class="form validate-form" method="POST">
+            <h2><span class="form-title">EDIT SEMESTER</span></h2>
+            <span class="short-info">
+                <p>Semester ID: </p><span id = "semester-id"></span>
+            </span>
+
+            <div class="wrap-input rsl-wrap-input"><span class="label-input">Start </span>
+                <input class="input" type="date" name="semester-start" id="semester-start" >
+            </div>
+            <div class="wrap-input rs1-wrap-input"><span class="label-input">End </span>
+                <input class="input" type="date" name="semester-end" id="semester-end" >
+            </div>
+
+            <div class="container-form-btn">
+                <div class="wrap-form-btn">
+                    <div class="form-bgbtn"></div>
+                    <button>
+                        <a href="module.html" class="form-btn"> Cancel</a>
+                    </button>
+                </div>
+                <div class="wrap-form-btn">
+                    <div class="form-bgbtn"></div>
+                    <button class="form-btn" type="reset"> Reset</button>
+                </div>
+                <div class="wrap-form-btn">
+                    <div class="form-bgbtn"></div>
+                    <button class="form-btn" type="submit" value="submit"> Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function loadOneSemesterSuccess(data) {
+        $('#semester-id').text(data.id);
+        $('#semester-start').val(data.start);
+        $('#semester-end').val(data.end);
+    }
+
+    $(document).ready(
+        function () {
+            var semID = window.location.pathname.split("/")[4];
+            $.ajax({
+                url: "/assistant/semester/edit" + semID,
+                type: 'GET',
+                data: {role: 'assistant'},
+                //dataType: 'json',
+                success: loadOneSemesterSuccess,
+                error: displayError
+            });
+        }
+    )
+</script>
+
+</body>
+</html>
