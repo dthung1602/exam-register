@@ -6,10 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VGU Exam Registration - Module</title>
     <link rel="icon" type="image/png" href="images/ico/vgu-logo-transparent.png"/>
-    <link href="css/module.css" rel="stylesheet" type="text/css">
-    <link href="css/util.css" rel="stylesheet" type="text/css">
-    <link href="css/bootstrap.css" rel="stylesheet" type="text/css">
-    <link href="css/header.css" rel="stylesheet" type="text/css">
+    <link href="/css/module.css" rel="stylesheet" type="text/css">
+    <link href="/css/util.css" rel="stylesheet" type="text/css">
+    <link href="/css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="/css/header.css" rel="stylesheet" type="text/css">
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/utils.js"></script>
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -79,26 +81,6 @@
 </body>
 </html>
 
-
-
-
-
-<!--<table>-->
-<!--    <thead>-->
-<!--    <tr>-->
-<!--        <th>Semester</th>-->
-<!--        <th>From</th>-->
-<!--        <th>To</th>-->
-<!--        <th>Module</th>-->
-<!--        <th>Code</th>-->
-<!--        <th></th>-->
-<!--    </tr>-->
-<!--    </thead>-->
-<!--    <tbody id="module-table">-->
-
-<!--    </tbody>-->
-<!--</table>-->
-
 <script>
     function delModule(id) {
         $.ajax({
@@ -112,15 +94,15 @@
     }
 
     function loadModuleSuccess(modules) {
-        var table = $("#module-table");
-        var tableContent = "";
-        for (var i = 0; i < modules.length; i++) {
-            var delBtn = "<span class='tooltip hov-pointer p-l-10 p-r-10' onclick='delModule(" + modules[i].id + ")'><img class='hov-dropshadow-3px' src='images/delete.png' alt=''> <span class='tooltiptext'>Delete</span></span></div>";
-            var editBtn =
+        let table = $("#module-table");
+        let tableContent = "";
+        for (let i = 0; i < modules.length; i++) {
+            let delBtn = "<span class='tooltip hov-pointer p-l-10 p-r-10' onclick='delModule(" + modules[i].id + ")'><img class='hov-dropshadow-3px' src='images/delete.png' alt=''> <span class='tooltiptext'>Delete</span></span></div>";
+            let editBtn =
                 "<a href='/assistant/module/edit/" + modules[i].id + "'>" +
                 "<span class='tooltip hov-pointer'><img class='hov-dropshadow-3px' src='images/edit.png' alt=''><span class='tooltiptext'>Edit</span></span>" +
                 "</a>";
-            var viewBtn =
+            let viewBtn =
                 "<a href='/assistant/module/" + modules[i].id + "/participants'>" +
                 "<span class='tooltip hov-pointer'><img class='hov-dropshadow-3px' src='images/view.png' alt=''> <span class='tooltiptext'>View</span></span>" +
                 "</a>";

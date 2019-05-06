@@ -1,94 +1,105 @@
-<h2>USERS</h2>
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VGU Exam Registration - User</title>
+    <link rel="icon" type="image/png" href="/images/ico/vgu-logo-transparent.png"/>
+    <link href="/css/user.css" rel="stylesheet" type="text/css">
+    <link href="/css/util.css" rel="stylesheet" type="text/css">
+    <link href="/css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="/css/header.css" rel="stylesheet" type="text/css">
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/utils.js"></script>
+</head>
 
-<button onclick="showNewUserForm()" id="add-user-btn">ADD</button>
-<div id="new-user-form">
-    <div>
-        Role
-        <select name="role" onchange="toggleStudentCodeField()" id="role">
-            <option value="student">Student</option>
-            <option value="lecturer">Lecturer</option>
-            <option value="assistant">Assistant</option>
-        </select>
+<body>
+<header>
+    <div class="status-pane">
+        <div class="status-wrap"> <span> <a href="semester.html">
+      <button type="button">Semester</button>
+      </a> </span> <span> <a href="module.html">
+      <button type="button">Module</button>
+      </a> </span> <span> <a href="exam.html">
+      <button type="button">Exam</button>
+      </a> </span> <span> <a href="user.html">
+      <button type="button">User</button>
+      </a> </span> <span> <a href="sign.html">
+      <button type="button">Sign</button>
+      </a> </span> <span> <a href="login.html">
+      <button type="button">Logout</button>
+      </a> </span></div>
     </div>
-    <div>
-        Username
-        <input id="username">
-    </div>
-    <div>
-        Password
-        <input id="password">
-    </div>
-    <div>
-        First name
-        <input id="fname">
-    </div>
-    <div>
-        Last name
-        <input id="lname">
-    </div>
-    <div id="student-code-field">
-        Student code
-        <input id="code">
-    </div>
-    <button onclick="addNewUser()">Add</button>
+</header>
+
+<div class="container-header">
+    <span class="index-logo-top">
+        <a href="index.html">
+            <img src="/images/logo-header.png" width="20%" class="top-logo" alt="Back to Index"/>
+        </a>
+        <div class="title">
+            <h4 class="title-text">USER</h4>
+        </div>
+        <div class="add"> <a href="/assistant/user/add/">
+            <button type="button" class="add-button">ADD USER +</button>
+        </a> </div>
+  </span>
 </div>
 
-<hr><br>
+<div class="limiter">
+    <div class="container-table">
+        <div class="wrap-table">
+            <div class="tab">
+                <button class="tablinks" onclick="showTab('student', this)">Student</button>
+                <button class="tablinks" onclick="showTab('lecturer', this)">Lecturer</button>
+                <button class="tablinks" onclick="showTab('assistant', this)">Assistant</button>
+            </div>
 
-<button onclick="showTab('student')">Students</button>
-<button onclick="showTab('lecturer')">Lecturers</button>
-<button onclick="showTab('assistant')">Assistant</button>
+            <div id="tab-student">
+                <div class="table">
+                    <div class="row header">
+                        <div class="cell"> User ID</div>
+                        <div class="cell"> Username</div>
+                        <div class="cell"> First Name</div>
+                        <div class="cell"> Last Name</div>
+                        <div class="cell"> Student code</div>
+                        <div class="cell"> Action</div>
+                    </div>
+                </div>
+                <div class="table"></div>
+            </div>
 
-<hr><br>
+            <div id="tab-lecturer">
+                <div class="table">
+                    <div class="row header">
+                        <div class="cell"> User ID</div>
+                        <div class="cell"> Username</div>
+                        <div class="cell"> First Name</div>
+                        <div class="cell"> Last Name</div>
+                        <div class="cell"> Action</div>
+                    </div>
+                </div>
+                <div class="table"></div>
+            </div>
 
-<div id="tab-student">
-    <table>
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Username</th>
-            <th>First name</th>
-            <th>Last name</th>
-            <th>Student code</th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
+            <div id="tab-assistant">
+                <div class="table">
+                    <div class="row header">
+                        <div class="cell"> User ID</div>
+                        <div class="cell"> Username</div>
+                        <div class="cell"> First Name</div>
+                        <div class="cell"> Last Name</div>
+                        <div class="cell"> Action</div>
+                    </div>
+                </div>
+                <div class="table"></div>
+            </div>
+
+        </div>
+    </div>
 </div>
 
-<div id="tab-lecturer">
-    <table>
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Username</th>
-            <th>First name</th>
-            <th>Last name</th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
-</div>
-
-<div id="tab-assistant">
-    <table>
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Username</th>
-            <th>First name</th>
-            <th>Last name</th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
-</div>
 
 <script>
     function getNewUserData() {
@@ -103,7 +114,7 @@
     }
 
     function addNewUserSuccess(response) {
-        var data = getNewUserData();
+        let data = getNewUserData();
         data.id = response.id;
 
         $('#role').val('');
@@ -119,7 +130,7 @@
     }
 
     function addNewUser() {
-        var data = getNewUserData();
+        let data = getNewUserData();
         $.ajax({
             url: '/assistant/user/add/',
             type: 'POST',
@@ -131,18 +142,18 @@
 
     function showNewUserForm() {
         $('#new-user-form').show();
-        $('#add-user-btn').hide();
+        $('#add-user-btn').hide()
     }
 
-    function showTab(role) {
+    function showTab(role, btn) {
         $('[id^=tab]').hide();
         $('#tab-' + role).show();
     }
 
     function doneEditUserFunc(id) {
         return function () {
-            var code = $('#code-' + id).val();
-            var data = {
+            let code = $('#code-' + id).val();
+            let data = {
                 'id': id,
                 'username': $('#username-' + id).val(),
                 'fname': $('#fname-' + id).val(),
@@ -156,7 +167,7 @@
     }
 
     function saveUser(id) {
-        var data = {
+        let data = {
             'username': $('#username-' + id).val(),
             'fname': $('#fname-' + id).val(),
             'lname': $('#lname-' + id).val(),
@@ -173,22 +184,28 @@
     }
 
     function editUser(id) {
-        var row = $('#user' + id);
-        var tds = row.find('td');
-        var username = tds[1].innerText;
-        var fname = tds[2].innerText;
-        var lname = tds[3].innerText;
-        var isStudent = (tds.length === 6);
-        var code = isStudent ? tds[4].innerText : undefined;
+        let row = $('#user' + id);
+        let cells = row.find('.cell');
+        let username = cells[1].innerText;
+        let fname = cells[2].innerText;
+        let lname = cells[3].innerText;
+        let isStudent = (cells.length === 6);
+        let code = isStudent ? cells[4].innerText : undefined;
+        let codeCell = `<div class='cell' data-title='code'>
+                        <input id="code-${id}" value="${code}"></div>`;
 
         row.html(
-            ("<td>{}</td>" +
-                "<td> <input id='username-{}' value='" + username + "'></td>" +
-                "<td> <input id='fname-{}' value='" + fname + "'></td>" +
-                "<td> <input id='lname-{}' value='" + lname + "'></td>" +
-                (isStudent ? ("<td> <input id='code-{}' value='" + code + "'></td>") : "") +
-                "<td> <button onclick='saveUser({})'>save</button></td>")
-                .replace(/{}/g, id)
+            `<div class='cell' data-title='id'>${id}</div>
+             <div class='cell' data-title='username'><input id="username-${id}" value="${username}"></div>
+             <div class='cell' data-title='fname'><input id="fname-${id}" value="${fname}"></div>
+             <div class='cell' data-title='lname'><input id="lname-${id}" value="${lname}"></div>` +
+            (isStudent ? codeCell : "") +
+            `<div class='cell' data-title='action'>
+                 <span class='tooltip hov-pointer' onclick="saveUser(${id})">
+                     <img class='hov-dropshadow-3px' src='/images/save.png' alt="save">
+                     <span class='tooltiptext'>Save</span>
+                  </span>
+            </div>`
         );
     }
 
@@ -218,32 +235,46 @@
     function userDataToRow(user, isStudent) {
         escapeHTMLUserData(user);
 
-        var id = user.id;
-        var editBtn = "<button onclick='editUser(" + id + ")'>edit</button>";
-        var changePassBtn = "<a href='/assistant/user/changepass/" + id + "'><button>change pass</button></a>";
-        var delBtn = "<button onclick='delUser(" + id + ")'>del</button>";
-        return "<tr id='user" + id + "'>" +
-            "<td>" + id + "</td>" +
-            "<td>" + user.username + "</td>" +
-            "<td>" + user.fname + "</td>" +
-            "<td>" + user.lname + "</td>" +
-            (isStudent ? ("<td>" + user.code + "</td>") : "") +
-            "<td>" + editBtn + changePassBtn + delBtn + "</td>" +
-            "</tr>";
+        let studentCode = `<div class='cell' data-title='lname'>${user.code}</div>`;
+
+        return `` +
+            `<div class='row body' id="user${user.id}">
+                <div class='cell' data-title='id'>${user.id}</div>
+                <div class='cell' data-title='username'>${user.username}</div>
+                <div class='cell' data-title='fname'>${user.fname}</div>
+                <div class='cell' data-title='lname'>${user.lname}</div>` +
+            (isStudent ? studentCode : "") +
+            `<div class='cell' data-title='action'>
+                    <span class='tooltip hov-pointer' onclick="editUser(${user.id})">
+                        <img class='hov-dropshadow-3px' src='/images/edit.png'>
+                        <span class='tooltiptext'>Edit</span>
+                    </span>
+                    <span class='tooltip hov-pointer p-l-10'>
+                        <a href="/assistant/user/changepass/${user.id}">
+                            <img class='hov-dropshadow-3px' src='/images/password.png'>
+                        </a>
+                        <span class='tooltiptext'>Change password</span>
+                    </span>
+                    <span class='tooltip hov-pointer p-l-10' onclick="delUser(${user.id})">
+                        <img class='hov-dropshadow-3px' src='/images/delete.png'>
+                        <span class='tooltiptext'>Delete</span>
+                    </span>
+                </div>
+            </div>`;
     }
 
     function loadUserSuccessFunc(role) {
         return function (data) {
-            var tableBody = "";
-            for (var i = 0; i < data.length; i++)
+            let tableBody = "";
+            for (let i = 0; i < data.length; i++)
                 tableBody += userDataToRow(data[i], role === "student");
-            $("#tab-" + role + " tbody").html(tableBody);
+            $("#tab-" + role + " .table:nth-child(2)").html(tableBody);
         }
     }
 
     function loadUsers() {
-        var roles = ['student', 'lecturer', 'assistant'];
-        for (var i = 0; i < roles.length; i++)
+        let roles = ['student', 'lecturer', 'assistant'];
+        for (let i = 0; i < roles.length; i++)
             $.ajax({
                 url: '/assistant/user/view',
                 type: 'GET',
@@ -254,7 +285,7 @@
     }
 
     function toggleStudentCodeField() {
-        var studentCodeFiled = $('#student-code-field');
+        let studentCodeFiled = $('#student-code-field');
         if ($('#role').val() === 'student')
             studentCodeFiled.show();
         else
@@ -270,3 +301,6 @@
         }
     )
 </script>
+
+</body>
+</html>

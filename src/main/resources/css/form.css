@@ -3,23 +3,23 @@
 
 @font-face {
 	font-family: Poppins-Regular;
-	src: url('../fonts/poppins/Poppins-Regular.ttf');
+	src: url('/fonts/poppins/Poppins-Regular.ttf');
 }
 @font-face {
 	font-family: Poppins-Bold;
-	src: url('../fonts/poppins/Poppins-Bold.ttf');
+	src: url('/fonts/poppins/Poppins-Bold.ttf');
 }
 @font-face {
 	font-family: Poppins-SemiBold;
-	src: url('../fonts/poppins/Poppins-SemiBold.ttf');
+	src: url('/fonts/poppins/Poppins-SemiBold.ttf');
 }
 @font-face {
 	font-family: Poppins-ExtraBold;
-	src: url('../fonts/poppins/Poppins-ExtraBold.ttf');
+	src: url('/fonts/poppins/Poppins-ExtraBold.ttf');
 }
 @font-face {
 	font-family: Poppins-Light;
-	src: url('../fonts/poppins/Poppins-Light.ttf');
+	src: url('/fonts/poppins/Poppins-Light.ttf');
 }
 /*//////////////////////////////////////////////////////////////////
 [ RESTYLE TAG ]*/
@@ -30,7 +30,7 @@
 	box-sizing: border-box;
 }
 body, html {
-	height: 100%;
+	height: 100vh;
 	font-family: Poppins-Regular;
 }
 /*---------------------------------------------*/

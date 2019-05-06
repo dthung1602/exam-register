@@ -5,15 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--===============================================================================================-->
-    <link rel="icon" type="image/png" href="images/ico/vgu-logo-transparent.png"/>
+    <link rel="icon" type="image/png" href="/images/ico/vgu-logo-transparent.png"/>
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+    <link rel="stylesheet" type="text/css" href="/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="css/util.css">
-    <link rel="stylesheet" type="text/css" href="css/form.css">
-    <link rel="stylesheet" type="text/css" href="css/header.css">
+    <link rel="stylesheet" type="text/css" href="/css/util.css">
+    <link rel="stylesheet" type="text/css" href="/css/form.css">
+    <link rel="stylesheet" type="text/css" href="/css/header.css">
     <!--===============================================================================================-->
 </head>
 <body>
@@ -32,8 +32,8 @@
       </a> </span></div>
     </div>
 </header>
-<div class="container" style="background-image: url('images/bg-02.jpg');">
-    <div class="form-top-logo"><a href="index.html"> <img src="images/logo-header.png" width="20%" class="top-logo"
+<div class="container" style="background-image: url('/images/bg-02.jpg');">
+    <div class="form-top-logo"><a href="/index.html"> <img src="/images/logo-header.png" width="20%" class="top-logo"
                                                           alt="Back to Index"/> </a></div>
     <div class="wrap">
         <form class="form validate-form">
@@ -52,7 +52,6 @@
                 <select class="input" name="lecturer" id="lecturer"></select>
             </div>
 
-            
             <div class="container-form-btn">
                 <div class="wrap-form-btn">
                     <div class="form-bgbtn"></div>
@@ -72,6 +71,8 @@
         </form>
     </div>
 </div>
+<script src="/js/jquery-3.3.1.min.js"></script>
+<script src="/js/utils.js"></script>
 <script>
     function loadModuleInfoSuccess(data) {
         $('#module-name').val(data.name);
