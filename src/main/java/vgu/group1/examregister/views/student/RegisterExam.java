@@ -8,14 +8,13 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.sql.SQLException;
 
-@Path("/view/exams/")
+@Path("/student/register/{id}")
 public class RegisterExam extends BaseView {
 
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public Response doPost(@FormParam("my_student") int student,
-                           @FormParam("my_exam") int exam) throws SQLException {
-        Exam.registerExam(student, exam);
+    public Response doPost(@PathParam("id") int examID) throws SQLException {
+        Exam.registerExam(getAccountId(), examID);
         return Response.ok().build();
     }
 }
