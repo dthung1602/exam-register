@@ -1,7 +1,5 @@
 package vgu.group1.examregister.views;
 
-import vgu.group1.examregister.Config;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.Context;
 import java.io.File;
@@ -18,15 +16,15 @@ abstract public class BaseView {
 
     private static final ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 
-    public String getUserName() {
+    String getUserName() {
         return (String) request.getAttribute("username");
     }
 
-    public String getUserRole() {
+    String getUserRole() {
         return (String) request.getAttribute("role");
     }
 
-    public int getAccountId() {
+    int getAccountId() {
         return (Integer) request.getAttribute("accountId");
     }
 
@@ -47,6 +45,8 @@ abstract public class BaseView {
     }
 
     protected static Time toSQLTime(String timeStr) {
-        return Time.valueOf(timeStr + ":0");
+        if (timeStr.matches("^[0-9]{1,2}:[0-9]{1,2}$"))
+            timeStr += ":0";
+        return Time.valueOf(timeStr);
     }
 }
