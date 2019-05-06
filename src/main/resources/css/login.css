@@ -1,20 +1,36 @@
-
-
-
-
 /*//////////////////////////////////////////////////////////////////
 [ FONT ]*/
 
 @font-face {
   font-family: Ubuntu-Regular;
-  src: url('../fonts/ubuntu/Ubuntu-Regular.ttf'); 
+  src: url('../fonts/ubuntu/Ubuntu-Regular.ttf');
 }
 
 @font-face {
   font-family: Ubuntu-Bold;
-  src: url('../fonts/ubuntu/Ubuntu-Bold.ttf'); 
+  src: url('../fonts/ubuntu/Ubuntu-Bold.ttf');
 }
 
+
+@font-face {
+  font-family: Poppins-Regular;
+  src: url('../fonts/poppins/Poppins-Regular.ttf');
+}
+
+@font-face {
+  font-family: Poppins-Bold;
+  src: url('../fonts/poppins/Poppins-Bold.ttf');
+}
+
+@font-face {
+  font-family: Poppins-SemiBold;
+  src: url('../fonts/poppins/Poppins-SemiBold.ttf');
+}
+
+@font-face {
+  font-family: Poppins-Medium;
+  src: url('../fonts/poppins/Poppins-Medium.ttf');
+}
 
 
 
@@ -29,12 +45,12 @@
 
 body, html {
 	height: 100%;
-	font-family: Ubuntu-Regular, sans-serif;
+	font-family: Poppins-Regular;
 }
 
 /*---------------------------------------------*/
 a {
-	font-family: Ubuntu-Regular;
+	font-family: Poppins-Regular;
 	font-size: 14px;
 	line-height: 1.7;
 	color: #666666;
@@ -60,7 +76,7 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 p {
-	font-family: Ubuntu-Regular;
+	font-family: Poppins-Regular;
 	font-size: 14px;
 	line-height: 1.7;
 	color: #666666;
@@ -207,7 +223,7 @@ iframe {
 }
 
 .login-form-title {
-  font-family: Ubuntu-Bold;
+  font-family: Poppins-SemiBold;
   font-size: 28px;
   color: #fff;
   line-height: 1.2;
@@ -229,7 +245,7 @@ iframe {
 }
 
 .input {
-  font-family: Ubuntu-Regular;
+  font-family: Poppins-Regular;
   font-size: 20px;
   color: #555555;
   line-height: 1.2;
@@ -333,7 +349,7 @@ iframe {
 }
 
 .login-form-btn {
-  font-family: Ubuntu-Bold;
+  font-family: Poppins-SemiBold;
   font-size: 18px;
   color: #fff;
   line-height: 1.2;
@@ -351,7 +367,7 @@ iframe {
   height: 42px;
   border-radius: 21px;
 
-  background: #F58427;
+  background: #555555;
   position: relative;
   z-index: 1;
 
@@ -369,7 +385,7 @@ iframe {
   width: 100%;
   height: 100%;
   border-radius: 21px;
-  background-color: #555555;
+  background-color: #F58427;
   top: 0;
   left: 0;
   opacity: 0;

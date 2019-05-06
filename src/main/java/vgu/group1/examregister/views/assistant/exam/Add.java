@@ -19,11 +19,12 @@ public class Add extends BaseView {
     @GET
     @Produces(MediaType.TEXT_HTML)
     public Response doGet() throws IOException {
-        return Response.ok(getHTMLFile("add_exam.html")).build();
+        return Response.ok(getHTMLFile("assistant/add_exam.html")).build();
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response doPost(@FormParam("module-id") int moduleID,
                            @FormParam("exam-date") Date examDate,
                            @FormParam("exam-deadline") Date examDeadline,

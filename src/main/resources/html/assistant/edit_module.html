@@ -1,16 +1,78 @@
-<h2>EDIT MODULE</h2>
-<form method="POST">
-    Module name: <br/>
-    <input type="text" name="module-name" id="module-name"/><br/>
-    Module code: <br/>
-    <input type="text" name="module-code" id="module-code"/><br>
-    <div>Lecturer</div>
-    <select name="lecturer" id="lecturer"></select>
-    <div>Semester start: <span id="start"></span></div>
-    <div>Semester end: <span id="end"></span></div>
-    <input type="submit" value="submit"/>
-</form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>VGU Exam Registration - Edit Module</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="/images/ico/vgu-logo-transparent.png"/>
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="/css/util.css">
+    <link rel="stylesheet" type="text/css" href="/css/form.css">
+    <link rel="stylesheet" type="text/css" href="/css/header.css">
+    <!--===============================================================================================-->
+</head>
+<body>
+<header>
+    <div class="status-pane">
+        <div class="status-wrap"> <span> <a href="semester.html">
+      <button type="button">Semester</button>
+      </a> </span> <span> <a href="module.html">
+      <button type="button">Module</button>
+      </a> </span> <span> <a href="exam.html">
+      <button type="button">Exam</button>
+      </a> </span> <span> <a href="user.html">
+      <button type="button">User</button>
+      </a> </span> <span> <a href="login.html">
+      <button type="button">Logout</button>
+      </a> </span></div>
+    </div>
+</header>
+<div class="container" style="background-image: url('/images/bg-02.jpg');">
+    <div class="form-top-logo"><a href="/index.html"> <img src="/images/logo-header.png" width="20%" class="top-logo"
+                                                          alt="Back to Index"/> </a></div>
+    <div class="wrap">
+        <form class="form validate-form">
+            <span class="form-title"> EDIT A MODULE </span>
+            <div class="short-info">
+                <span class="label-input p-r-100">Semester start: <span id="start"></span></span>
+                <span class="label-input">Semester end: <span id="end"></span></span>
+            </div>
+            <div class="wrap-input rs1-wrap-input"><span class="label-input">Module Name *</span>
+                <input class="input" type="text" name="module-name" id="module-name" placeholder="Database, Java...">
+            </div>
+            <div class="wrap-input rs1-wrap-input"><span class="label-input">Module Code *</span>
+                <input class="input" type="text" name="module-code" id="module-code" placeholder="DTB, JAV...">
+            </div>
+            <div class="wrap-input"><span class="label-input">Lecturer *</span>
+                <select class="input" name="lecturer" id="lecturer"></select>
+            </div>
 
+            <div class="container-form-btn">
+                <div class="wrap-form-btn">
+                    <div class="form-bgbtn"></div>
+                    <button>
+                        <a href="module.html" class="form-btn"> Cancel</a>
+                    </button>
+                </div>
+                <div class="wrap-form-btn">
+                    <div class="form-bgbtn"></div>
+                    <button class="form-btn" type="reset"> Reset</button>
+                </div>
+                <div class="wrap-form-btn">
+                    <div class="form-bgbtn"></div>
+                    <button class="form-btn" type="submit" value="submit"> Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="/js/jquery-3.3.1.min.js"></script>
+<script src="/js/utils.js"></script>
 <script>
     function loadModuleInfoSuccess(data) {
         $('#module-name').val(data.name);
@@ -51,3 +113,21 @@
         }
     )
 </script>
+
+</body>
+</html>
+
+
+<!--<h2>EDIT MODULE</h2>-->
+<!--<form method="POST">-->
+<!--    Module name: <br/>-->
+<!--    <input type="text" name="module-name" id="module-name"/><br/>-->
+<!--    Module code: <br/>-->
+<!--    <input type="text" name="module-code" id="module-code"/><br>-->
+<!--    <div>Lecturer</div>-->
+<!--    <select name="lecturer" id="lecturer"></select>-->
+<!--    <div>Semester start: <span id="start"></span></div>-->
+<!--    <div>Semester end: <span id="end"></span></div>-->
+<!--    <input type="submit" value="submit"/>-->
+<!--</form>-->
+

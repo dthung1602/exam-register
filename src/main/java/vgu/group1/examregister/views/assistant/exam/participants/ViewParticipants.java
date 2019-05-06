@@ -1,4 +1,4 @@
-package vgu.group1.examregister.views.assistant.exam;
+package vgu.group1.examregister.views.assistant.exam.participants;
 
 import org.json.JSONArray;
 import vgu.group1.examregister.database.Exam;
@@ -10,7 +10,7 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.sql.SQLException;
 
-@Path("/assistant/exam/view-participants")
+@Path("/assistant/exam/{id}/participants")
 public class ViewParticipants extends BaseView {
     /**
      * Method handling HTTP GET requests. The returned object will be sent
@@ -27,7 +27,7 @@ public class ViewParticipants extends BaseView {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response doPost(@FormParam("exam-id") int examID)
+    public Response doPost(@PathParam("id") int examID)
             throws SQLException {
         JSONArray participants = Exam.listParticipants(examID);
         return Response.ok(participants.toString()).build();
