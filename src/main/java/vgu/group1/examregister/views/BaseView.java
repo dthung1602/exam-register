@@ -20,11 +20,11 @@ abstract public class BaseView {
         return (String) request.getAttribute("username");
     }
 
-    String getUserRole() {
+    protected String getUserRole() {
         return (String) request.getAttribute("role");
     }
 
-    int getAccountId() {
+    protected int getAccountId() {
         return (Integer) request.getAttribute("accountId");
     }
 
