@@ -1,41 +1,127 @@
-<div id="module-info">
-    <h2 id="module-name"></h2>
-    <div id="module-code"></div>
-    <div id="semester-start"></div>
-    <div id="semester-end"></div>
-    <div id="lecturer"></div>
-    <div id="edit-btn"></div>
-    <div id="view-participant-btn"></div>
-</div>
-<hr><br>
-<div id="sessions">
-    <!--    <a href="/assistant/session/add">ADD</a>-->
-    <button id="add-session-btn" onclick="showForm()">Add session</button>
-    <div id="new-session-form">
-        <input type="hidden" name="module-id" id="module-id">
-        <div>
-            <label>Date</label>
-            <input type="date" name="date" id="date">
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VGU Exam Registration - User</title>
+    <link rel="icon" type="image/png" href="/images/ico/vgu-logo-transparent.png"/>
+    <link href="/css/moduleid.css" rel="stylesheet" type="text/css">
+    <link href="/css/util.css" rel="stylesheet" type="text/css">
+    <link href="/css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="/css/header.css" rel="stylesheet" type="text/css">
+    <script src="/js/utils.js"></script>
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+<header>
+    <div class="status-pane">
+        <div class="status-wrap">
+            <span> <a href="/view/semester/">
+                <button type="button">Semester</button>
+            </a> </span>
+            <span> <a href="/view/module/">
+                <button type="button">Module</button>
+            </a> </span>
+            <span> <a href="/view/exam/">
+                <button type="button">Exam</button>
+              </a> </span>
+            <span> <a href="/assistant/user/view/">
+                <button type="button">User</button>
+             </a> </span>
+            <span> <a href="login.html">
+                 <button type="button">Logout</button>
+            </a> </span>
         </div>
-        <div>
-            <label>Start</label>
-            <input type="time" name="start" id="start" value="09:00" autocomplete="false">
-        </div>
-        <div>
-            <label>End</label>
-            <input type="time" name="end" id="end" value="12:00" autocomplete="false">
-        </div>
-        <button onclick="newSession()">Create</button>
     </div>
-    <br>
-    <div id="sessions-table"></div>
+</header>
+<div class="container-header">
+    <div class="index-logo-top"><a href="index.html"> <img src="/images/logo-header.png" class="top-logo"
+                                                           alt="Back to Index"/> </a>
+        <div class="module-infobox">
+            <!--            <span class="text-infobox"><strong>Module ID:</strong> <span id="module-id"></span></span>-->
+            <span class="text-infobox"><strong>Module Code:</strong> <span id="module-code"></span></span>
+            <span class="text-infobox"><strong>Lecturer:</strong> <span id="lecturer"></span></span>
+            <span class="text-infobox"><strong>Start:</strong> <span id="semester-start"></span></span>
+            <span class="text-infobox"><strong>End:</strong> <span id="semester-end"></span></span>
+            <a>&nbsp;</a>
+            <a id="edit-module-btn">
+                <span class="hov-pointer tooltip p-r-10 p-l-10">
+                    <img class="hov-dropshadow-3px" src="/images/edit.png" alt="">
+                    <span class="tooltiptext">Edit module</span>
+                </span>
+            </a>
+            <a id="view-participants-btn">
+                <span class="hov-pointer tooltip">
+                    <img class="hov-dropshadow-3px" src="/images/info.png" alt="">
+                    <span class="tooltiptext">View participants</span>
+                </span>
+            </a>
+        </div>
+        <div class="title">
+            <h5 class="title-text">MODULE: <span id="module-name"></span></h5>
+            <h6 class="title-text">SESSION</h6>
+        </div>
+        <div class="add">
+            <button class="add-button" onclick="showNewSessionForm()">ADD SESSION +</button>
+        </div>
+    </div>
 </div>
+<div id="add-session-container" style="display:none;">
+    <form class="add-session-form">
+        <div class="add-session-container">
+            <input type="hidden" name="module-id" id="module-id">
+            <span class="label-input">Date:</span>
+            <input class="input" type="date" id="date">
+            <span class="label-input">Start:</span>
+            <input class="input" type="time" id="start">
+            <span class="label-input">End:</span>
+            <input class="input" type="time" id="end">
+            <span class="label-input">
+                <button class="form-btn" type="reset">Reset</button>
+                <span class="form-btn" onclick="newSession()">Submit</span>
+            </span>
+        </div>
+    </form>
+</div>
+<div class="limiter">
+    <div class="container-table">
+        <div class="wrap-table">
+            <div class="table" id='sessions-table'>
+                <div class="row header">
+                    <div class="cell"> Session ID</div>
+                    <div class="cell"> Date</div>
+                    <div class="cell"> Start</div>
+                    <div class="cell"> End</div>
+                    <div class="cell"> Action</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
 
 <script>
+    function showNewSessionForm() {
+        let x = document.getElementById("add-session-container");
+        if (x.style.display === "none") {
+            x.style.display = "block";
+        } else {
+            x.style.display = "none";
+        }
+    }
+
     function newSession() {
-        var data = {};
-        var fields = ['module-id', 'date', 'end', 'start'];
-        for (var i = 0; i < fields.length; i++)
+        let data = {};
+        let fields = ['module-id', 'date', 'end', 'start'];
+        for (let i = 0; i < fields.length; i++)
             data[fields[i]] = $('#' + fields[i]).val();
         console.log(data);
         $.ajax({
@@ -52,13 +138,8 @@
         });
     }
 
-    function showForm() {
-        $('#new-session-form').show();
-        $('#add-session-btn').hide();
-    }
-
     function loadSessions() {
-        var moduleID = window.location.pathname.split("/")[3];
+        let moduleID = window.location.pathname.split("/")[3];
         $.ajax({
             url: "/assistant/session/" + moduleID,
             type: 'POST',
@@ -68,7 +149,7 @@
     }
 
     function saveSession(sessionId) {
-        var data = {
+        let data = {
             date: $('#date-session' + sessionId).val(),
             start: $('#start-session' + sessionId).val(),
             end: $('#end-session' + sessionId).val()
@@ -84,17 +165,22 @@
     }
 
     function editSession(sessionId) {
-        var row = $('#session' + sessionId);
-        var date = row.find('td')[0].innerText;
-        var start = row.find('td')[1].innerText;
-        var end = row.find('td')[2].innerText;
+        let row = $('#session' + sessionId);
+        let date = row.find('.cell')[1].innerText;
+        let start = row.find('.cell')[2].innerText;
+        let end = row.find('.cell')[3].innerText;
 
         row.html(
-            ("<td> <input type='date' id='date-session{}' value='" + date + "'>" +
-                "<td> <input type='time' id='start-session{}' value='" + start + "'>" +
-                "<td> <input type='time' id='end-session{}' value='" + end + "'>" +
-                "<td> <button onclick='saveSession({})'>save</button></td>")
-                .replace(/{}/g, sessionId)
+            `<div class='cell' data-title='session-id'>${sessionId}</div>` +
+            `<div class='cell' data-title='date'><input type='date' id='date-session${sessionId}' value='${date}'></div>` +
+            `<div class='cell' data-title='start'><input type='time' id='start-session${sessionId}' value='${start}'></div>` +
+            `<div class='cell' data-title='end'><input type='time' id='end-session${sessionId}' value='${end}'></div>` +
+            `<div class='cell' data-title='action'>` +
+            `    <span class='tooltip hov-pointer' onclick='saveSession(${sessionId})'>` +
+            `        <img class='hov-dropshadow-3px' src='/images/save.png' alt='save'> ` +
+            `        <span class='tooltiptext'>Save</span>` +
+            `    </span>` +
+            `</div>`
         )
     }
 
@@ -127,34 +213,28 @@
     }
 
     function loadSessionsInModuleSuccess(data) {
-        var tableBody = "";
-        for (var i = 0; i < data.length; i++) {
-            var sid = data[i].id;
-            var editBtn = "<button onclick='editSession(" + sid + ")'>edit</button>";
-            var delBtn = "<button onclick='delSession(" + sid + ")'>del</button>";
+        let tableBody = "";
+        for (let i = 0; i < data.length; i++) {
+            let sid = data[i].id;
             tableBody +=
-                "<tr id='session" + sid + "'>" +
-                "<td>" + data[i].date + "</td>" +
-                "<td>" + data[i].start + "</td>" +
-                "<td>" + data[i].end + "</td>" +
-                "<td>" + editBtn + " " + delBtn + "</td>" +
-                "</tr>"
+                `<div class='row body' id='session${sid}'>` +
+                `    <div class='cell' data-title='session-id'>${sid}</div>` +
+                `    <div class='cell' data-title='date'>${data[i].date}</div>` +
+                `    <div class='cell' data-title='start'>${data[i].start}</div>` +
+                `    <div class='cell' data-title='end'>${data[i].end}</div>` +
+                `    <div class='cell' data-title='action'>` +
+                `        <span class='tooltip hov-pointer' onclick='editSession(${sid})'>` +
+                `            <img class='hov-dropshadow-3px' src='/images/edit.png' alt=''> ` +
+                `            <span class='tooltiptext'> Edit</span>` +
+                `        </span>` +
+                `        <span class='tooltip hov-pointer p-l-10 p-r-10' onclick='delSession(${sid})'>` +
+                `           <img class='hov-dropshadow-3px' src='/images/delete.png' alt=''> ` +
+                `           <span class='tooltiptext'>Delete</span>` +
+                `       </span>` +
+                `    </div>` +
+                `</div>`
         }
-        $("#sessions-table").html(
-            "<table>" +
-            "<thead>" +
-            "<tr>" +
-            "<td>Date</td>" +
-            "<td>Start time</td>" +
-            "<td>End time</td>" +
-            "<td></td>" +
-            "</tr>" +
-            "</thead>" +
-            "<tbody>" +
-            tableBody +
-            "</tbody>" +
-            "</table>"
-        )
+        $("#sessions-table").html(tableBody);
     }
 
     $(document).ready(
@@ -168,6 +248,11 @@
 
             loadSessions();
             $('#new-session-form').hide();
+
+            let moduleId = window.location.pathname.split("/")[3];
+            $('#edit-module-btn').attr('href', '/assistant/module/' + moduleId + '/participants');
+            $('#view-participants-btn').attr('href', '/assistant/module/' + moduleId + '/participants');
         }
     )
 </script>
+</html>

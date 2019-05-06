@@ -14,6 +14,8 @@
     <link rel="stylesheet" type="text/css" href="/css/util.css">
     <link rel="stylesheet" type="text/css" href="/css/form.css">
     <link rel="stylesheet" type="text/css" href="/css/header.css">
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/utils.js"></script>
     <!--===============================================================================================-->
 </head>
 <body>
@@ -32,8 +34,8 @@
       </a> </span> </div>
     </div>
 </header>
-<div class="container" style="background-image: url('images/bg-02.jpg');">
-    <div class="form-top-logo"> <a href="index.html"> <img src="images/logo-header.png" width="20%" class="top-logo" alt="Back to Index"/> </a> </div>
+<div class="container" style="background-image: url('/images/bg-02.jpg');">
+    <div class="form-top-logo"> <a href="/index.html"> <img src="/images/logo-header.png" width="20%" class="top-logo" alt="Back to Index"/> </a> </div>
     <div class="wrap">
         <form class="form validate-form"  method='POST'>
             <span class="form-title"> ADD A MODULE &nbsp; &nbsp; </span>
@@ -73,9 +75,9 @@
 <script>
 
     function success(semesters) {
-        var select = $("#selectSem");
-        var option = "";
-        for (var i = 0; i < semesters.length; i++) {
+        let select = $("#selectSem");
+        let option = "";
+        for (let i = 0; i < semesters.length; i++) {
             option +=
                 "<option value='" + semesters[i].id + "'>" +
                 "Semester " + semesters[i].id + ": [" + semesters[i].start + " - " + semesters[i].end + "]" +

@@ -1,4 +1,116 @@
-<h2>SIGN</h2>
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VGU Exam Registration - Check Attendance</title>
+    <link rel="icon" type="image/png" href="/images/ico/vgu-logo-transparent.png"/>
+    <link href="/css/sign.css" rel="stylesheet" type="text/css">
+    <link href="/css/util.css" rel="stylesheet" type="text/css">
+    <link href="/css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="/css/header.css" rel="stylesheet" type="text/css">
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/utils.js"></script>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+</head>
+
+<body>
+<header>
+    <div class="status-pane">
+        <div class="status-wrap"> <span> <a href="semester.html">
+      <button type="button">Semester</button>
+      </a> </span> <span> <a href="module.html">
+      <button type="button">Module</button>
+      </a> </span> <span> <a href="exam.html">
+      <button type="button">Exam</button>
+      </a> </span> <span> <a href="user.html">
+      <button type="button">User</button>
+      </a> </span> <span> <a href="sign.html">
+      <button type="button">Sign</button>
+      </a> </span> <span> <a href="login.html">
+      <button type="button">Logout</button>
+      </a> </span> </div>
+    </div>
+</header>
+<div class="container-header"> <span class="index-logo-top"> <a href="index.html"> <img src="/images/logo-header.png" width="20%" class="top-logo" alt="Back to Index"/> </a>
+  <div class="title">
+    <h4 class="title-text">CHECK ATTENDANCE</h4>
+  </div>
+  </span> </div>
+<div class="limiter">
+    <div class="container-table">
+        <div class="wrap-table">
+            <div class="table">
+                <div class="row header">
+                    <div class="cell"> Session ID </div>
+                    <div class="cell"> Module Name </div>
+                    <div class="cell"> Lecturer </div>
+                    <div class="cell"> Start </div>
+                    <div class="cell"> End </div>
+                    <div class="cell"> Action </div>
+                </div>
+            </div>
+            <div class="table" id="sessions-table">
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+
+    function sign(id) {
+        $.ajax({
+            url: "/student/sign/" + id,
+            type: "POST",
+            success: function () {
+                $('#session-' + id).remove();
+                alert("Signed session #" + id);
+            },
+            error: displayError
+        })
+    }
+
+    function loadCurrentSessionsSuccess(sessions) {
+        let tableBody = "";
+        let table = $("#sessions-table");
+        for (let i = 0; i < sessions.length; i++) {
+            let sid = sessions[i].id;
+            let signBtn = `<span class="tooltip hov-pointer" onclick='sign(${sid})'>
+                            <img class="hov-dropshadow-3px" src="/images/edit.png" alt="">
+                             <span class="tooltiptext">Sign</span></span>`;
+            tableBody +=
+                `<div class='row body' id='session-${sid}'>`+
+                `<div class='cell' data-title='id'>${sid}</div>`+
+                `<div class='cell' data-title='module'> ${sessions[i].module} </div>`+
+                `<div class='cell' data-title='lecturer'> ${sessions[i].lecturer} </div>` +
+                `<div class='cell' data-title='start'>${sessions[i].start} </div>` +
+                `<div class='cell' data-title='end'>${sessions[i].end} </div>`+
+                `<div class='cell' data-title='action'>${signBtn}</div>`+
+                `</div>`
+        }
+        table.html(tableBody);
+    }
+
+    $(document).ready(
+        function () {
+            $.ajax({
+                url: "/student/sign",
+                type: "POST",
+                success: loadCurrentSessionsSuccess,
+                error: displayError
+            });
+
+        }
+    )
+</script>
+
+</html>
+
+
+<!--<h2>SIGN</h2>
 
 <table>
     <thead>
@@ -14,47 +126,5 @@
     <tbody id="current-sessions-table">
 
     </tbody>
-</table>
+</table>-->
 
-<script>
-
-    function sign(id) {
-        $.ajax({
-                url: "/student/sign/" + id,
-                type: "POST",
-                success: function () {
-                    $('#session-' + id).remove();
-                    alert("Signed session #" + id);
-                },
-                error: displayError
-            })
-    }
-
-    function loadCurrentSessionsSuccess(sessions) {
-        var tableBody = "";
-        for (var i = 0; i < sessions.length; i++) {
-            tableBody +=
-                ("<tr id='session-{}'>" +
-                    "<td>{}</td>" +
-                    "<td>" + sessions[i].module + "</td>" +
-                    "<td>" + sessions[i].lecturer + "</td>" +
-                    "<td>" + sessions[i].start + "</td>" +
-                    "<td>" + sessions[i].end + "</td>" +
-                    "<td><button onclick='sign({})'>Sign</button></td>" +
-                    "</tr>").replace(/{}/g, sessions[i].id)
-        }
-        $('#current-sessions-table').html(tableBody);
-    }
-
-    $(document).ready(
-        function () {
-            $.ajax({
-                url: "/student/sign",
-                type: "POST",
-                success: loadCurrentSessionsSuccess,
-                error: displayError
-            })
-
-        }
-    )
-</script>

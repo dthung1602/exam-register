@@ -109,12 +109,15 @@ END //
 -- ------------------------ MODULE --------------------------
 
 # create module
-CREATE PROCEDURE CREATE_MODULE(IN my_name VARCHAR(50),
+    CREATE PROCEDURE CREATE_MODULE(IN my_name VARCHAR(50),
                                IN my_code VARCHAR(8),
-                               IN my_semester INT)
+                               IN my_semester INT,
+                               IN my_lecturerId INT)
 BEGIN
     INSERT INTO MODULE(name, code, semester)
     VALUES (my_name, my_code, my_semester);
+    INSERT INTO TEACH(module, lecturer)
+    VALUES (LAST_INSERT_ID(),my_lecturerId);
 END //
 
 # assign lecturer to a module
@@ -315,7 +318,7 @@ END //
 
 CREATE PROCEDURE LIST_CURRENT_SESSIONS_OF_STUDENT(IN student_id INT)
 BEGIN
-    SELECT SE.id, SE.start, SE.end, M.name, A.fname || A.lname
+    SELECT SE.id, SE.start, SE.end, M.name, CONCAT(A.fname, A.lname) AS lecturer
     FROM SESSION SE
              JOIN MODULE M ON SE.module = M.id
              JOIN ENROLL E ON M.id = E.module

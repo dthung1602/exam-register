@@ -343,7 +343,7 @@ input.input{
 
 input.input:focus {
 	background: #EDEBE8;
-	transition-duration: all 0.4s;
+	transition-duration: 0.4s;
 }
 
 .form-btn {

@@ -11,11 +11,12 @@ import static vgu.group1.examregister.database.Utils.*;
 
 public class Module {
     //Create Module
-    public static void createModule(String moduleName, String moduleCode, int semesterId) throws SQLException {
-        PreparedStatement statement = getPreparedStatement("CALL CREATE_MODULE(?, ?, ?)");
+    public static void createModule(String moduleName, String moduleCode, int semesterId, int lecturerId) throws SQLException {
+        PreparedStatement statement = getPreparedStatement("CALL CREATE_MODULE(?, ?, ?, ?)");
         statement.setString(1, moduleName);
         statement.setString(2, moduleCode);
         statement.setInt(3, semesterId);
+        statement.setInt(4, lecturerId);
         statement.executeQuery();
     }
 

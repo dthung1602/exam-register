@@ -5,7 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VGU Exam Registration - Module</title>
-    <link rel="icon" type="image/png" href="/images/ico/vgu-logo-transparent.png"/>
+
+    <link rel="icon" type="/image/png" href="/images/ico/vgu-logo-transparent.png"/>
+
     <link href="/css/module.css" rel="stylesheet" type="text/css">
     <link href="/css/util.css" rel="stylesheet" type="text/css">
     <link href="/css/bootstrap.css" rel="stylesheet" type="text/css">
@@ -44,7 +46,7 @@
         <h4 class="title-text">MODULE</h4>
     </div>
     <div class="add">
-        <a href="add-module.html"><button type="button" class="add-button">ADD MODULE +</button></a>
+        <a href="/assistant/module/add"><button type="button" class="add-button">ADD MODULE +</button></a>
     </div>
 </div>
 <div class="limiter">
@@ -60,19 +62,6 @@
                     <div class="cell"> Start </div>
                     <div class="cell"> End </div>
                     <div class="cell"> Action </div>
-                </div>
-                <div class="row body">
-                    <div class="cell" data-title="semester"> 1 </div>
-                    <div class="cell" data-title="from"> <a href="moduleid.html">Java </a></div>
-                    <div class="cell" data-title="to"> JAV </div>
-                    <div class="cell" data-title="lecturer"> Logofatu </div>
-                    <div class="cell" data-title="lecturer"> 1 </div>
-                    <div class="cell" data-title="lecturer"> 2018-02-01 </div>
-                    <div class="cell" data-title="lecturer"> 2018-03-01 </div>
-                    <div class="cell" data-title="action">
-                        <span class="tooltip hov-pointer"><img class="hov-dropshadow-3px" src="/images/view.png" alt=""> <span class="tooltiptext">View</span></span>
-                        <span class="tooltip hov-pointer p-l-10"><img class="hov-dropshadow-3px" src="/images/edit.png" alt=""> <span class="tooltiptext">Edit</span></span>
-                        <span class="tooltip hov-pointer p-l-10 p-r-10"><img class="hov-dropshadow-3px" src="/images/delete.png" alt=""> <span class="tooltiptext">Delete</span></span></div>
                 </div>
             </div>
             <div class="table" id="module-table"></div>
@@ -104,6 +93,7 @@
             let delBtn = `<span class='tooltip hov-pointer p-l-10' onclick='delModule(${modules[i].id},\"${modules[i].name}\")'>
                             <img class='hov-dropshadow-3px' src='/images/delete.png' alt=''>
                              <span class='tooltiptext'>Delete</span></span>`;
+
             let editBtn =
                 "<a href='/assistant/module/edit/" + modules[i].id + "'>" +
                 "<span class='tooltip hov-pointer p-l-10'><img class='hov-dropshadow-3px' src='/images/edit.png' alt=''><span class='tooltiptext'>Edit</span></span>" +
@@ -124,16 +114,6 @@
                 `<div class='cell' data-title='action'>${viewBtn}${editBtn}${delBtn}</div>`+
                 `</div>`
 
-                //  \n" +
-                // "            </div>"+
-                // "<tr id='module-" + modules[i].id + "'>" +
-                // "<td>" + modules[i].semester + "</td>" +
-                // "<td>" + modules[i].start + "</td>" +
-                // "<td>" + modules[i].end + "</td>" +
-                // "<td>" + modules[i].name + "</td>" +
-                // "<td>" + modules[i].code + "</td>" +
-                // "<td>" + viewBtn + editBtn + delBtn + "</td>" +
-                // "</tr>"
         }
         table.html(tableContent);
     }

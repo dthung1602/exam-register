@@ -29,8 +29,9 @@ public class Add extends BaseView {
     @Produces(MediaType.APPLICATION_JSON)
     public Response doPost(@FormParam("module-name") String moduleName,
                            @FormParam("module-code") String moduleCode,
-                           @FormParam("semester-id") int semesterID) throws SQLException {
-        Module.createModule(moduleName, moduleCode, semesterID);
+                           @FormParam("semester-id") int semesterID,
+                           @FormParam("lecturer-id") int lecturerID) throws SQLException {
+        Module.createModule(moduleName, moduleCode, semesterID, lecturerID);
         return Response.seeOther(URI.create("/view/module/")).build();
     }
 }

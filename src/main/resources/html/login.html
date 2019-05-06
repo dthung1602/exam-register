@@ -26,7 +26,7 @@
 				<span class="login-form-title p-b-41">
 					<img src="/images/vgu-title-logo-transparent.png" width="380px" class="top-logo"/>
 				</span>
-            <form class="login-form validate-form p-b-33 p-t-5">
+            <form class="login-form validate-form p-b-33 p-t-5" method="POST">
 
                 <div class="wrap-input validate-input" data-validate = "Enter username">
                     <input class="input" type="text" name="username" placeholder="Username">
@@ -34,12 +34,12 @@
                 </div>
 
                 <div class="wrap-input validate-input" data-validate="Enter password">
-                    <input class="input" type="password" name="pass" placeholder="Password">
+                    <input class="input" type="password" name="password" placeholder="Password">
                     <span class="focus-input" data-placeholder="&#xe80f;"></span>
                 </div>
 
                 <div class="container-login-form-btn m-t-32">
-                    <button class="login-form-btn">
+                    <button class="login-form-btn" type="submit">
                         Login
                     </button>
                 </div>

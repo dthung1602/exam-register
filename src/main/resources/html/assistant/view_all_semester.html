@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>View All Semesters</title>
+</head>
+
+<body>
+<h2>View All Semester</h2>
+
+<a href="/assistant/semester/add">
+    <button>Add +</button>
+</a><br>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Start</th>
+        <th>End</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody id="semester-table">
+
+    </tbody>
+</table>
+
+<script>
+    /*function loadOneSemesterSuccess(data) {
+        $('#semester-id').text(data.id);
+        $('#semester-start').text(data.start);
+        $('#semester-end').text(data.end);
+    }
+
+    $(document).ready(
+        function () {
+            var semesterId = window.location.pathname.split("/")[3];
+            $.ajax({
+                url: '/view/semester/' + semesterId,
+                type: 'POST',
+                dataType: 'json',
+                success: loadOneSemesterSuccess,
+                error: displayError
+            });
+        }
+    );
+    */
+
+    function delSemester(id) {
+        $.ajax({
+            url: "/assistant/semester/delete/" + id,
+            type: "POST",
+            success: function () {
+                $("#semester-" + id).remove()
+            },
+            error: displayError
+        })
+    }
+
+    function loadSemesterSuccess(sem_table){
+        var table = $("#semester-table");
+        var tableContent = "";
+        for (var i = 0; i < sem_table.length; i++) {
+            var delBtn = "<button onclick='delSemester(" + sem_table[i].id + ")'>Del</button>";
+            var editBtn =
+                "<a href='/assistant/semester/edit/"+sem_table[i].id+"'>" +
+                "    <button>Edit</button>" +
+                "</a>";
+            /*var viewBtn =       //Deciding to write view_one_semester.html or not
+                "<a href='/view/semester/"+sem_table[i].id+"'>" +
+                "    <button>View</button>" +
+                "</a>"
+             */
+            tableContent +=
+                "<tr id='semester-" + sem_table[i].id + "'>" +
+                "<td>" + sem_table[i].start + "</td>" +
+                "<td>" + sem_table[i].end + "</td>" +
+                "<td>" /*+ viewBtn*/ + editBtn + delBtn + "</td>" +
+                "</tr>"
+        }
+        table.html(tableContent);
+    }
+
+    $(document).ready(
+        function () {
+            $.ajax({
+                url: "/view/semester",
+                type: 'POST',
+                success: loadSemesterSuccess,
+                error: displayError
+            });
+        }
+    )
+</script>
+</body>
+</html>
