@@ -289,7 +289,16 @@ END //
 CREATE PROCEDURE LIST_EXAMS_AVAILABLE_FOR_STUDENT(IN student_id INT,
                                                   IN percent FLOAT(3, 2))
 BEGIN
-    SELECT EX.id, EX.date, EX.start, EX.end, M.name
+    SELECT EX.id,
+           EX.date,
+           EX.deadline,
+           EX.start,
+           EX.end,
+           M.name,
+           EXISTS(SELECT *
+                  FROM EXAM_REG ER
+                  WHERE ER.exam = EX.id
+                    AND ER.student = student_id) AS 'registered'
     FROM EXAM EX
              JOIN MODULE M ON EX.module = M.id
              JOIN ENROLL EN ON M.id = EN.module
@@ -323,10 +332,19 @@ END //
 CREATE PROCEDURE UNREGISTER_EXAM(IN my_student INT,
                                  IN my_exam INT)
 BEGIN
-    DELETE
-    FROM EXAM_REG
-    WHERE student = my_student
-      AND exam = my_exam;
+    SELECT EX.deadline INTO @deadline
+    FROM EXAM EX
+    WHERE EX.id = my_exam;
+
+    IF CURRENT_DATE() <= @deadline THEN
+        DELETE
+        FROM EXAM_REG
+        WHERE student = my_student
+          AND exam = my_exam;
+    ELSE
+        SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Error: Student cannot unregister the exam';
+    END IF;
 END //
 
 CREATE PROCEDURE ADD_EXAM(IN moduleId INT,
@@ -387,8 +405,9 @@ END //
 
 CREATE PROCEDURE VIEW_EXAM()
 BEGIN
-    SELECT id, module, date, deadline, start, end
-    FROM EXAM;
+    SELECT EX.id, M.name, EX.date, EX.deadline, EX.start, EX.end
+    FROM EXAM EX
+             JOIN MODULE M on EX.module = M.id;
 END //
 
 CREATE PROCEDURE LIST_CURRENT_SESSIONS_OF_STUDENT(IN student_id INT)

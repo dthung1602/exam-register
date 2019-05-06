@@ -1,35 +1,88 @@
-<div id="exam-table-body"></div>
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VGU Exam Registration - Exam</title>
+    <link rel="icon" type="image/png" href="/images/ico/vgu-logo-transparent.png"/>
+    <link href="/css/exam.css" rel="stylesheet" type="text/css">
+    <link href="/css/util.css" rel="stylesheet" type="text/css">
+    <link href="/css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="/css/header.css" rel="stylesheet" type="text/css">
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/utils.js"></script>
+</head>
 
-<script src="/js/jquery-3.3.1.min.js"></script>
-<script src="/js/utils.js"></script>
+<body>
+<header>
+    <div class="status-pane">
+        <div class="status-wrap"> <span> <a href="/view/exam">
+      <button type="button">Exam Registration</button>
+      </a> </span> <span> <a href="/student/sign">
+      <button type="button">Sign</button>
+      </a> </span> <span> <a href="/auth/login">
+      <button type="button">Logout</button>
+      </a> </span> </div>
+    </div>
+</header>
+<div class="container-header"><span class="index-logo-top"> <a href="/"> <img src="/images/logo-header.png" width="20%" class="top-logo" alt="Back to Index"/> </a>
+  <div class="title">
+    <h4 class="title-text">EXAM</h4>
+  </div>
+  </span> </div>
+<div class="limiter">
+    <div class="container-table">
+        <div class="wrap-table">
+            <div class="table">
+                <div class="row header">
+                    <div class="cell"> Exam ID </div>
+                    <div class="cell"> Module </div>
+                    <div class="cell"> Date </div>
+                    <div class="cell"> Deadline </div>
+                    <div class="cell"> Start </div>
+                    <div class="cell"> End </div>
+                    <div class="cell"> Action </div>
+                </div>
+            </div>
+            <div class="table" id="exam-table"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+
+
 
 <script>
-    function loadStudentExams(exams) {
-        let tbody = "";
-        for (let i = 0; i < exams.length; i++) {
-            let button = (exams[i].registered) ? "Unregister" : "Register";
-            tbody += '' +
-                `<div id="exam-${exams[i].id}">
-                    <div>${exams[i].id}</div>
-                    <div>${exams[i].module}</div>
-                    <div>${exams[i].date}</div>
-                    <div>${exams[i].start}</div>
-                    <div>${exams[i].end}</div>
-                    <div>${exams[i].deadline}</div>
-                    <div>
-                        <button onclick="handleRegister(${exams[i].id})">${button}</button>
-                    </div>
-                </div>`
-        }
 
-        $('#exam-table-body').html(tbody);
+    function loadStudentExams(exams){
+        let table = $("#exam-table");
+        let tableContent = "";
+        for (let i = 0; i < exams.length; i++) {
+            let eid = exams[i].id;
+            let buttonText = (exams[i].registered) ? "Unregister" : "Register";
+            let regBtn = ` <button class="btn" id="reg-btn-${eid}" onclick="handleRegister(${exams[i].id})">${buttonText}</button>`;
+            tableContent +=
+                `<div class="row body">`+
+                `<div class="cell" data-title="exam-id"> ${eid} </div>`+
+                ` <div class="cell" data-title="exam-module">${exams[i].module} </div>`+
+                `<div class="cell" data-title="date"> ${exams[i].date} </div>`+
+                `<div class="cell" data-title="deadline"> ${exams[i].deadline} </div>`+
+                `<div class="cell" data-title="start"> ${exams[i].start} </div>`+
+                `<div class="cell" data-title="end"> ${exams[i].end} </div>`+
+                `<div class="cell" data-title="action">${regBtn}</div>`+
+                `</div>`
+        }
+        table.html(tableContent);
     }
 
+
     function handleRegister(id) {
-        const button = $('#exam-' + id);
+        const button = $('#reg-btn-' + id);
         const action = button.text().toLowerCase();
         $.ajax({
-            url: '/student/' + action,
+            url: '/student/' + action + "/" + id,
             type: 'POST',
             success: function () {
                 if (action === 'register')

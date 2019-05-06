@@ -1,11 +1,8 @@
 INSERT INTO EXAM_REG(student, exam)
-VALUES (1, 1),
-       (1, 2),
-       (1, 3),
+VALUES (1, 2),
 
        (2, 2),
        (2, 3),
-       (2, 4),
 
        (3, 1),
        (3, 4),

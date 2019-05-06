@@ -12,9 +12,10 @@ import static vgu.group1.examregister.database.Utils.getPreparedStatement;
 public class Exam {
     //A student registers for an exam
     public static void registerExam(int studentID, int examID) throws SQLException {
-        PreparedStatement statement = getPreparedStatement("CALL REGISTER_EXAM(?,?)");
+        PreparedStatement statement = getPreparedStatement("CALL REGISTER_EXAM(?,?,?)");
         statement.setInt(1, studentID);
         statement.setInt(2, examID);
+        statement.setFloat(3, Config.MINIMUM_ATTENDANCE_PERCENT);
         statement.executeQuery();
     }
 
@@ -119,7 +120,10 @@ public class Exam {
         PreparedStatement statement = getPreparedStatement("CALL LIST_EXAMS_AVAILABLE_FOR_STUDENT (?, ?)");
         statement.setInt(1, studentID);
         statement.setFloat(2, Config.MINIMUM_ATTENDANCE_PERCENT);
-        return Utils.convertAll(statement.executeQuery());
+        return Utils.convertAll(
+                statement.executeQuery(),
+                new String[]{"id", "date", "deadline", "start", "end", "module", "registered"}
+        );
     }
 
     public static JSONArray listLectureExam(int lecturerID) throws SQLException {
