@@ -36,7 +36,7 @@
     <div class="form-top-logo"><a href="/index.html"> <img src="/images/logo-header.png" width="20%" class="top-logo"
                                                           alt="Back to Index"/> </a></div>
     <div class="wrap">
-        <form class="form validate-form">
+        <form class="form validate-form" method="POST">
             <span class="form-title"> EDIT A MODULE </span>
             <div class="short-info">
                 <span class="label-input p-r-100">Semester start: <span id="start"></span></span>
@@ -56,7 +56,7 @@
                 <div class="wrap-form-btn">
                     <div class="form-bgbtn"></div>
                     <button>
-                        <a href="module.html" class="form-btn"> Cancel</a>
+                        <a href="/view/module" class="form-btn"> Cancel</a>
                     </button>
                 </div>
                 <div class="wrap-form-btn">
@@ -83,8 +83,8 @@
     }
 
     function loadLecturerSuccess(data) {
-        var options = "";
-        for (var i = 0; i < data.length; i++) {
+        let options = "";
+        for (let i = 0; i < data.length; i++) {
             options +=
                 "<option value='" + data[i].id + "'>" +
                 data[i].fname + " " + data[i].lname +
@@ -92,7 +92,7 @@
         }
         $('#lecturer').html(options);
 
-        var moduleID = window.location.pathname.split("/")[4];
+        let moduleID = window.location.pathname.split("/")[4];
         $.ajax({
             url: "/view/module/" + moduleID,
             type: 'POST',

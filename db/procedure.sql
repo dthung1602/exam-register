@@ -172,10 +172,13 @@ END //
 # list all of modules
 CREATE PROCEDURE LIST_ALL_MODULES()
 BEGIN
-    SELECT CONCAT('Semester ', S.id) AS semester, S.start, S.end, M.name, M.code, M.id
+    SELECT CONCAT('', S.id) AS semester, S.start, S.end, M.name, M.code, M.id, CONCAT(A.fname,' ', A.lname) AS lecturer
     FROM MODULE M,
-         SEMESTER S
-    WHERE S.id = M.semester;
+         SEMESTER S,
+         TEACH T,
+         LECTURER L,
+         ACCOUNT A
+    WHERE S.id = M.semester AND M.id = T.module AND L.account= T.lecturer AND L.account= A.id;
 END //
 
 # List all the module of a given semester

@@ -32,6 +32,6 @@ public class Edit extends BaseView {
                            @FormParam("lecturer") int lecturerId)
             throws SQLException {
         Module.updateModule(moduleName, moduleCode, lecturerId, moduleID);
-        return Response.seeOther(URI.create("/view/module/" + moduleID)).build();
+        return Response.seeOther(URI.create("/view/module/")).build();
     }
 }

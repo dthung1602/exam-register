@@ -25,7 +25,8 @@
             url: "/assistant/exam/delete/" + id,
             type: "POST",
             success: function () {
-                $("#exam-" + id).remove()
+                $("#exam-" + id).remove();
+                alert("Module " + moduleN)
             },
             error: displayError
         })

@@ -5,11 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VGU Exam Registration - Module</title>
-    <link rel="icon" type="image/png" href="images/ico/vgu-logo-transparent.png"/>
-    <link href="css/module.css" rel="stylesheet" type="text/css">
-    <link href="css/util.css" rel="stylesheet" type="text/css">
-    <link href="css/bootstrap.css" rel="stylesheet" type="text/css">
-    <link href="css/header.css" rel="stylesheet" type="text/css">
+    <link rel="icon" type="image/png" href="/images/ico/vgu-logo-transparent.png"/>
+    <link href="/css/module.css" rel="stylesheet" type="text/css">
+    <link href="/css/util.css" rel="stylesheet" type="text/css">
+    <link href="/css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="/css/header.css" rel="stylesheet" type="text/css">
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/utils.js"></script>
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -37,7 +39,7 @@
     </div>
 </header>
 <div class="container-top">
-    <div class="index-logo-top"> <a href="index.html"> <img src="images/logo-header.png" width="17%" class="top-logo" alt="Back to Index"/> </a></div>
+    <div class="index-logo-top"> <a href="index.html"> <img src="/images/logo-header.png" width="17%" class="top-logo" alt="Back to Index"/> </a></div>
     <div class="title">
         <h4 class="title-text">MODULE</h4>
     </div>
@@ -48,7 +50,7 @@
 <div class="limiter">
     <div class="container-table">
         <div class="wrap-table">
-            <div class="table" id="module-table">
+            <div class="table">
                 <div class="row header">
                     <div class="cell"> Module ID </div>
                     <div class="cell"> Module Name </div>
@@ -68,71 +70,50 @@
                     <div class="cell" data-title="lecturer"> 2018-02-01 </div>
                     <div class="cell" data-title="lecturer"> 2018-03-01 </div>
                     <div class="cell" data-title="action">
-                        <span class="tooltip hov-pointer"><img class="hov-dropshadow-3px" src="images/view.png" alt=""> <span class="tooltiptext">View</span></span>
-                        <span class="tooltip hov-pointer p-l-10"><img class="hov-dropshadow-3px" src="images/edit.png" alt=""> <span class="tooltiptext">Edit</span></span>
-                        <span class="tooltip hov-pointer p-l-10 p-r-10"><img class="hov-dropshadow-3px" src="images/delete.png" alt=""> <span class="tooltiptext">Delete</span></span></div>
+                        <span class="tooltip hov-pointer"><img class="hov-dropshadow-3px" src="/images/view.png" alt=""> <span class="tooltiptext">View</span></span>
+                        <span class="tooltip hov-pointer p-l-10"><img class="hov-dropshadow-3px" src="/images/edit.png" alt=""> <span class="tooltiptext">Edit</span></span>
+                        <span class="tooltip hov-pointer p-l-10 p-r-10"><img class="hov-dropshadow-3px" src="/images/delete.png" alt=""> <span class="tooltiptext">Delete</span></span></div>
                 </div>
             </div>
+            <div class="table" id="module-table"></div>
         </div>
     </div>
 </div>
 </body>
-</html>
 
-
-<<<<<<< HEAD
-    </tbody>
-</table>
-<script src="/js/jquery-3.3.1.min.js"></script>
-<script src="/js/utils.js"></script>
-=======
-
-
-
-<!--<table>-->
-<!--    <thead>-->
-<!--    <tr>-->
-<!--        <th>Semester</th>-->
-<!--        <th>From</th>-->
-<!--        <th>To</th>-->
-<!--        <th>Module</th>-->
-<!--        <th>Code</th>-->
-<!--        <th></th>-->
-<!--    </tr>-->
-<!--    </thead>-->
-<!--    <tbody id="module-table">-->
-
-<!--    </tbody>-->
-<!--</table>-->
-
->>>>>>> 336c11c592840c9e1711eed80440f86d99afcb52
 <script>
-    function delModule(id) {
+    function delModule(id, name) {
+        if (!confirm("Are you sure to delete module " + name + " ?"))
+            return;
         $.ajax({
             url: "/assistant/module/delete/" + id,
             type: "POST",
             success: function () {
-                $("#module-" + id).remove()
+                $("#module-" + id).remove();
+                alert("Module " + name + " deleted.");
             },
             error: displayError
-        })
+        });
     }
 
     function loadModuleSuccess(modules) {
-        var table = $("#module-table");
-        var tableContent = "";
-        for (var i = 0; i < modules.length; i++) {
-            var delBtn = "<span class='tooltip hov-pointer p-l-10 p-r-10' onclick='delModule(" + modules[i].id + ")'><img class='hov-dropshadow-3px' src='images/delete.png' alt=''> <span class='tooltiptext'>Delete</span></span></div>";
-            var editBtn =
+        let table = $("#module-table");
+        let tableContent = "";
+        for (let i = 0; i < modules.length; i++) {
+            let mid = modules[i].id;
+            let delBtn = `<span class='tooltip hov-pointer p-l-10' onclick='delModule(${modules[i].id},\"${modules[i].name}\")'>
+                            <img class='hov-dropshadow-3px' src='/images/delete.png' alt=''>
+                             <span class='tooltiptext'>Delete</span></span>`;
+            let editBtn =
                 "<a href='/assistant/module/edit/" + modules[i].id + "'>" +
-                "<span class='tooltip hov-pointer'><img class='hov-dropshadow-3px' src='images/edit.png' alt=''><span class='tooltiptext'>Edit</span></span>" +
+                "<span class='tooltip hov-pointer p-l-10'><img class='hov-dropshadow-3px' src='/images/edit.png' alt=''><span class='tooltiptext'>Edit</span></span>" +
                 "</a>";
-            var viewBtn =
+            let viewBtn =
                 "<a href='/assistant/module/" + modules[i].id + "/participants'>" +
-                "<span class='tooltip hov-pointer'><img class='hov-dropshadow-3px' src='images/view.png' alt=''> <span class='tooltiptext'>View</span></span>" +
+                "<span class='tooltip hov-pointer'><img class='hov-dropshadow-3px' src='/images/view.png' alt=''> <span class='tooltiptext'>View Participants</span></span>" +
                 "</a>";
             tableContent +=
-       ` <div class='row body'>` +
+       ` <div class='row body' id='module-${mid}'    >` +
                 `<div class='cell' data-title='module-id'>${modules[i].id}</div>` +
                 `<div class='cell' data-title='module-name'>${modules[i].name}</div>` +
                 `<div class='cell' data-title='module-code'>${modules[i].code}</div>` +
@@ -140,7 +121,7 @@
                 `<div class='cell' data-title='semester'>${modules[i].semester}</div>` +
                 `<div class='cell' data-title='start'>${modules[i].start}</div>` +
                 `<div class='cell' data-title='start'>${modules[i].end}</div>` +
-                `<div class='cell' data-title='action'>${viewBtn}+${editBtn}+${delBtn}</div>`+
+                `<div class='cell' data-title='action'>${viewBtn}${editBtn}${delBtn}</div>`+
                 `</div>`
 
                 //  \n" +
@@ -154,7 +135,7 @@
                 // "<td>" + viewBtn + editBtn + delBtn + "</td>" +
                 // "</tr>"
         }
-        table.append(tableContent);
+        table.html(tableContent);
     }
 
     $(document).ready(
@@ -168,3 +149,4 @@
         }
     )
 </script>
+</html>
