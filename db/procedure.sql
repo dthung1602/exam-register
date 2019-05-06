@@ -125,7 +125,7 @@ END //
 -- ------------------------ MODULE --------------------------
 
 # create module
-    CREATE PROCEDURE CREATE_MODULE(IN my_name VARCHAR(50),
+CREATE PROCEDURE CREATE_MODULE(IN my_name VARCHAR(50),
                                IN my_code VARCHAR(8),
                                IN my_semester INT,
                                IN my_lecturerId INT)
@@ -133,7 +133,7 @@ BEGIN
     INSERT INTO MODULE(name, code, semester)
     VALUES (my_name, my_code, my_semester);
     INSERT INTO TEACH(module, lecturer)
-    VALUES (LAST_INSERT_ID(),my_lecturerId);
+    VALUES (LAST_INSERT_ID(), my_lecturerId);
 END //
 
 # assign lecturer to a module
@@ -191,13 +191,22 @@ END //
 # list all of modules
 CREATE PROCEDURE LIST_ALL_MODULES()
 BEGIN
-    SELECT CONCAT('', S.id) AS semester, S.start, S.end, M.name, M.code, M.id, CONCAT(A.fname,' ', A.lname) AS lecturer
+    SELECT CONCAT('', S.id)              AS semester,
+           S.start,
+           S.end,
+           M.name,
+           M.code,
+           M.id,
+           CONCAT(A.fname, ' ', A.lname) AS lecturer
     FROM MODULE M,
          SEMESTER S,
          TEACH T,
          LECTURER L,
          ACCOUNT A
-    WHERE S.id = M.semester AND M.id = T.module AND L.account= T.lecturer AND L.account= A.id;
+    WHERE S.id = M.semester
+      AND M.id = T.module
+      AND L.account = T.lecturer
+      AND L.account = A.id;
 END //
 
 # List all the module of a given semester
@@ -836,6 +845,7 @@ CREATE TRIGGER CHECK_INSERT_EXAM
     ON EXAM
     FOR EACH ROW
 BEGIN
+    CALL CHECK_DATE(NEW.deadline, NEW.date);
     CALL CHECK_TIME(NEW.start, NEW.end);
     CALL CHECK_DATE_IN_SEMESTER(NEW.module, NEW.date);
 END //
@@ -845,6 +855,7 @@ CREATE TRIGGER CHECK_UPDATE_EXAM
     ON EXAM
     FOR EACH ROW
 BEGIN
+    CALL CHECK_DATE(NEW.deadline, NEW.date);
     CALL CHECK_TIME(NEW.start, NEW.end);
     CALL CHECK_DATE_IN_SEMESTER(NEW.module, NEW.date);
 END //

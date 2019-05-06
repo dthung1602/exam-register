@@ -2,23 +2,23 @@
 <form method="POST">
     <div>
         <label>Module ID:</label>
-        <select name="module-id" id="module-id"></select>
+        <select name="module-id" id="module-id" required></select>
     </div>
     <div>
         <label>Exam date:</label>
-        <input type="date" name="exam-date"/>
+        <input type="date" name="exam-date" required/>
     </div>
     <div>
         <label> Exam deadline: </label>
-        <input type="date" name="exam-deadline"/>
+        <input type="date" name="exam-deadline" required/>
     </div>
     <div>
         <label> Exam start time: </label>
-        <input type="time" name="exam-start"/>
+        <input type="time" name="exam-start" required/>
     </div>
     <div>
         <label> Exam end time: </label>
-        <input type="time" name="exam-end"/>
+        <input type="time" name="exam-end" required/>
     </div>
     <input type="submit" value="Submit"/>
 </form>
