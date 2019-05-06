@@ -15,7 +15,7 @@ public class ChangePass extends BaseView {
     @GET
     @Produces(MediaType.TEXT_HTML)
     public Response doGet() throws IOException {
-        return Response.ok(getHTMLFile("/assistant/changepass.html")).build();
+        return Response.ok(getHTMLFile("assistant/changepass.html")).build();
     }
 
     @POST
