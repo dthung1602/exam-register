@@ -8,11 +8,18 @@ import vgu.group1.examregister.views.auth.PasswordAuth;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.IOException;
+import java.net.URI;
 import java.sql.SQLException;
 
 @Path("/assistant/user/add")
 public class Add extends BaseView {
-    @POST
+    @GET
+    @Produces(MediaType.TEXT_HTML)
+    public Response doGet() throws IOException {
+        return Response.ok(getHTMLFile("assistant/add_user.html")).build();
+    }
+                           @POST
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     public Response doPost(@FormParam("role") String role,
@@ -36,6 +43,6 @@ public class Add extends BaseView {
             default:
                 return Response.status(400, "Invalid role").build();
         }
-        return Response.ok(result.toString()).build();
+        return Response.seeOther(URI.create("/assistant/user/view")).build();
     }
 }
