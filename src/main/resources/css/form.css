@@ -30,7 +30,6 @@
 	box-sizing: border-box;
 }
 body, html {
-	height: 100vh;
 	font-family: Poppins-Regular;
 }
 /*---------------------------------------------*/
@@ -144,23 +143,24 @@ iframe {
 [ Contact ]*/
 
 .container {
-	width: 100%;
-	min-height: 0;
-	display: -webkit-box;
-	display: -webkit-flex;
-	display: -moz-box;
-	display: -ms-flexbox;
-	display: flex;
-	flex-wrap: wrap;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	padding: 15px 15px 200px 15px;
-	background-position: center top;
-	-webkit-background-size: cover;
-	-moz-background-size: cover;
-	-o-background-size: cover;
-	background-size: cover;
+	width: 100% !important;
+	min-height: 0 !important;
+	display: -webkit-box  !important;
+	display: -webkit-flex !important;
+	display: -moz-box !important;
+	display: -ms-flexbox !important;
+	display: flex !important;
+	flex-wrap: wrap !important;
+	flex-direction: column !important;
+	justify-content: center !important;
+	align-items: center !important;
+	padding: 15px 15px 200px 15px !important;
+	background-position: center top !important;
+	-webkit-background-size: cover !important;
+	-moz-background-size: cover !important;
+	-o-background-size: cover !important;
+	background-size: cover !important;
+	background-image: url('/images/bg-02.jpg') !important;
 }
 img.top-logo {
 	margin: 0 0 30px 0;
@@ -267,7 +267,7 @@ input::-webkit-calendar-picker-indicator {
 
 select.input{
 	border: none;
-	height: 50px;
+	height: 60px;
 }
 textarea.input {
 	min-height: 162px;
