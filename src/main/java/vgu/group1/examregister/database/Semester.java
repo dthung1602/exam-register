@@ -34,12 +34,6 @@ public class Semester {
         statement.executeQuery();
     }
 
-    public static JSONArray viewLastSemester() throws SQLException {
-        PreparedStatement statement = getPreparedStatement("CALL VIEW_LAST_SEMESTER()");
-        ResultSet rs = statement.executeQuery();
-        return Utils.convertAll(rs);
-    }
-
     //List all semesters
     public static JSONArray listAllSemester() throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL VIEW_ALL_SEMESTER()");

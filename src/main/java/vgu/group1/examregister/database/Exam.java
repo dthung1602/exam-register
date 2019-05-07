@@ -43,31 +43,8 @@ public class Exam {
         return convertAll(rs);
     }
 
-    public static void addExam(int moduleID, Date examDate, Date deadline, Time start, Time end) throws SQLException {
-        PreparedStatement statement = getPreparedStatement("CALL ADD_EXAM(?,?,?,?,?)");
-        statement.setInt(1, moduleID);
-        statement.setDate(2, examDate);
-        statement.setDate(3, deadline);
-        statement.setTime(4, start);
-        statement.setTime(5, end);
-        statement.executeQuery();
-    }
-
-    public static void deleteExam(int examId) throws SQLException {
-        PreparedStatement statement = getPreparedStatement("CALL DELETE_EXAM(?)");
-        statement.setInt(1, examId);
-        statement.executeQuery();
-    }
-
-
-    public static JSONArray viewExam() throws SQLException {
-        PreparedStatement statement = getPreparedStatement("CALL VIEW_EXAM()");
-        ResultSet rs = statement.executeQuery();
-        return convertAll(rs);
-    }
-
     // -------------------------- ASSISTANT/EXAM -------------------
-    // Create Exam
+
     public static void createExam(int moduleID, Date examDate, Date examDeadline, Time examStart, Time examEnd) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL CREATE_EXAM(?, ?, ?, ?, ?)");
         statement.setInt(1, moduleID);
@@ -98,14 +75,6 @@ public class Exam {
     // View all exams list
     public static JSONArray listAllExam() throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL VIEW_EXAM()");
-        ResultSet rs = statement.executeQuery();
-        return Utils.convertAll(rs);
-    }
-
-    // View an exam info with module ID
-    public static JSONArray viewAnExam(int module_id) throws SQLException {
-        PreparedStatement statement = getPreparedStatement("CALL VIEW_EXAM_WITH_ID (?)");
-        statement.setInt(1, module_id);
         ResultSet rs = statement.executeQuery();
         return Utils.convertAll(rs);
     }

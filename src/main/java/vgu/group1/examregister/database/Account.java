@@ -10,13 +10,6 @@ import java.sql.SQLException;
 import static vgu.group1.examregister.database.Utils.*;
 
 public class Account {
-    //List all the accounts (username + password)
-    public static JSONArray listAccount() throws SQLException {
-        PreparedStatement statement = getPreparedStatement("CALL LIST_ACCOUNT()");
-        ResultSet rs = statement.executeQuery();
-        return convertAll(rs);
-    }
-
     //List account by a given ID
     public static JSONObject listAccountId(int accountID) throws SQLException {
         PreparedStatement statement = getPreparedStatement("CALL LIST_ACCOUNT_ID(?)");
