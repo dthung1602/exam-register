@@ -14,6 +14,8 @@
     <link rel="stylesheet" type="text/css" href="/css/form.css">
     <link rel="stylesheet" type="text/css" href="/css/header.css">
     <!--===============================================================================================-->
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <script src="/js/utils.js"></script>
 </head>
 <body>
 <header>
@@ -37,15 +39,9 @@
         <form class="form validate-form" method="POST">
             <span class="form-title"> EDIT AN EXAM </span>
             <span class="short-info">
-      <h5>Exam ID: 3</h5>
-      </span>
-            <div class="wrap-input"><span class="label-input">Module Name *</span>
-                <select class="input" name="module-name">
-                    <option>Java</option>
-                    <option>C++</option>
-                    <option>Database</option>
-                </select>
-            </div>
+              <h5 class="p-b-10">Exam ID: <span id="exam-id"></span> </h5>
+              <h5>Module name: <span id="module-name"></span> </h5>
+            </span>
             <div class="wrap-input rs1-wrap-input"><span class="label-input">Exam Date *</span>
                 <input class="input" type="date" name="exam-date"  required>
             </div>
@@ -54,10 +50,10 @@
             </div>
             <div class="wrap-input rs1-wrap-input"> <span class="label-input">Exam Start time *</span>
 
-                <input class="input" type="time" name="exam-start" value="10:00" required>
+                <input class="input" type="time" name="start"  required>
             </div>
             <div class="wrap-input rs1-wrap-input"> <span class="label-input">Exam End time *</span>
-                <input class="input" type="time" name="exam-end" value="12:30" required>
+                <input class="input" type="time" name="end" required>
 
             </div>
 
@@ -81,4 +77,26 @@
     </div>
 </div>
 </body>
+<script>
+    function loadExamInfoSuccess(data) {
+        $('#exam-date').val(data.date);
+        $('#exam-deadline').val(data.deadline);
+        $('#exam-start').val(data.start);
+        $('#exam-end').val(data.end);
+    }
+
+
+    $(document).ready(
+        function () {
+            $("#exam-id").text(window.location.pathname.split("/")[4])
+            $.ajax({
+                url: "/view/exam/",
+                type: 'POST',
+                data: {role: 'assistant'},
+                success: loadExamInfoSuccess,
+                error: displayError
+            });
+        }
+    )
+</script>
 </html>
