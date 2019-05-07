@@ -735,7 +735,10 @@ END //
 
 CREATE PROCEDURE READ_EXAM(IN exam_id INT)
 BEGIN
-    SELECT * FROM EXAM WHERE id = exam_id;
+    SELECT E.*, M.name
+    FROM EXAM E
+             JOIN MODULE M ON E.module = M.id
+    WHERE E.id = exam_id;
 END //
 
 #View all exams list

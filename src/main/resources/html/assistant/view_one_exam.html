@@ -1,31 +1,93 @@
-<h2>View Exams</h2>
-<div>
-    <p>ID: <span id="exam-id"></span></p>
-    <p>Module: <span id="module-id"></span></p>
-    <p>Date: <span id="exam-date"></span></p>
-    <p>Deadline: <span id="exam-deadline"></span></p>
-    <p>Start: <span id="exam-start"></span></p>
-    <p>End: <span id="exam-end"></span></p>
-</div>
-<br>
-<table>
-    <thead>
-    <tr>
-        <th>Student ID</th>
-        <th>Last Name</th>
-        <th>First Name</th>
-    </tr>
-    </thead>
-    <tbody id="student-table">
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VGU Exam Registration - User</title>
+    <link rel="icon" type="image/png" href="/images/ico/vgu-logo-transparent.png"/>
+    <link href="/css/moduleid.css" rel="stylesheet" type="text/css">
+    <link href="/css/util.css" rel="stylesheet" type="text/css">
+    <link href="/css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="/css/header.css" rel="stylesheet" type="text/css">
+    <script src="/js/utils.js"></script>
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
 
-    </tbody>
-</table>
+<body>
+<header>
+    <div class="status-pane">
+        <div class="status-wrap">
+            <span> <a href="/view/semester/">
+                <button type="button">Semester</button>
+            </a> </span>
+            <span> <a href="/view/module/">
+                <button type="button">Module</button>
+            </a> </span>
+            <span> <a href="/view/exam/">
+                <button type="button">Exam</button>
+              </a> </span>
+            <span> <a href="/assistant/user/view/">
+                <button type="button">User</button>
+             </a> </span>
+            <span> <a href="/auth/logout">
+                 <button type="button">Logout</button>
+            </a> </span>
+        </div>
+    </div>
+</header>
+<div class="container-header">
+    <div class="index-logo-top"><a href="/"> <img src="/images/logo-header.png" class="top-logo"
+                                                  alt="Back to Index"/> </a>
+        <div class="module-infobox">
+
+            <span class="text-infobox"><strong>Exam ID:</strong> <span id="exam-id"></span></span>
+            <span class="text-infobox"><strong>Date:</strong> <span id="exam-date"></span></span>
+            <span class="text-infobox"><strong>Deadline:</strong> <span id="exam-deadline"></span></span>
+            <span class="text-infobox"><strong>Start:</strong> <span id="exam-start"></span></span>
+            <span class="text-infobox"><strong>End:</strong> <span id="exam-end"></span></span>
+            <a>&nbsp;</a>
+            <a id="edit-exam-btn">
+                <span class="hov-pointer tooltip p-r-10 p-l-10">
+                    <img class="hov-dropshadow-3px" src="/images/edit.png" alt="">
+                    <span class="tooltiptext">Edit exam</span>
+                </span>
+            </a>
+        </div>
+        <div class="title">
+            <h5 class="title-text">EXAM: <span id="module-name"></span></h5>
+            <h6 class="title-text">Participants</h6>
+        </div>
+    </div>
+</div>
+<div class="limiter">
+    <div class="container-table">
+        <div class="wrap-table">
+            <div class="table">
+                <div class="row header">
+                    <div class="cell"> Student code</div>
+                    <div class="cell"> First name</div>
+                    <div class="cell"> Last name</div>
+                </div>
+            </div>
+            <div class="table" id='student-table'>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
 
 
 <script>
 
     function loadParticipants() {
-        var examID = window.location.pathname.split("/")[3];
+        let examID = window.location.pathname.split("/")[3];
         $.ajax({
             url: '/assistant/exam/' + examID + '/participants',
             type: 'POST',
@@ -34,35 +96,16 @@
         });
     }
 
-    function delParticipant(studentId, studentCode) {
-        if (!confirm("Are you sure to delete student " + studentCode + " ?"))
-            return;
-        var examID = window.location.pathname.split("/")[3];
-
-        $.ajax({
-            url: '/assistant/exam/' + examID + '/participants/delete',
-            type: 'POST',
-            data: {'student-id': studentId},
-            success: function () {
-                $('#participant' + studentId).remove();
-                alert("Student " + studentCode + " deleted.");
-            },
-            error: displayError
-        });
-    }
-
     function loadParticipantsSuccess(data) {
-        var tableBody = "";
-        for (var i = 0; i < data.length; i++) {
-            var sid = data[i].id;
-            var delBtn = "<button onclick='delParticipant(" + sid + "," + data[i].code + ")'>del</button>";
+        let tableBody = "";
+        for (let i = 0; i < data.length; i++) {
+            let sid = data[i].id;
             tableBody +=
-                "<tr id='participant" + sid + "'>" +
-                "<td>" + data[i].code + "</td>" +
-                "<td>" + data[i].fname + "</td>" +
-                "<td>" + data[i].lname + "</td>" +
-                "<td>" + delBtn + "</td>" +
-                "</tr>"
+                `<div class='row body' id='session${sid}'>` +
+                `    <div class='cell' data-title='student-code'>${data[i].code}</div>` +
+                `    <div class='cell' data-title='fname'>${data[i].fname}</div>` +
+                `    <div class='cell' data-title='lname'>${data[i].lname}</div>` +
+                `</div>`
         }
         $("#student-table").html(tableBody)
     }
@@ -70,16 +113,16 @@
 
     function loadExamInfoSuccess(data) {
         $('#exam-id').text(data.id);
-        $('#module-id').text(data.module);
         $('#exam-date').text(data.date);
-        $('#exam-deadline').text(data.deadline)
+        $('#exam-deadline').text(data.deadline);
         $('#exam-start').text(data.start);
         $('#exam-end').text(data.end);
+        $('#module-name').text(data.name);
     }
 
     $(document).ready(
         function () {
-            //var examID = window.location.pathname.split("/")[4];
+            let examID = window.location.pathname.split("/")[3];
             $.ajax({
                 url: window.location.pathname,
                 type: 'POST',
@@ -87,7 +130,9 @@
                 error: displayError
             });
             loadParticipants();
+            $('#edit-exam-btn').attr('href', '/assistant/exam/edit/' +examID)
         }
 
     )
 </script>
+</html>

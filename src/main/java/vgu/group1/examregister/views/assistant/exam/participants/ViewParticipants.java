@@ -12,18 +12,6 @@ import java.sql.SQLException;
 
 @Path("/assistant/exam/{id}/participants")
 public class ViewParticipants extends BaseView {
-    /**
-     * Method handling HTTP GET requests. The returned object will be sent
-     * to the client as "text/plain" media type.
-     *
-     * @return String that will be returned as a text/plain response.
-     */
-    @GET
-    @Produces(MediaType.TEXT_HTML)
-    public Response doGet() throws IOException {
-        return Response.ok(getHTMLFile("view_exam_participants.html")).build();
-    }
-
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
