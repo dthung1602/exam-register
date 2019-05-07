@@ -7,6 +7,7 @@ public class Config {
     static final String WEB_DIR_LOCATION = "src/main/webapp/";
     static final String CONTEXT_PATH = "/";
 
+    public final static int DB_CONNECTION_MAX_TIME_OUT = 5;
     public final static String DB_URL = getenvOrDefault("DB_URL",
             "jdbc:mysql://examreguser:whatever123@localhost/examreg?reconnect=true");
     public final static String TEST_DB_URL = getenvOrDefault("TEST_DB_URL",

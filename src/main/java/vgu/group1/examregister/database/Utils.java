@@ -13,7 +13,14 @@ public class Utils {
     static PreparedStatement getPreparedStatement(String statement) throws SQLException {
         // first time call this function, init the connection
         if (connection == null) {
-            connection = DriverManager.getConnection(Config.DB_URL);
+            try {
+                DriverManager.setLoginTimeout(Config.DB_CONNECTION_MAX_TIME_OUT);
+                connection = DriverManager.getConnection(Config.DB_URL);
+            } catch (Exception e) {
+                System.err.println(e.getMessage());
+                System.out.println(e.getMessage());
+                throw new SQLException("Cannot connect to SQL Server");
+            }
         }
         return connection.prepareStatement(statement);
     }
