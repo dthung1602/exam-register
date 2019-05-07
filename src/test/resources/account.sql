@@ -1,17 +1,2 @@
 INSERT INTO ACCOUNT(id, username, password, fname, lname)
-VALUES (1, 'vth', '$31$8$s0h42VmvAcxoFuJU8XLe-q5RiNrlhSZB76gd7sRFxLk', 'tuan hung', 'vu'),
-       (2, 'dth', '$31$8$s0h42VmvAcxoFuJU8XLe-q5RiNrlhSZB76gd7sRFxLk', 'duong thanh', 'hung'),
-       (3, 'nhtd', '$31$8$s0h42VmvAcxoFuJU8XLe-q5RiNrlhSZB76gd7sRFxLk', 'ho tat dat', 'nguyen'),
-       (4, 'ntth', '$31$8$s0h42VmvAcxoFuJU8XLe-q5RiNrlhSZB76gd7sRFxLk', 'truong thanh hung', 'nguyen'),
-       (5, 'tcm', '$31$8$s0h42VmvAcxoFuJU8XLe-q5RiNrlhSZB76gd7sRFxLk', 'chi minh', 'truong'),
-       (6, 'hamie', '$31$8$s0h42VmvAcxoFuJU8XLe-q5RiNrlhSZB76gd7sRFxLk', 'hamie', 'tram'),
-       (7, 'huvi', '$31$8$s0h42VmvAcxoFuJU8XLe-q5RiNrlhSZB76gd7sRFxLk', 'vinh long', 'huynh'),
-       (8, 'huvilo', '$31$8$s0h42VmvAcxoFuJU8XLe-q5RiNrlhSZB76gd7sRFxLk', 'vinh long', 'huynh'),
-       (9, 'huvilolo', '$31$8$s0h42VmvAcxoFuJU8XLe-q5RiNrlhSZB76gd7sRFxLk', 'vinh long', 'huynh'),
-       (10, 'lohuvilo', '$31$8$s0h42VmvAcxoFuJU8XLe-q5RiNrlhSZB76gd7sRFxLk', 'vinh long', 'huynh'),
-       (11, 'milo', '$31$8$s0h42VmvAcxoFuJU8XLe-q5RiNrlhSZB76gd7sRFxLk', 'michel', 'toulouse'),
-       (12, 'macla', '$31$8$s0h42VmvAcxoFuJU8XLe-q5RiNrlhSZB76gd7sRFxLk', 'manuel', 'clavel'),
-       (13, 'qtt', '$31$8$s0h42VmvAcxoFuJU8XLe-q5RiNrlhSZB76gd7sRFxLk', 'tri thong', 'quach'),
-       (14, 'jath', '$31$8$s0h42VmvAcxoFuJU8XLe-q5RiNrlhSZB76gd7sRFxLk', 'james', 'arthur'),
-       (15, 'teacher', '$31$8$s0h42VmvAcxoFuJU8XLe-q5RiNrlhSZB76gd7sRFxLk', 'duoc', 'nguyen'),
-       (16, 'assistant', '$31$8$s0h42VmvAcxoFuJU8XLe-q5RiNrlhSZB76gd7sRFxLk', 'thi thuy trang', 'nguyen');
+VALUES (1, 'assistant', '$31$8$s0h42VmvAcxoFuJU8XLe-q5RiNrlhSZB76gd7sRFxLk', 'Thi Thuy Trang', 'Nguyen');
