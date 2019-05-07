@@ -85,7 +85,7 @@ public class Exam {
     }
 
     public static void editExam(int examID, Date examDate, Date examDeadline, Time examStart, Time examEnd) throws SQLException {
-        PreparedStatement statement = getPreparedStatement("CALL EDIT_EXAM (?, ?, ?, ?, ?, ?)");
+        PreparedStatement statement = getPreparedStatement("CALL EDIT_EXAM (?, ?, ?, ?, ?)");
         statement.setInt(1, examID);
         statement.setDate(2, examDate);
         statement.setDate(3, examDeadline);

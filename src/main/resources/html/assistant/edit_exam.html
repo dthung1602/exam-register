@@ -43,17 +43,16 @@
               <h5>Module name: <span id="module-name"></span> </h5>
             </span>
             <div class="wrap-input rs1-wrap-input"><span class="label-input">Exam Date *</span>
-                <input class="input" type="date" name="exam-date"  required>
+                <input class="input" type="date" name="exam-date" id="exam-date" required>
             </div>
             <div class="wrap-input rs1-wrap-input"><span class="label-input">Exam Deadline *</span>
-                <input class="input" type="date" name="exam-deadline" required>
+                <input class="input" type="date" name="exam-deadline" id="exam-deadline" required>
             </div>
             <div class="wrap-input rs1-wrap-input"> <span class="label-input">Exam Start time *</span>
-
-                <input class="input" type="time" name="start"  required>
+                <input class="input" type="time" name="exam-start" id="exam-start"  required>
             </div>
             <div class="wrap-input rs1-wrap-input"> <span class="label-input">Exam End time *</span>
-                <input class="input" type="time" name="end" required>
+                <input class="input" type="time" name="exam-end" id="exam-end" required>
 
             </div>
 
@@ -83,14 +82,16 @@
         $('#exam-deadline').val(data.deadline);
         $('#exam-start').val(data.start);
         $('#exam-end').val(data.end);
+        $('#module-name').text(data.name);
     }
 
 
     $(document).ready(
         function () {
-            $("#exam-id").text(window.location.pathname.split("/")[4])
+            let examID = window.location.pathname.split("/")[4];
+            $("#exam-id").text(examID);
             $.ajax({
-                url: "/view/exam/",
+                url: "/view/exam/" + examID,
                 type: 'POST',
                 data: {role: 'assistant'},
                 success: loadExamInfoSuccess,
