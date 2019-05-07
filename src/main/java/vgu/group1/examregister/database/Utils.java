@@ -12,14 +12,14 @@ public class Utils {
 
     static PreparedStatement getPreparedStatement(String statement) throws SQLException {
         // first time call this function, init the connection
-        if (connection == null) {
+        if (connection == null || connection.isClosed()) {
             try {
                 DriverManager.setLoginTimeout(Config.DB_CONNECTION_MAX_TIME_OUT);
                 connection = DriverManager.getConnection(Config.DB_URL);
             } catch (Exception e) {
+                System.err.println("Cannot connect to database.");
                 System.err.println(e.getMessage());
-                System.out.println(e.getMessage());
-                throw new SQLException("Cannot connect to SQL Server");
+                throw e;
             }
         }
         return connection.prepareStatement(statement);
