@@ -17,27 +17,19 @@
 <body>
 <header>
     <div class="status-pane">
-
-            <div class="status-wrap"> <span> <a href="/view/semester">
-      <button type="button">Semester</button>
-      </a> </span> <span> <a href="/view/module">
-      <button type="button">Module</button>
-      </a> </span> <span> <a href="/view/exam">
-      <button type="button">Exam</button>
-      </a> </span> <span> <a href="/assistant/user/view">
-      <button type="button">User</button>
-      </a> </span> <span> <a href="/auth/logout">
+        <div class="status-wrap"> <span>
+            <button type="button"><a href="/view/exam">Exam</a></button>
+      </span> <span>
+      <a href="/auth/logout">
       <button type="button">Logout</button>
-            </a> </span></div>
+      </a>
+      </span></div>
     </div>
 </header>
 <div class="container-header"><span class="index-logo-top"> <a href="/"> <img src="/images/logo-header.png" width="20%" class="top-logo" alt="Back to Index"/> </a>
   <div class="title">
-    <h4 class="title-text">EXAM</h4>
+    <h4 class="title-text p-b-20">EXAM</h4>
   </div>
-  <div class="add"><a href="/assistant/exam/add">
-    <button type="button" class="add-button">ADD EXAM +</button></a>
-   </div>
   </span> </div>
 <div class="limiter">
     <div class="container-table">
@@ -50,7 +42,6 @@
                     <div class="cell"> Deadline </div>
                     <div class="cell"> Start </div>
                     <div class="cell"> End </div>
-                    <div class="cell"> Action </div>
                 </div>
             </div>
             <div class="table" id="exam-table"></div>
@@ -63,32 +54,13 @@
 
 
 <script>
-    function delExam(id) {
-        $.ajax({
-            url: "/assistant/exam/delete/" + id,
-            type: "POST",
-            success: function () {
-                $("#exam-" + id).remove();
-                alert("Module " + id + " deleted!")
-            },
-            error: displayError
-        })
-    }
+
 
     function loadExamSuccess(exams){
         let table = $("#exam-table");
         let tableContent = "";
         for (let i = 0; i < exams.length; i++) {
             let eid = exams[i].id;
-            let delBtn = `<span class='tooltip hov-pointer' onclick='delExam(${exams[i].id})'><img class='hov-dropshadow-3px' src='/images/delete.png' alt=''> <span class='tooltiptext'>Delete</span></span>`
-            let editBtn =
-                "<a href='/assistant/exam/edit/"+exams[i].id+"'>" +
-                "<span class='tooltip hov-pointer p-r-10'><img class='hov-dropshadow-3px' src='/images/edit.png' alt=''> <span class='tooltiptext'>Edit</span></span>" +
-                "</a>";
-            let viewBtn =
-                "<a href='/view/exam/"+exams[i].id+"'>" +
-                "<span class='tooltip hov-pointer p-r-10'><img class='hov-dropshadow-3px' src='/images/view.png' alt=''> <span class='tooltiptext'>View Examinees</span></span>" +
-                "</a>";
             tableContent +=
             `<div class="row body" id='exam-${eid}'>`+
                `<div class="cell" data-title="exam-id"> ${exams[i].id} </div>`+
@@ -97,7 +69,6 @@
                 `<div class="cell" data-title="deadline"> ${exams[i].deadline} </div>`+
                 `<div class="cell" data-title="start"> ${exams[i].start} </div>`+
                 `<div class="cell" data-title="end"> ${exams[i].end} </div>`+
-                `<div class="cell" data-title="action">${viewBtn}${editBtn}${delBtn}</div>`+
             `</div>`
         }
         table.html(tableContent);

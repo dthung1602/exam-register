@@ -85,8 +85,7 @@
             data: {password: pass1},
             success: function () {
                 alert("Password changed");
-                $('#password1').val('');
-                $('#password2').val('');
+                window.location.replace("/assistant/user/view");
             },
             error: displayError
         });

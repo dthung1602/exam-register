@@ -760,7 +760,7 @@ END //
 
 CREATE PROCEDURE LIST_LECTURER_EXAM(IN lecturer_id INT)
 BEGIN
-    SELECT E.*
+    SELECT E.*, M.name
     FROM EXAM E
              JOIN MODULE M ON E.module = M.id
              JOIN TEACH T ON M.id = T.module
