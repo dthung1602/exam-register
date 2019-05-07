@@ -1,0 +1,150 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VGU Exam Registration - User</title>
+    <link rel="icon" type="image/png" href="/images/ico/vgu-logo-transparent.png"/>
+    <link href="/css/moduleid.css" rel="stylesheet" type="text/css">
+    <link href="/css/util.css" rel="stylesheet" type="text/css">
+    <link href="/css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="/css/header.css" rel="stylesheet" type="text/css">
+    <script src="/js/utils.js"></script>
+    <script src="/js/jquery-3.3.1.min.js"></script>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+<header>
+    <div class="status-pane">
+        <div class="status-wrap">
+            <span> <a href="/view/semester/">
+                <button type="button">Semester</button>
+            </a> </span>
+            <span> <a href="/view/module/">
+                <button type="button">Module</button>
+            </a> </span>
+            <span> <a href="/view/exam/">
+                <button type="button">Exam</button>
+              </a> </span>
+            <span> <a href="/assistant/user/view/">
+                <button type="button">User</button>
+             </a> </span>
+            <span> <a href="/auth/logout">
+                 <button type="button">Logout</button>
+            </a> </span>
+        </div>
+    </div>
+</header>
+<div class="container-header">
+    <div class="index-logo-top"><a href="/"> <img src="/images/logo-header.png" class="top-logo"
+                                                  alt="Back to Index"/> </a>
+        <div class="module-infobox">
+
+            <span class="text-infobox"><strong>Module Code:</strong> <span id="module-code"></span></span>
+            <span class="text-infobox"><strong>Lecturer:</strong> <span id="lecturer"></span></span>
+            <span class="text-infobox"><strong>Start:</strong> <span id="semester-start"></span></span>
+            <span class="text-infobox"><strong>End:</strong> <span id="semester-end"></span></span>
+            <span class="text-infobox"><strong>Total session:</strong> <span id="total-session"></span></span>
+            <a>&nbsp;</a>
+            <a id="edit-module-btn">
+                <span class="hov-pointer tooltip p-r-10 p-l-10">
+                    <img class="hov-dropshadow-3px" src="/images/edit.png" alt="">
+                    <span class="tooltiptext">Edit module</span>
+                </span>
+            </a>
+            <a id="view-participants-btn">
+                <span class="hov-pointer tooltip">
+                    <img class="hov-dropshadow-3px" src="/images/info.png" alt="">
+                    <span class="tooltiptext">View participants</span>
+                </span>
+            </a>
+        </div>
+        <div class="title">
+            <h5 class="title-text">MODULE: <span id="module-name"></span></h5>
+            <h6 class="title-text">ATTENDANCE</h6>
+        </div>
+    </div>
+</div>
+
+<div class="limiter">
+    <div class="container-table">
+        <div class="wrap-table">
+            <div class="table">
+                <div class="row header">
+                    <div class="cell"> Student code</div>
+                    <div class="cell"> Name</div>
+                    <div class="cell"> Sessions attended</div>
+                    <div class="cell"> Percent</div>
+                </div>
+            </div>
+            <div class="table" id='attendance-table'>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+<script>
+    function loadAttendance() {
+        $.ajax({
+            url: window.location.pathname,
+            type: 'POST',
+            success: loadSessionsInModuleSuccess,
+            error: displayError
+        });
+    }
+
+    function loadModuleInfoSuccess(data) {
+        console.log(data);
+        $("#module-id").val(data.id);
+        $("#module-name").text(data.name);
+        $("#module-code").text(data.code);
+        $("#semester-start").text(data.start);
+        $("#semester-end").text(data.end);
+        $("#lecturer").text(data.lecturer);
+        $("#total-session").text(data.total_session);
+        $("#edit-btn").html("<a href='/assistant/module/edit/" + data.id + "'>Edit</a>");
+        $("#view-participant-btn").html("<a href='/assistant/module/" + data.id + "/participants/'>View Participants</a>");
+
+        loadAttendance();
+    }
+
+    function loadSessionsInModuleSuccess(data) {
+        let tableBody = "";
+        let total_count = parseInt($("#total-session").text());
+        for (let i = 0; i < data.length; i++) {
+            let percent = (data[i].session_count / total_count * 100).toFixed(2) + '%';
+            tableBody +=
+                `<div class='row body'>` +
+                `    <div class='cell' data-title='student-code'>${data[i].student_code}</div>` +
+                `    <div class='cell' data-title='student-name'>${data[i].student_name}</div>` +
+                `    <div class='cell' data-title='session-attended'>${data[i].session_count}</div>` +
+                `    <div class='cell' data-title='percent'>${percent}</div>` +
+                `</div>`
+        }
+        $("#attendance-table").html(tableBody);
+    }
+
+    $(document).ready(
+        function () {
+            let moduleID = window.location.pathname.split("/")[4];
+            $.ajax({
+                url: '/view/module/' + moduleID,
+                type: 'POST',
+                success: loadModuleInfoSuccess,
+                error: displayError
+            });
+
+            $('#edit-module-btn').attr('href', '/assistant/module/edit/' + moduleID);
+            $('#view-participants-btn').attr('href', '/assistant/module/' + moduleID + '/participants');
+        }
+    )
+</script>
+</html>

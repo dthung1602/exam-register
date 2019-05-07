@@ -85,7 +85,7 @@ public class Module {
         PreparedStatement statement = getPreparedStatement("CALL LIST_SESSION_ATTENDED(?)");
         statement.setInt(1, moduleId);
         ResultSet rs = statement.executeQuery();
-        return convertAll(rs);
+        return convertAll(rs, new String[]{"student_code", "student_id", "student_name", "session_count"});
     }
 
     //List Module in a Semester

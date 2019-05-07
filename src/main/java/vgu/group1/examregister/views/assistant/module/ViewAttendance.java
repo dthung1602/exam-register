@@ -12,13 +12,13 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 
-@Path("/assistant/session/view/{id}")
+@Path("/assistant/module/attendance/{id}")
 public class ViewAttendance extends BaseView {
 
     @GET
     @Produces(MediaType.TEXT_HTML)
     public Response doGet(@PathParam("id") String id) throws IOException {
-        return Response.ok(getHTMLFile("view_session_attendance.html")).build();
+        return Response.ok(getHTMLFile("assistant/view_session_attendance.html")).build();
     }
 
     @POST

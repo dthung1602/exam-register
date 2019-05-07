@@ -16,7 +16,7 @@ public class View extends BaseView {
     @GET
     @Produces(MediaType.TEXT_HTML)
     public Response doGet() throws IOException {
-        return Response.ok(getHTMLFile("assistant/view_participants.html")).build();
+        return Response.ok(getHTMLFile("assistant/view_module_participants.html")).build();
     }
 
     @POST

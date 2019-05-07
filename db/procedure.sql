@@ -172,14 +172,19 @@ END //
 # View a module's info
 CREATE PROCEDURE VIEW_A_MODULE(IN module_id INT)
 BEGIN
+    SELECT COUNT(*) INTO @total_session
+    FROM SESSION
+    WHERE SESSION.module = module_id;
+
     SELECT M.id,
-           code,
-           name,
-           semester,
-           start,
-           end,
+           M.code,
+           M.name,
+           M.semester,
+           S.start,
+           S.end,
            CONCAT(A.fname, ' ', A.lname) AS 'lecturer',
-           CONCAT(A.id, '')              AS 'lecturer_id'
+           CONCAT(A.id, '')              AS 'lecturer_id',
+           @total_session                AS 'total_session'
     FROM MODULE M
              JOIN SEMESTER S on M.semester = S.id
              JOIN TEACH T on M.id = T.module
@@ -465,16 +470,16 @@ END //
 # Check for the number of sessions the student "vth" attends in the given module
 CREATE PROCEDURE LIST_SESSION_ATTENDED(IN my_module INT)
 BEGIN
-    SELECT COUNT(*) INTO @total_session
-    FROM SESSION
-    WHERE SESSION.module = my_module;
-
-    SELECT STU.account AS 'student_id', COUNT(SI.session) AS 'attendance_count', @total_session AS 'total_session'
+    SELECT STU.code,
+           STU.account,
+           CONCAT(A.fname, ' ', A.lname),
+           COUNT(SI.session)
     FROM SIGN SI
              JOIN SESSION SE ON SE.id = SI.session
              JOIN STUDENT STU ON SI.student = STU.account
              JOIN ACCOUNT A ON STU.account = A.id
-    WHERE SE.module = my_module;
+    GROUP BY STU.code, STU.account, A.fname, A.lname, SE.module
+    HAVING SE.module = my_module;
 END //
 
 # Check for the number of sessions the given student attends in all modules
