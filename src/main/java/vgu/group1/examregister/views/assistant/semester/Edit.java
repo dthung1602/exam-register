@@ -26,10 +26,9 @@ public class Edit extends BaseView {
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces(MediaType.APPLICATION_JSON)
     public Response doPost(@PathParam("id") int semesterID,
-                           @FormParam("start-date") Date startDate,
-                           @FormParam("end-date") Date endDate) throws SQLException {
+                           @FormParam("semester-start") Date startDate,
+                           @FormParam("semester-end") Date endDate) throws SQLException {
         Semester.updateSemester(semesterID, startDate, endDate);
-        return Response.seeOther(URI.create("/view/semester/" + semesterID)).build();
-
+        return Response.seeOther(URI.create("/view/semester/")).build();
     }
 }

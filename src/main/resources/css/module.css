@@ -222,16 +222,16 @@ iframe {
 }
 
 .row .cell:nth-child(1) {
-    width: 70px;
+    width: 130px !important;
     padding-left: 40px;
 }
 
 .row .cell:nth-child(2) {
-    width: 300px;
+    width: 280px !important;
 }
 
 .row .cell:nth-child(3) {
-    width: 70px;
+    width: 150px !important;
 }
 
 .row .cell:nth-child(4) {
@@ -251,7 +251,7 @@ iframe {
 }
 
 .row .cell:nth-child(8) {
-    width: 200px;
+    width: 150px;
 }
 
 

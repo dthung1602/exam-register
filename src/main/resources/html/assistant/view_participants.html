@@ -32,24 +32,30 @@
       <button type="button">Exam</button>
       </a> </span> <span> <a href="/assistant/user/view">
       <button type="button">User</button>
-      </a> </span> <span> <a href="sign">
-      <button type="button">Sign</button>
       </a> </span> <span> <a href="/auth/logout">
       <button type="button">Logout</button>
-      </a> </span> </div>
+      </a> </span></div>
     </div>
 </header>
 <div class="container-header">
-    <div class="index-logo-top"> <a href="/"> <img src="/images/logo-header.png" width="20%" class="top-logo" alt="Back to Index"/> </a>
+    <div class="index-logo-top"><a href="/"> <img src="/images/logo-header.png" width="20%" class="top-logo"
+                                                  alt="Back to Index"/> </a>
         <div class="module-infobox" id="module-info">
-            <span class="text-infobox"><strong>Module ID: </strong><span id = "module-id"></span></span>
+            <span class="text-infobox"><strong>Module ID: </strong><span id="module-id"></span></span>
             <span class="text-infobox"><strong>Module Code: </strong><span id="module-code"></span></span>
             <span class="text-infobox"><strong>Lecturer: </strong><span id="lecturer"></span> </span>
             <span class="text-infobox"><strong>Start: </strong><span id="semester-start"></span></span>
             <span class="text-infobox"><strong>End: </strong> <span id="semester-end"></span></span>
-            <a id="edit-module-btn"><span class="hov-pointer tooltip p-r-10 p-l-10"><img class="hov-dropshadow-3px" src="/images/edit.png" alt=""><span class="tooltiptext">Edit module</span></span></a></div>
+            <a id="edit-module-btn"><span class="hov-pointer tooltip p-r-10 p-l-10"><img class="hov-dropshadow-3px"
+                                                                                         src="/images/edit.png"
+                                                                                         alt=""><span
+                    class="tooltiptext">Edit module</span></span></a>
+            <a id="view-attendance-btn"><span class="hov-pointer tooltip p-r-10 p-l-10"><img class="hov-dropshadow-3px"
+                                                                                             src="/images/viewperson.png"
+                                                                                             alt=""><span
+                    class="tooltiptext">View attendance list</span></span></a></div>
         <div class="title">
-            <h5 class="title-text" >MODULE: <span id="module-name"></span></h5>
+            <h5 class="title-text">MODULE: <span id="module-name"></span></h5>
             <h6 class="title-text p-b-15">PARTICIPANTS</h6>
         </div>
     </div>
@@ -57,11 +63,11 @@
 <div id="add-session-container">
     <form class="add-session-form">
         <div class="add-session-container"><span class="label-input">Student Code:</span>
-            <input class="input" type="text" name="student-code" id="student-code">
+            <input class="input" type="number" name="student-code" id="student-code" required>
             <span class="label-input">
       <button class="form-btn" type="reset">Reset</button>
       <button class="form-btn" type="button" onclick="addParticipant()">ADD Student +</button>
-      </span> </div>
+      </span></div>
     </form>
 </div>
 <div class="limiter">
@@ -70,17 +76,10 @@
             <div class="table">
                 <div class="row header">
                     <div class="cell"> Student Code</div>
-                    <div class="cell"> First Name </div>
-                    <div class="cell"> Last Name </div>
-                    <div class="cell"> Action </div>
+                    <div class="cell"> First Name</div>
+                    <div class="cell"> Last Name</div>
+                    <div class="cell"> Action</div>
                 </div>
-                <div class="row body">
-                    <div class="cell" data-title="session-id"> 1 </div>
-                    <div class="cell" data-title="fname">Hung </div>
-                    <div class="cell" data-title="lname">Vu Tuan </div>
-                    <div class="cell" data-title="action"> <span class="tooltip hov-pointer p-r-10"><img class="hov-dropshadow-3px" src="/images/delete.png"> <span class="tooltiptext">Delete</span></span></div>
-                </div>
-
             </div>
             <div class="table" id="participants-table"></div>
         </div>
@@ -90,12 +89,14 @@
 <script>
     function addParticipant() {
         let moduleID = window.location.pathname.split("/")[3];
-
+        let student_code = $('#student-code').val();
+        if (student_code === '') return alert("Do not enter empty student code.");
         $.ajax({
             url: "/assistant/module/" + moduleID + "/participants/add",
             type: 'POST',
-            data: {'student-code': $('#student-code').val()},
+            data: {'student-code': student_code},
             success: function () {
+                alert("Add student ID " + student_code + " successfully");
                 $('#student-code').val('');
                 loadParticipants();
             },
@@ -148,19 +149,19 @@
             let sid = data[i].id;
             let delBtn = "<span class='tooltip hov-pointer p-r-10' onclick='delParticipant(" + sid + "," + data[i].code + ")' ><img class='hov-dropshadow-3px' src='/images/delete.png'> <span class='tooltiptext'>Delete</span></span>";
             tableBody +=
-            `<div class='row body' id='participant${sid}'>`+
-                `<div class='cell' data-title='student-code'>${data[i].code}</div>`+
+                `<div class='row body' id='participant${sid}'>` +
+                `<div class='cell' data-title='student-code'>${data[i].code}</div>` +
                 `<div class='cell' data-title='fname'>${data[i].fname} </div>` +
-                `<div class='cell' data-title='lname'>${data[i].lname}</div>`+
-                `<div class='cell' data-title='action'>${delBtn}</div>`+
+                `<div class='cell' data-title='lname'>${data[i].lname}</div>` +
+                `<div class='cell' data-title='action'>${delBtn}</div>` +
                 `</div>`
-                
-                // "<tr id='participant" + sid + "'>" +
-                // "<td>" + data[i].code + "</td>" +
-                // "<td>" + data[i].fname + "</td>" +
-                // "<td>" + data[i].lname + "</td>" +
-                // "<td>" + delBtn + "</td>" +
-                // "</tr>"
+
+            // "<tr id='participant" + sid + "'>" +
+            // "<td>" + data[i].code + "</td>" +
+            // "<td>" + data[i].fname + "</td>" +
+            // "<td>" + data[i].lname + "</td>" +
+            // "<td>" + delBtn + "</td>" +
+            // "</tr>"
         }
         table.html(tableBody);
     }
@@ -179,14 +180,11 @@
             loadParticipants();
 
             $("#edit-module-btn").attr('href', '/assistant/module/edit/' + moduleID)
+            $("#view-attendance-btn").attr('href', '/assistant/attendance/' + moduleID)
         }
     )
 </script>
 </html>
-
-
-
-
 
 
 <!--<&#45;&#45; &ndash;&gt;-->

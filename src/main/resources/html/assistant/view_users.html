@@ -14,7 +14,7 @@
     <script src="/js/utils.js"></script>
 </head>
 
-<body>
+<body onload="document.getElementById('defaultOpen').click();">
 <header>
     <div class="status-pane">
          <div class="status-wrap"> <span> <a href="/view/semester">
@@ -49,7 +49,7 @@
     <div class="container-table">
         <div class="wrap-table">
             <div class="tab">
-                <button class="tablinks" onclick="showTab('student', event)">Student</button>
+                <button class="tablinks active" id="defaultOpen" onclick="showTab('student', event)">Student</button>
                 <button class="tablinks" onclick="showTab('lecturer', event)">Lecturer</button>
                 <button class="tablinks" onclick="showTab('assistant', event)">Assistant</button>
             </div>
